@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--CalcWS-->
+    <bean id="calcWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.CalcWSImpl"/>
+    <jaxws:server bus="cxf" id="calcWS" address="/calcWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.CalcWS">
+        <jaxws:serviceBean>
+            <ref bean="calcWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--ShiftAssign-->
+    <bean id="shiftAssignWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.ShiftAssignWSImpl"/>
+    <jaxws:server bus="cxf" id="shiftAssignWS" address="/shiftAssignWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.ShiftAssignWS">
+        <jaxws:serviceBean>
+            <ref bean="shiftAssignWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--RegularShift-->
+    <bean id="regularShiftWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.RegularShiftWSImpl"/>
+    <jaxws:server bus="cxf" id="regularShiftWS" address="/regularShiftWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.RegularShiftWS">
+        <jaxws:serviceBean>
+            <ref bean="regularShiftWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--AtteInfo-->
+    <bean id="atteInfoWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.AtteInfoWSImpl"/>
+    <jaxws:server bus="cxf" id="atteInfoWS" address="/atteInfoWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.AtteInfoWS">
+        <jaxws:serviceBean>
+            <ref bean="atteInfoWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--ShiftWS-->
+    <bean id="shiftWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.ShiftWSImpl"/>
+    <jaxws:server bus="cxf" id="shiftWS" address="/shiftWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.ShiftWS">
+        <jaxws:serviceBean>
+            <ref bean="shiftWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--IntervalWS-->
+    <bean id="intervalWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.IntervalWSImpl"/>
+    <jaxws:server bus="cxf" id="intervalWS" address="/intervalWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.IntervalWS">
+        <jaxws:serviceBean>
+            <ref bean="intervalWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--HolidayWS-->
+    <bean id="holidayWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.HolidayWSImpl"/>
+    <jaxws:server bus="cxf" id="holidayWS" address="/holidayWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.HolidayWS">
+        <jaxws:serviceBean>
+            <ref bean="holidayWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--LeaveTypeWS-->
+    <bean id="leaveTypeWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.LeaveTypeWSImpl"/>
+    <jaxws:server bus="cxf" id="leaveTypeWS" address="/leaveTypeWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.LeaveTypeWS">
+        <jaxws:serviceBean>
+            <ref bean="leaveTypeWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--LeaveRecordWS-->
+    <bean id="leaveRecordWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.LeaveRecordWSImpl"/>
+    <jaxws:server bus="cxf" id="leaveRecordWS" address="/leaveRecordWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.LeaveRecordWS">
+        <jaxws:serviceBean>
+            <ref bean="leaveRecordWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--GlobalDefWS-->
+    <bean id="globalDefWSImpl" class="com.hbyd.parks.attendancesys.wsImpl.GlobalDefWSImpl"/>
+    <jaxws:server bus="cxf" id="globalDefWS" address="/globalDefWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.GlobalDefWS">
+        <jaxws:serviceBean>
+            <ref bean="globalDefWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+</beans>

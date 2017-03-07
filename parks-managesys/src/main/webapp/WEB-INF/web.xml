@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+	<!-- Spring config -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            classpath:spring/**/applicationContext*.xml
+  		</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!--
+		Struts2 Config
+
+		由于 Struts 拦截了 WebService 的访问请求，下面重写 StrutsPrepareAndExecuteFilter
+		将 WebService 请求放行给 CXFServlet 处理
+	 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>com.hbyd.parks.managesys.filter.StrutsFilterCXF</filter-class>
+		<init-param>
+			<param-name>config</param-name>
+            <param-value>struts-default.xml,struts-plugin.xml,./struts/struts.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- CXF config -->
+	<servlet>
+		<servlet-name>cxf</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<!-- 初始化参数指定配置的位置 -->
+		<!-- 
+		<init-param>
+			<param-name>config-location</param-name>
+			<param-value>
+	  			classpath:cxf-servlet.xml
+	  		</param-value>
+		</init-param>
+		 -->
+		<!-- 
+		1. 如果 CXFServlet 没有被 Spring 托管
+		查看 CXFServlet 源码可知，其默认读取 ServletConfig 的初始化参数：config-location 如果没有，默认为：
+			"/WEB-INF/cxf-servlet.xml"
+		
+		第一次访问时，速度很慢， 因为 CXFServlet 还没有实例化，实例化过程中才能读取配置文件，为此，可以添加 <load-on-startup> 配置
+			<load-on-startup>1</load-on-startup>
+		注意：这种方法无需 import cxf.xml 和 cxf-servlet.xml, 因为是 CXF 自己管理两个文件中的 Bean
+		
+		2. 如果 CXFServlet 被 Spring 托管
+		2.1 CXFServlet 在 webapp 启动时就实例化完毕，不存在第一次访问速度慢的问题
+		2.2 无需配置 Servlet 的 config-location， 但需将 cxf-servlet.xml 和 cxf.xml import 到 Spring 主配， 将其中的
+		Bean 交给 Spring 管理
+		2.3 web.xml 为 Spring 配置 contextConfigLocation 后，CXFServlet 中的如下代码：
+		        ApplicationContext wac = WebApplicationContextUtils.
+            	getWebApplicationContext(sc.getServletContext());
+			将会读取Spring 的环境
+		-->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cxf</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
+	</servlet-mapping>
+</web-app>

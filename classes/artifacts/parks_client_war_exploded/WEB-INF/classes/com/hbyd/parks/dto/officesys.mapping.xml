@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!--This 'global configuration' only scope to current mapping file-->
+<!--
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>yyyy-MM-dd HH:mm:ss</date-format>
+        <wildcard>true</wildcard>
+        <map-null>false</map-null>
+    </configuration>
+-->
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.ContractGathering</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.ContractGatheringDTO</class-b>
+
+        <field>
+            <a>contractGatheringPostil</a>
+            <b>contractGatheringPostil</b>
+            <a-hint>com.hbyd.parks.domain.officesys.ContractGatheringPostil</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.ContractGatheringPostilDTO</b-hint>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.ContractGatheringPostil</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.ContractGatheringPostilDTO</class-b>
+
+        <field>
+            <a>contractGathering.id</a>
+            <b>gatheringID</b>
+            <a-hint>com.hbyd.parks.domain.officesys.ContractGathering</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.ContractGatheringDTO</b-hint>
+        </field>
+
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.ContractGatheringLog</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.ContractGatheringLogDTO</class-b>
+
+        <field>
+            <a>contractGathering.contractNo</a>
+            <b>contractNo</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.PaymentPostil</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.PaymentPostilDTO</class-b>
+
+        <field>
+            <a>payment.id</a>
+            <b>parentID</b>
+            <a-hint>com.hbyd.parks.domain.officesys.Payment</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.PaymentDTO</b-hint>
+        </field>
+
+    </mapping>
+
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.PaymentLog</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.PaymentLogDTO</class-b>
+
+        <field>
+            <a>contractPayment.contractName</a>
+            <b>contractName</b>
+        </field>
+
+        <field>
+            <a>contractPayment.contractSn</a>
+            <b>contractSn</b>
+        </field>
+    </mapping>
+
+
+    <!--Payment-->
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.Payment</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.PaymentDTO</class-b>
+
+        <field>
+            <a>contractGatherings</a>
+            <b>contractGatherings</b>
+            <a-hint>com.hbyd.parks.domain.officesys.ContractGathering</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.ContractGatheringDTO</b-hint>
+        </field>
+    </mapping>
+    
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.Acceptance</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.AcceptanceDTO</class-b>
+
+        <field>
+            <a>purchaser.id</a>
+            <b>purchaserID</b>
+        </field>
+        <field>
+            <a>purchaser.userName</a>
+            <b>purchaserName</b>
+        </field>
+        <field>
+            <a>projectManager.id</a>
+            <b>projectManagerID</b>
+        </field>
+        <field>
+            <a>projectManager.userName</a>
+            <b>projectManagerName</b>
+        </field>
+
+        <field>
+            <a>contractGathering.id</a>
+            <b>contractID</b>
+        </field>
+        <field>
+            <a>contractGathering.contractName</a>
+            <b>contractName</b>
+        </field>
+
+        <field>
+            <a>acceptancePostil</a>
+            <b>acceptancePostilDTO</b>
+            <a-hint>com.hbyd.parks.domain.officesys.AcceptancePostil</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.AcceptancePostilDTO</b-hint>
+        </field>
+
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.AcceptancePostil</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.AcceptancePostilDTO</class-b>
+
+        <field>
+            <a>acceptance.id</a>
+            <b>parentID</b>
+            <a-hint>com.hbyd.parks.domain.officesys.Acceptance</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.AcceptanceDTO</b-hint>
+        </field>
+
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.AcceptanceExamine</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.AcceptanceExamineDTO</class-b>
+
+        <field>
+            <a>acceptance.id</a>
+            <b>acceptanceId</b>
+        </field>
+    </mapping>
+    
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.Expenditure</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.ExpenditureDTO</class-b>
+        
+        <field>
+            <a>recordPerson.id</a>
+            <b>recordPersonId</b>
+        </field>
+        <field>
+            <a>recordPerson.userName</a>
+            <b>recordPersonName</b>
+        </field>
+        <field>
+            <a>projectRecord.id</a>
+            <b>projectRecordId</b>
+        </field>
+        <field>
+            <a>projectRecord.name</a>
+            <b>projectRecordName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+    <class-a>com.hbyd.parks.domain.officesys.SoftMaintenance</class-a>
+    <class-b>com.hbyd.parks.dto.officesys.SoftMaintenanceDTO</class-b>
+
+    <field>
+        <a>regPerson.id</a>
+        <b>regPersonID</b>
+    </field>
+    <field>
+        <a>regPerson.userName</a>
+        <b>regPersonName</b>
+    </field>
+    <field>
+        <a>contracts.id</a>
+        <b>contractsID</b>
+    </field>
+    <field>
+        <a>contracts.userName</a>
+        <b>contractsName</b>
+    </field>
+        <field>
+            <a>resultPerson.id</a>
+            <b>resultPersonID</b>
+        </field>
+        <field>
+            <a>resultPerson.userName</a>
+            <b>resultPersonName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.SoftMaintenanceHandle</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.SoftMaintenanceHandleDTO</class-b>
+
+        <field>
+            <a>softMaintenance.id</a>
+            <b>parentIdFK</b>
+        </field>
+
+        <field>
+            <a>handlePerson.id</a>
+            <b>handlePersonID</b>
+        </field>
+        <field>
+            <a>handlePerson.userName</a>
+            <b>handlePersonName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.HandMaintenance</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.HandMaintenanceDTO</class-b>
+        <field>
+            <a>registerPerson.id</a>
+            <b>registerPersonID</b>
+        </field>
+        <field>
+            <a>registerPerson.userName</a>
+            <b>registerPersonName</b>
+        </field>
+
+        <field>
+            <a>approvePerson.id</a>
+            <b>approvePersonID</b>
+        </field>
+        <field>
+            <a>approvePerson.userName</a>
+            <b>approvePersonName</b>
+        </field>
+
+        <field>
+            <a>reportPerson.id</a>
+            <b>reportPersonID</b>
+        </field>
+        <field>
+            <a>reportPerson.userName</a>
+            <b>reportPersonName</b>
+        </field>
+
+        <field>
+            <a>verifyPerson.id</a>
+            <b>verifyPersonID</b>
+        </field>
+        <field>
+            <a>verifyPerson.userName</a>
+            <b>verifyPersonName</b>
+        </field>
+
+        <field>
+            <a>analyPerson.id</a>
+            <b>analyPersonID</b>
+        </field>
+        <field>
+            <a>analyPerson.userName</a>
+            <b>analyPersonName</b>
+        </field>
+
+        <field>
+            <a>repairPerson.id</a>
+            <b>repairPersonID</b>
+        </field>
+        <field>
+            <a>repairPerson.userName</a>
+            <b>repairPersonName</b>
+        </field>
+
+        <field>
+            <a>testPerson.id</a>
+            <b>testPersonID</b>
+        </field>
+        <field>
+            <a>testPerson.userName</a>
+            <b>testPersonName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.ProductTest</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.ProductTestDTO</class-b>
+        <field>
+            <a>registerPerson.id</a>
+            <b>registerPersonID</b>
+        </field>
+        <field>
+            <a>registerPerson.userName</a>
+            <b>registerPersonName</b>
+        </field>
+
+        <field>
+            <a>approvePerson.id</a>
+            <b>approvePersonID</b>
+        </field>
+        <field>
+            <a>approvePerson.userName</a>
+            <b>approvePersonName</b>
+        </field>
+
+        <field>
+            <a>testPerson.id</a>
+            <b>testPersonID</b>
+        </field>
+        <field>
+            <a>testPerson.userName</a>
+            <b>testPersonName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseInput</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseInputDTO</class-b>
+
+        <field>
+            <a>warehouseApplication.id</a>
+            <b>applicationID</b>
+        </field>
+
+        <field>
+            <a>warehouseApplication.name</a>
+            <b>applicationName</b>
+        </field>
+
+        <field>
+            <a>warehouse.id</a>
+            <b>warehouseID</b>
+        </field>
+
+        <field>
+            <a>warehouse.name</a>
+            <b>warehouseName</b>
+        </field>
+
+        <field>
+            <a>recordPerson.id</a>
+            <b>recordPersonID</b>
+        </field>
+
+        <field>
+            <a>recordPerson.userName</a>
+            <b>recordPersonName</b>
+        </field>
+
+        <field>
+            <a>examinePerson.id</a>
+            <b>examinePersonID</b>
+        </field>
+
+        <field>
+            <a>examinePerson.userName</a>
+            <b>examinePersonName</b>
+        </field>
+
+        <field>
+            <a>company.id</a>
+            <b>companyId</b>
+        </field>
+
+        <field>
+            <a>company.name</a>
+            <b>companyName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseInputPro</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseInputProDTO</class-b>
+
+        <field>
+            <a>warehouseInput.id</a>
+            <b>parentIdFK</b>
+        </field>
+
+        <field>
+            <a>warehouseProduct.id</a>
+            <b>productId</b>
+        </field>
+        <field>
+            <a>warehouseProduct.name</a>
+            <b>productName</b>
+        </field>
+        <field>
+            <a>warehouseProduct.modelNumber</a>
+            <b>productModelNumber</b>
+        </field>
+        <field>
+            <a>warehouseProduct.specifications</a>
+            <b>productSpecifications</b>
+        </field>
+        <field>
+            <a>warehouseProduct.unit</a>
+            <b>productUnit</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseOutput</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseOutputDTO</class-b>
+
+        <field>
+            <a>warehouseApplication.id</a>
+            <b>applicationID</b>
+        </field>
+
+        <field>
+            <a>warehouseApplication.name</a>
+            <b>applicationName</b>
+        </field>
+
+        <field>
+            <a>warehouse.id</a>
+            <b>warehouseID</b>
+        </field>
+
+        <field>
+            <a>warehouse.name</a>
+            <b>warehouseName</b>
+        </field>
+
+        <field>
+            <a>recordPerson.id</a>
+            <b>recordPersonID</b>
+        </field>
+
+        <field>
+            <a>recordPerson.userName</a>
+            <b>recordPersonName</b>
+        </field>
+
+        <field>
+            <a>examinePerson.id</a>
+            <b>examinePersonID</b>
+        </field>
+
+        <field>
+            <a>examinePerson.userName</a>
+            <b>examinePersonName</b>
+        </field>
+
+        <field>
+            <a>company.id</a>
+            <b>companyId</b>
+        </field>
+
+        <field>
+            <a>company.name</a>
+            <b>companyName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseOutputPro</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseOutputProDTO</class-b>
+
+        <field>
+            <a>warehouseOutput.id</a>
+            <b>parentIdFK</b>
+        </field>
+
+        <field>
+            <a>warehouseProduct.id</a>
+            <b>productId</b>
+        </field>
+        <field>
+            <a>warehouseProduct.name</a>
+            <b>productName</b>
+        </field>
+        <field>
+            <a>warehouseProduct.modelNumber</a>
+            <b>productModelNumber</b>
+        </field>
+        <field>
+            <a>warehouseProduct.specifications</a>
+            <b>productSpecifications</b>
+        </field>
+        <field>
+            <a>warehouseProduct.unit</a>
+            <b>productUnit</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseApplication</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseApplicationDTO</class-b>
+
+        <field>
+            <a>recordPerson.id</a>
+            <b>recordPersonID</b>
+        </field>
+
+        <field>
+            <a>recordPerson.userName</a>
+            <b>recordPersonName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseApplicationPro</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseApplicationProDTO</class-b>
+
+        <field>
+            <a>WarehouseApplication.id</a>
+            <b>parentIdFK</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.Warehouse</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseDTO</class-b>
+
+        <field>
+            <a>warehouseProduct.id</a>
+            <b>productId</b>
+        </field>
+        <field>
+            <a>warehouseProduct.name</a>
+            <b>name</b>
+        </field>
+        <field>
+            <a>warehouseProduct.modelNumber</a>
+            <b>modelNumber</b>
+        </field>
+        <field>
+            <a>warehouseProduct.specifications</a>
+            <b>specifications</b>
+        </field>
+        <field>
+            <a>warehouseProduct.unit</a>
+            <b>unit</b>
+        </field>
+        <field>
+            <a>warehouseProduct.brand</a>
+            <b>brand</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.WarehouseBorrow</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.WarehouseBorrowDTO</class-b>
+
+        <field>
+            <a>borrowPerson.id</a>
+            <b>borrowPersonId</b>
+        </field>
+
+        <field>
+            <a>borrowPerson.userName</a>
+            <b>borrowPersonName</b>
+        </field>
+
+        <field>
+            <a>warehouseProduct.id</a>
+            <b>productId</b>
+        </field>
+        <field>
+            <a>warehouseProduct.name</a>
+            <b>productName</b>
+        </field>
+        <field>
+            <a>warehouseProduct.modelNumber</a>
+            <b>productModelNumber</b>
+        </field>
+        <field>
+            <a>warehouseProduct.specifications</a>
+            <b>productSpecifications</b>
+        </field>
+        <field>
+            <a>warehouseProduct.unit</a>
+            <b>productUnit</b>
+        </field>
+    </mapping>
+</mappings>

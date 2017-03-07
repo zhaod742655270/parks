@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--27.4 Annotation Support for Scheduling and Asynchronous Execution-->
+    <!--enable support for @Scheduled and @Async annotations-->
+    <!--Note that the executor reference is provided for handling those tasks
+    that correspond to method with the @Async annotation, and the scheduler
+    reference is provided for managing those methods annotated with @Scheduled-->
+    <!--自动扫描容器中带有 @Scheduled 和 @Async 的Bean 的方法，将其作为任务回调-->
+    <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
+
+    <!--The following element will create a ThreadPoolTaskScheduler instance with the specified thread pool size.
+        1. id attribute will be used as the prefix for thread names within the pool
+        2. if you do not provide 'pool-size' attribute, the default thread pool will only have a single thread.
+        3. <task:scheduler> 只有一个配置项，即：pool-size
+    -->
+    <task:scheduler id="myScheduler" pool-size="10"/>
+    <!--The following will create a ThreadPoolTaskExecutor instance
+
+        # pool-size 可以指定为：
+        1. 范围：coreSize-maxSize
+        2. 单值：coreSize 和 maxSize 均使用指定的单值
+
+        # rejection-policy 可以指定为：
+        1. CALLER_RUNS
+            The idea is that such a caller will be busy while running that task and not able to
+            submit other tasks immediately. Therefore it provides a simple way to throttle the
+            incoming load while maintaining the limits of the thread pool and queue. Typically
+            this allows the executor to "catch up" on the tasks it is handling and thereby frees
+            up some capacity on the queue, in the pool, or both.
+            思路：当 thread pool 没有线程可供任务执行，就由主线程 (caller) 来执行任务，主线程处理任务时无法提交后续的
+            其他任务，就起到了节流的作用，同时也缓解了 thread pool 的压力，executor (thread pool) 可以抓紧处理任务
+            这样就可以腾出队列或者空闲线程。
+        2. ABORT
+            默认策略
+            By default, when a task is rejected, a thread pool executor will throw a TaskRejectedException.
+            However, the rejection policy is actually configurable. The exception is thrown when using the
+            default rejection policy which is the AbortPolicy implementation.
+        3. DISCARD
+            For applications where some tasks can be skipped under heavy load, either the DiscardPolicy or
+            DiscardOldestPolicy may be configured instead.
+        4. DISCARD_OLDEST
+
+        # pool-size 和 queue-capacity 的关系：
+        As you can see from that configuration, a 'queue-capacity' value has also been provided.
+        The configuration of the thread pool should also be considered in light of the executor's
+        queue capacity. For the full description of the relationship between pool size and queue
+        capacity, consult the documentation for ThreadPoolExecutor. The main idea is that when a
+        task is submitted, the executor will first try to use a free thread if the number of active
+        threads is currently less than the core size. If the core size has been reached, then the
+        task will be added to the queue as long as its capacity has not yet been reached. Only then,
+        if the queue's capacity has been reached, will the executor create a new thread beyond the
+        core size. If the max size has also been reached, then the executor will reject the task.
+
+        By default, the queue is unbounded, but this is rarely the desired configuration, because
+        it can lead to OutOfMemoryErrors if enough tasks are added to that queue while all pool
+        threads are busy. Furthermore, if the queue is unbounded, then the max size has no effect
+        at all. Since the executor will always try the queue before creating a new thread beyond
+        the core size, a queue must have a finite capacity for the thread pool to grow beyond the
+        core size (this is why a fixed size pool is the only sensible case when using an unbounded queue).
+
+        任务提交后，如果线程池中的活跃线程（正在执行任务的线程）没有达到 coreSize, executor 就获取一个空闲线程来执行任务
+        如果活跃线程数达到 coreSize, 且队列未满 （queueCapacity 尚未达到），就将任务添加到队列里，如果队列已满，executor
+        就在 coreSize 基础上创建新的线程来执行任务，如果达到了 maxSize, executor 就会拒绝执行任务
+
+        默认情况下，queueCapacity=Integer.MAX_VALUE, 即：未限定(unbounded), 此时会出现如下问题：
+        1. 如果 coreSize 已达到(all pool threads are busy)，新任务会被不断添加到队列中，导致 OutOfMemoryError
+        2. maxSize 无效，因为只有当队列满了才会开辟新线程
+    -->
+    <task:executor id="myExecutor" pool-size="5-25" queue-capacity="100" rejection-policy="CALLER_RUNS"/>
+
+    <!--
+        Trigger 的指定方式：
+        # Trigger metadata
+            * fixed-delay + initial-delay
+            * fixed-rate + initial-delay
+            * cron
+        # Trigger
+            * trigger
+
+        fixed delay:
+            indicating the number of milliseconds to wait after each task execution has completed.
+        fixed rate:
+            indicating how often the method should be executed regardless of how long any previous execution takes.
+        initial delay:
+            indicating the number of milliseconds to wait before the first execution of the method.
+    -->
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="taskBean" method="methodA" fixed-delay="5000" initial-delay="3000" />
+        <task:scheduled ref="taskBean" method="methodB" fixed-rate="5000" initial-delay="3000" />
+        <task:scheduled ref="taskBean" method="methodC" cron="*/5 * * * * MON-FRI" />
+    </task:scheduled-tasks>
+
+    <bean id="taskBean" class="com.hbyd.parks.attendancesys.task.TaskBean"/>
+
+
+    <!--简单测试 TaskExecutor-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="maxPoolSize" value="10"/>
+        <property name="corePoolSize" value="5"/>
+        <property name="queueCapacity" value="25"/>
+    </bean>
+
+    <bean id="taskExecutorExample" class="com.hbyd.parks.attendancesys.task.TaskExecutorExample">
+        <constructor-arg ref="taskExecutor"/>
+    </bean>
+</beans>

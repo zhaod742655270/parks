@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver">
+            <value>${jdbc.driverClassName}</value>
+        </property>
+        <property name="driverUrl">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="user">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+
+        <property name="maximumActiveTime">
+            <value>1200000</value>
+        </property>
+        <property name="maximumConnectionCount">
+            <value>${jdbc.maxPoolSize}</value>
+        </property>
+        <property name="minimumConnectionCount">
+            <value>${jdbc.minPoolSize}</value>
+        </property>
+        <property name="prototypeCount">
+            <value>${jdbc.prototypeCount}</value>
+        </property>
+
+        <property name="trace">
+            <value>true</value>
+        </property>
+        <property name="verbose">
+            <value>true</value>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <prop key="connection.autocommit">false</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+
+                <prop key="current_session_context_class">thread</prop>
+
+                <prop key="hibernate.max_fetch_depth">4</prop>
+
+                <prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+            </props>
+        </property>
+
+        <property name="packagesToScan">
+            <list>
+                <!--考勤系统实体-->
+                <value>com.hbyd.parks.domain.attendancesys</value>
+
+                <!--考勤系统.请假记录 -> 支撑系统.员工-->
+                <value>com.hbyd.parks.domain.supportsys</value>
+
+                <!--支撑系统.员工 -> 信息系统.部门-->
+                <value>com.hbyd.parks.domain.managesys</value>
+
+                <!--门禁系统-->
+                <value>com.hbyd.parks.domain.doorsys</value>
+            </list>
+        </property>
+    </bean>
+</beans>

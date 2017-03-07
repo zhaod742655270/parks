@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <!--下列实体只是查询，没有 save/update 操作，因此无需 map-null=false -->
+    <mapping date-format="yyyy-MM-dd HH:mm:ss">
+        <class-a>com.hbyd.parks.domain.doorsys.AccessEvent</class-a>
+        <class-b>com.hbyd.parks.dto.doorsys.AccessEventDTO</class-b>
+    </mapping>
+
+    <mapping date-format="yyyy-MM-dd HH:mm:ss">
+        <class-a>com.hbyd.parks.domain.doorsys.AccessEventInfo</class-a>
+        <class-b>com.hbyd.parks.dto.doorsys.AccessEventInfoDTO</class-b>
+    </mapping>
+
+    <mapping date-format="yyyy-MM-dd HH:mm:ss">
+        <class-a>com.hbyd.parks.domain.doorsys.CapturePhoto</class-a>
+        <class-b>com.hbyd.parks.dto.doorsys.CapturePhotoDTO</class-b>
+    </mapping>
+
+</mappings>

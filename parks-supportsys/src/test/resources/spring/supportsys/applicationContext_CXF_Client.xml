@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:properties/ws.properties"/>
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client AcceptEncoding="gzip" />
+    </http-conf:conduit>
+
+    <!--人员服务-->
+	<jaxws:client bus="bus_client" id="employeeWS" serviceClass="com.hbyd.parks.ws.supportsys.EmployeeWS" address="${supportsys.ws}/employeeWS" />
+    <!--区域服务-->
+	<jaxws:client bus="bus_client" id="regionWS" serviceClass="com.hbyd.parks.ws.supportsys.RegionWS" address="${supportsys.ws}/regionWS" />
+    <!--对象服务-->
+	<jaxws:client bus="bus_client" id="objectTypeWS" serviceClass="com.hbyd.parks.ws.supportsys.ObjectTypeWS" address="${supportsys.ws}/objectTypeWS" />
+    <!--预定义类型服务-->
+	<jaxws:client bus="bus_client" id="predefObjectWS" serviceClass="com.hbyd.parks.ws.supportsys.PredefObjectWS" address="${supportsys.ws}/predefObjectWS" />
+    <!--设备服务-->
+	<jaxws:client bus="bus_client" id="deviceWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceWS" address="${supportsys.ws}/deviceWS" />
+    <jaxws:client bus="bus_client" id="deviceCameraWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceCameraWS" address="${supportsys.ws}/deviceCameraWS" />
+    <jaxws:client bus="bus_client" id="deviceControllerWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceControllerWS" address="${supportsys.ws}/deviceControllerWS" />
+    <jaxws:client bus="bus_client" id="deviceDoorWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceDoorWS" address="${supportsys.ws}/deviceDoorWS" />
+    <jaxws:client bus="bus_client" id="deviceElecfenceWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceElecfenceWS" address="${supportsys.ws}/deviceElecfenceWS" />
+    <jaxws:client bus="bus_client" id="deviceExtmodWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceExtmodWS" address="${supportsys.ws}/deviceExtmodWS" />
+    <jaxws:client bus="bus_client" id="deviceFirehostWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceFirehostWS" address="${supportsys.ws}/deviceFirehostWS" />
+    <jaxws:client bus="bus_client" id="deviceFireprobeWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceFireprobeWS" address="${supportsys.ws}/deviceFireprobeWS" />
+    <jaxws:client bus="bus_client" id="deviceIoWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceIoWS" address="${supportsys.ws}/deviceIoWS" />
+    <jaxws:client bus="bus_client" id="deviceReaderWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceReaderWS" address="${supportsys.ws}/deviceReaderWS" />
+    <jaxws:client bus="bus_client" id="deviceTerminalWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceTerminalWS" address="${supportsys.ws}/deviceTerminalWS" />
+    <jaxws:client bus="bus_client" id="deviceDescCommWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescCommWS" address="${supportsys.ws}/deviceDescCommWS" />
+    <jaxws:client bus="bus_client" id="deviceDescFiregroupWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescFiregroupWS" address="${supportsys.ws}/deviceDescFiregroupWS" />
+    <jaxws:client bus="bus_client" id="deviceDescTypeWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescTypeWS" address="${supportsys.ws}/deviceDescTypeWS" />
+    <jaxws:client bus="bus_client" id="deviceDescRelationWS" serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescRelationWS" address="${supportsys.ws}/deviceDescRelationWS" />
+
+
+    <bean id="addAuthInfoInterceptor" class="com.hbyd.parks.common.cxf.interceptor.AddAuthInfoInterceptor">
+        <constructor-arg index="0" value="pre-protocol"></constructor-arg>
+        <constructor-arg index="1" value="admin"></constructor-arg>
+        <constructor-arg index="2" value="admin"></constructor-arg>
+    </bean>
+
+    <cxf:bus name="bus_client">
+        <cxf:features>
+            <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature">
+                <property name="threshold" value="0" />
+            </bean>
+        </cxf:features>
+
+        <cxf:outInterceptors>
+            <ref bean="addAuthInfoInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:bus>
+</beans>

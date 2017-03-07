@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--supportsys的Struts配置 -->
+
+    <package name="supportsys-employee" extends="base" namespace="/supportsys/emp">
+        <action name="empList" class="employeeAction" method="empList">
+        </action>
+        <action name="getEmpByDeptId" class="employeeAction" method="getEmpByDeptId">
+        </action>
+        <action name="switchAllEmp" class="employeeAction" method="switchAllEmp">
+        </action>
+        <action name="switchEmp" class="employeeAction" method="switchEmp">
+        </action>
+        <action name="getEmpsByName" class="employeeAction" method="getEmpsByName">
+        </action>
+        <action name="addEmp" class="employeeAction" method="addEmp">
+        </action>
+        <action name="editEmp" class="employeeAction" method="editEmp">
+        </action>
+        <action name="deleteEmp" class="employeeAction" method="deleteEmp">
+        </action>
+        <action name="exportExcel" class="employeeAction" method="exportExcel">
+        </action>
+        <action name="upload" class="employeeAction" method="upload">
+            <interceptor-ref name="fileUpload">
+                <param name="allowedTypes">
+                    image/bmp,image/png,image/gif,image/jpeg
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+        </action>
+    </package>
+    <package name="supportsys-region" extends="base" namespace="/supportsys/region">
+        <action name="regionList" class="regionAction" method="regionList">
+        </action>
+        <action name="addRegion" class="regionAction" method="addRegion">
+        </action>
+        <action name="editRegion" class="regionAction" method="editRegion">
+        </action>
+        <action name="deleteRegion" class="regionAction" method="deleteRegion">
+        </action>
+        <action name="getTree" class="regionAction" method="getTree">
+        </action>
+        <action name="getRegionById" class="regionAction" method="getRegionById">
+        </action>
+        <action name="moveRegion" class="regionAction" method="moveRegion">
+        </action>
+    </package>
+    <package name="supportsys-objectType" extends="base" namespace="/supportsys/objectType">
+        <action name="empDutyList" class="objectTypeAction" method="empDutyList">
+        </action>
+        <action name="empTitleList" class="objectTypeAction" method="empTitleList">
+        </action>
+        <action name="empTypeList" class="objectTypeAction" method="empTypeList">
+        </action>
+        <action name="addObjectType" class="objectTypeAction" method="addObjectType">
+        </action>
+        <action name="editObjectType" class="objectTypeAction" method="editObjectType">
+        </action>
+        <action name="deleteObjectType" class="objectTypeAction" method="deleteObjectType">
+        </action>
+
+    </package>
+    <package name="supportsys-device" extends="base" namespace="/supportsys/device">
+        <action name="meetRoomRelatedeviceList" class="deviceAction" method="meetRoomRelatedeviceList">
+        </action>
+        <action name="meetRoomNotRelatedeviceList" class="deviceAction" method="meetRoomNotRelatedeviceList">
+        </action>
+
+    </package>
+
+
+    <package name="supportsys-deviceDescRelation" extends="base" namespace="/supportsys/deviceDescRelation">
+    <action name="distribute" class="deviceDescRelationAction" method="distribute">
+    </action>
+    <action name="withdraw" class="deviceDescRelationAction" method="withdraw">
+    </action>
+
+    </package>
+
+</struts>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="stu" class="com.hbyd.parks.attendancesys.SPEL.Student">
+        <property name="id" value="10"/>
+        <property name="name" value="jack"/>
+        <property name="team" ref="mathTeam"/>
+    </bean>
+
+    <bean id="mathTeam" class="com.hbyd.parks.attendancesys.SPEL.Team">
+        <property name="name" value="mathTeam"/>
+    </bean>
+
+    <!--
+        org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
+        or
+        org.springframework.context.support.PropertySourcesPlaceholderConfigurer
+    -->
+    <!--<context:property-placeholder location="properties/spel.properties"/>-->
+
+    <!--java.util.Properties-->
+    <!--<util:properties id="spelProps" location="properties/spel.properties"/>-->
+
+    <!--
+        org.springframework.beans.factory.config.PropertiesFactoryBean.getObject()
+        返回 Properties 实例作为 product
+    -->
+    <bean id="spelProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="../../properties/spel.properties"/>
+    </bean>
+
+</beans>

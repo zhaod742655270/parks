@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--managesys的Struts配置 -->
+    <package name="managesys-role" extends="base" namespace="/managesys/role">
+        <action name="getAllRoles" class="roleAction" method="getAllRoles">
+
+        </action>
+        <action name="roleList" class="roleAction" method="roleList">
+        </action>
+        <action name="addRole" class="roleAction" method="addRole">
+        </action>
+        <action name="editRole" class="roleAction" method="editRole">
+        </action>
+        <action name="deleteRole" class="roleAction" method="deleteRole">
+        </action>
+    </package>
+
+    <package name="managesys-dept" extends="base" namespace="/managesys/dept">
+        <action name="getTree" class="deptAction" method="getTree">
+        </action>
+        <action name="getTreeByDeptId" class="deptAction" method="getTreeByDeptId">
+        </action>
+        <action name="getDeptsByDeptId" class="deptAction" method="getDeptsByDeptId">
+        </action>
+        <action name="moveDept" class="deptAction" method="moveDept">
+        </action>
+        <action name="getDept" class="deptAction" method="getDept">
+        </action>
+        <action name="deptList" class="deptAction" method="deptList">
+        </action>
+        <action name="addDept" class="deptAction" method="addDept">
+        </action>
+        <action name="editDept" class="deptAction" method="editDept">
+        </action>
+        <action name="deleteDept" class="deptAction" method="deleteDept">
+        </action>
+    </package>
+
+    <package name="managesys-user" extends="base" namespace="/managesys/user">
+
+        <action name="userList" class="userAction" method="userList">
+        </action>
+        <action name="getCurrentUser" class="userAction" method="getCurrentUser">
+        </action>
+        <action name="editUserPwd" class="userAction" method="editUserPwd">
+        </action>
+        <action name="addUser" class="userAction" method="addUser">
+        </action>
+        <action name="editUser" class="userAction" method="editUser">
+        </action>
+        <action name="deleteUser" class="userAction" method="deleteUser">
+        </action>
+        <action name="validateNameExist" class="userAction" method="validateNameExist">
+        </action>
+
+    </package>
+
+    <package name="managesys-app" extends="base" namespace="/managesys/app">
+
+        <action name="getAllApp" class="appAction" method="getAllApp">
+        </action>
+        <action name="appList" class="appAction" method="appList">
+        </action>
+        <action name="addApp" class="appAction" method="addApp">
+        </action>
+        <action name="editApp" class="appAction" method="editApp">
+        </action>
+        <action name="deleteApp" class="appAction" method="deleteApp">
+        </action>
+    </package>
+
+    <package name="managesys-menu" extends="base" namespace="/managesys/menu">
+        <action name="menuList" class="menuAction" method="menuList">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="getAllMenu" class="menuAction" method="getAllMenu">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="addMenu" class="menuAction" method="addMenu">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="editMenu" class="menuAction" method="editMenu">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="deleteMenu" class="menuAction" method="deleteMenu">
+            <interceptor-ref name="mystack"/>
+        </action>
+    </package>
+
+    <package name="managesys-btn" extends="base" namespace="/managesys/btn">
+        <action name="btnList" class="buttonAction" method="btnList">
+        </action>
+
+        <action name="addBtn" class="buttonAction" method="addBtn">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="editBtn" class="buttonAction" method="editBtn">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="deleteBtn" class="buttonAction" method="deleteBtn">
+            <interceptor-ref name="mystack"/>
+        </action>
+    </package>
+    <package name="managesys-pri" extends="base" namespace="/managesys/pri">
+        <action name="priList" class="privilegeAction" method="priList">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="getApps" class="privilegeAction" method="getApps">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="getMenus" class="privilegeAction" method="getMenus">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="getBtns" class="privilegeAction" method="getBtns">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="getTree" class="privilegeAction" method="getTree">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="savePris" class="privilegeAction" method="savePris">
+            <interceptor-ref name="mystack"/>
+        </action>
+    </package>
+
+
+
+
+</struts>

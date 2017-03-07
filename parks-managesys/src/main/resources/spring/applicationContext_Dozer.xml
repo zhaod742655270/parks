@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dozerMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean" scope="singleton">
+        <!--<property name="mappingFiles" value="classpath*:com/hbyd/parks/dto/doorsys.mapping.xml"/>-->
+        <property name="mappingFiles">
+            <list>
+                <!--全局配置-->
+                <value>classpath*:com/hbyd/parks/dto/global.mapping.xml</value>
+
+                <!--<value>classpath*:com/hbyd/parks/dto/attendancesys.mapping.xml</value>-->
+                <!--<value>classpath*:com/hbyd/parks/dto/doorsys.mapping.xml</value>-->
+                <value>classpath*:com/hbyd/parks/dto/managesys.mapping.xml</value>
+                <!--<value>classpath*:com/hbyd/parks/dto/meetsys.mapping.xml</value>-->
+                <!--<value>classpath*:com/hbyd/parks/dto/supportsys.mapping.xml</value>-->
+            </list>
+        </property>
+    </bean>
+</beans>
+

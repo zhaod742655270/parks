@@ -1,0 +1,59 @@
+package ${wsImplPath};
+
+
+import com.hbyd.parks.common.base.BaseWSImpl;
+import com.hbyd.parks.common.util.ValHelper;
+import ${daoInterPath}.${entityName}Dao;
+import ${entityPath}.${entityName};
+import ${dtoPath}.${entityName}DTO;
+import ${wsInterPath}.${entityName}WS;
+import org.dozer.DozerBeanMapper;
+
+import javax.annotation.Resource;
+
+/**
+ * WS 实现：${entityName}
+ */
+public class ${entityName}WSImpl extends BaseWSImpl<${entityName}DTO, ${entityName}> implements ${entityName}WS {
+    @Resource
+    private ${entityName}Dao ${entityNameLowerCase}Dao;
+
+    @Override
+    public void update(${entityName}DTO dto) {
+        String id = dto.getId();
+        ValHelper.notNull(id, "更新实体必须有 ID");
+
+//      提取关联属性
+
+//      置空关联属性
+
+//      获取更新目标
+        ${entityName} target = ${entityNameLowerCase}Dao.getById(id);
+
+//      填充普通属性
+        dozerMapper.map(dto, target);
+
+//      填充关联属性
+
+//      执行更新操作
+        ${entityNameLowerCase}Dao.update(target);
+    }
+
+    @Override
+    public ${entityName}DTO save(${entityName}DTO dto) {
+        String id = dto.getId();
+        ValHelper.idNotExist(id);
+
+//      提取关联属性
+
+//      置空关联属性
+
+//      获取更新目标，并填充普通属性
+        ${entityName} target = dozerMapper.map(dto, ${entityName}.class);
+
+//      填充关联属性
+
+//      执行更新操作
+        return dozerMapper.map(${entityNameLowerCase}Dao.save(target), ${entityName}DTO.class);
+    }
+}

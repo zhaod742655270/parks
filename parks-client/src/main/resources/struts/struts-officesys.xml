@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--officesys的Struts配置 -->
+    <package name="officesys-acceptance" extends="base" namespace="/officesys/acceptance">
+        <action name="acceptanceList" class="acceptanceAction" method="acceptanceList">
+        </action>
+        <action name="getPurchaser" class="acceptanceAction" method="getPurchaser">
+        </action>
+        <action name="getProjectManager" class="acceptanceAction" method="getProjectManager">
+        </action>
+
+        <action name="addAcceptance" class="acceptanceAction" method="addAcceptance">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="findPermission" class="acceptanceAction" method="findPermission">
+        </action>
+
+        <action name="editAcceptance" class="acceptanceAction" method="editAcceptance">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="deleteAcceptance" class="acceptanceAction" method="deleteAcceptance">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="addPostil" class="acceptanceAction" method="addPostil">
+        </action>
+
+        <action name="editPostil" class="acceptanceAction" method="editPostil">
+        </action>
+
+        <action name="uploadExcel" class="acceptanceAction" method="uploadExcel">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="uploadSN" class="acceptanceAction" method="uploadSN">
+        </action>
+
+        <action name="saveRow" class="acceptanceAction" method="saveRow">
+        </action>
+
+        <action name="saveAllRows" class="acceptanceAction" method="saveAllRows">
+        </action>
+
+        <action name="addExamine" class="acceptanceAction" method="addExamine">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="deleteExamine" class="acceptanceAction" method="deleteExamine">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="savePurchaseOperate" class="acceptanceAction" method="savePurchaseOperate">
+        </action>
+
+        <action name="getExamineList" class="acceptanceAction" method="getExamineList">
+        </action>
+    </package>
+
+
+    <package name="officesys-projectRecord" extends="base" namespace="/officesys/projectRecord">
+        <action name="projectRecordList" class="projectRecordAction" method="projectRecordList">
+        </action>
+        <action name="addProjectRecord" class="projectRecordAction" method="addProjectRecord">
+            <interceptor-ref name="mystack"/>
+        </action>
+        <action name="editProjectRecord" class="projectRecordAction" method="editProjectRecord">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="deleteProjectRecord" class="projectRecordAction" method="deleteProjectRecord">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+    </package>
+
+    <package name="officesys-expenditure" extends="base" namespace="/officesys/expenditure">
+        <action name="expenditureList" class="expenditureAction" method="expenditureList">
+        </action>
+
+        <action name="addExpenditure" class="expenditureAction" method="addExpenditure">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="editExpenditure" class="expenditureAction" method="editExpenditure">
+        </action>
+
+        <action name="deleteExpenditure" class="expenditureAction" method="deleteExpenditure">
+        </action>
+
+        <action name="getRecordPersonList" class="expenditureAction" method="getRecordPersonList">
+        </action>
+
+        <action name="getProjectList" class="expenditureAction" method="getProjectList">
+        </action>
+    </package>
+
+    <package name="officesys-conGathering" extends="base" namespace="/officesys/conGathering">
+
+        <action name="conGatheringList" class="conGatheringAction" method="conGatheringList">
+        </action>
+
+        <action name="acceptanceConGatheringList" class="conGatheringAction" method="acceptanceConGatheringList">
+        </action>
+
+        <action name="addConGathering" class="conGatheringAction" method="addConGathering">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="editConGathering" class="conGatheringAction" method="editConGathering">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="authorization" class="conGatheringAction" method="authorization">
+        </action>
+
+        <action name="deleteConGathering" class="conGatheringAction" method="deleteConGathering">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="addPostil" class="conGatheringAction" method="addPostil">
+        </action>
+
+        <action name="editPostil" class="conGatheringAction" method="editPostil">
+        </action>
+
+        <action name="gatheringSum" class="conGatheringAction" method="gatheringSum">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="exportExcel" class="conGatheringAction" method="exportExcel">
+        </action>
+    </package>
+
+
+    <package name="officesys-conLog" extends="base" namespace="/officesys/conLog">
+
+        <action name="conLogList" class="conLogAction" method="conLogList">
+        </action>
+
+        <action name="operationQueryList" class="conLogAction" method="operationQueryList">
+        </action>
+
+    </package>
+
+
+    <package name="officesys-payment" extends="base" namespace="/officesys/payment">
+
+        <action name="paymentList" class="paymentAction" method="paymentList">
+        </action>
+
+        <action name="getContractName" class="paymentAction" method="getContractName">
+        </action>
+
+        <action name="addPayment" class="paymentAction" method="addPayment">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="editPayment" class="paymentAction" method="editPayment">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="deletePayment" class="paymentAction" method="deletePayment">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="sumPayment" class="paymentAction" method="sumPayment">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="addPostil" class="paymentAction" method="addPostil">
+        </action>
+
+        <action name="editPostil" class="paymentAction" method="editPostil">
+        </action>
+
+        <action name="exportExcel" class="paymentAction" method="exportExcel">
+        </action>
+
+        <action name="paymentListByGathering" class="paymentAction" method="paymentListByGathering">
+        </action>
+
+    </package>
+
+
+    <package name="officesys-paymentLog" extends="base" namespace="/officesys/paymentLog">
+
+        <action name="paymentLogList" class="paymentLogAction" method="paymentLogList">
+        </action>
+
+        <action name="operationQueryList" class="paymentLogAction" method="operationQueryList">
+        </action>
+
+    </package>
+
+    <!--quotation-->
+    <package name="officesys-quotation" extends="base" namespace="/officesys/quotation">
+
+        <action name="projectList" class="quotationAction" method="projectList">
+        </action>
+
+        <action name="quotationList" class="quotationAction" method="quotationList">
+        </action>
+
+        <action name="addProject" class="quotationAction" method="addProject">
+        </action>
+
+        <action name="editProject" class="quotationAction" method="editProject">
+        </action>
+
+        <action name="deleteProject" class="quotationAction" method="deleteProject">
+        </action>
+
+        <action name="addQuotation" class="quotationAction" method="addQuotation">
+        </action>
+
+        <action name="editQuotation" class="quotationAction" method="editQuotation">
+        </action>
+
+        <action name="deleteQuotation" class="quotationAction" method="deleteQuotation">
+        </action>
+
+        <action name="exportExcel" class="quotationAction" method="exportExcel">
+        </action>
+
+        <action name="importExcel" class="quotationAction" method="importExcel">
+        </action>
+    </package>
+
+    <!--softMaintenance-->
+    <package name="officesys-softMaintenance" extends="base" namespace="/officesys/softMaintenance">
+        <action name="maintenanceList" class="softMaintenanceAction" method="maintenanceList">
+        </action>
+
+        <action name="handleList" class="softMaintenanceAction" method="handleList">
+        </action>
+
+        <action name="addMaintenance" class="softMaintenanceAction" method="addMaintenance">
+        </action>
+
+        <action name="editMaintenance" class="softMaintenanceAction" method="editMaintenance">
+        </action>
+
+        <action name="deleteMaintenance" class="softMaintenanceAction" method="deleteMaintenance">
+        </action>
+
+        <action name="addHandle" class="softMaintenanceAction" method="addHandle">
+        </action>
+
+        <action name="editHandle" class="softMaintenanceAction" method="editHandle">
+        </action>
+
+        <action name="deleteHandle" class="softMaintenanceAction" method="deleteHandle">
+        </action>
+
+        <action name="exportWord" class="softMaintenanceAction" method="exportWord">
+        </action>
+
+        <action name="exportExcel" class="softMaintenanceAction" method="exportExcel">
+        </action>
+
+        <action name="getNewNumber" class="softMaintenanceAction" method="getNewNumber">
+        </action>
+
+        <action name="getRegPerson" class="softMaintenanceAction" method="getRegPerson">
+        </action>
+
+        <action name="getHandlePerson" class="softMaintenanceAction" method="getHandlePerson">
+        </action>
+    </package>
+
+    <!--handMaintenance-->
+    <package name="officesys-handMaintenance" extends="base" namespace="/officesys/handMaintenance">
+        <action name="maintenanceList" class="handMaintenanceAction" method="maintenanceList">
+        </action>
+
+        <action name="addMaintenance" class="handMaintenanceAction" method="addMaintenance">
+        </action>
+
+        <action name="editMaintenance" class="handMaintenanceAction" method="editMaintenance">
+        </action>
+
+        <action name="deleteMaintenance" class="handMaintenanceAction" method="deleteMaintenance">
+        </action>
+
+        <action name="exportWord" class="handMaintenanceAction" method="exportWord">
+        </action>
+
+        <action name="exportExcel" class="handMaintenanceAction" method="exportExcel">
+        </action>
+
+        <action name="getNewNumber" class="handMaintenanceAction" method="getNewNumber">
+        </action>
+
+        <action name="getRegPerson" class="softMaintenanceAction" method="getRegPerson">
+        </action>
+
+        <action name="getHandlePerson" class="softMaintenanceAction" method="getHandlePerson">
+        </action>
+    </package>
+
+    <!--productTest-->
+    <package name="officesys-productTest" extends="base" namespace="/officesys/productTest">
+        <action name="productTestList" class="productTestAction" method="productTestList">
+        </action>
+
+        <action name="addProductTest" class="productTestAction" method="addProductTest">
+        </action>
+
+        <action name="editProductTest" class="productTestAction" method="editProductTest">
+        </action>
+
+        <action name="deleteProductTest" class="productTestAction" method="deleteProductTest">
+        </action>
+
+        <action name="exportWord" class="productTestAction" method="exportWord">
+        </action>
+
+        <action name="exportExcel" class="productTestAction" method="exportExcel">
+        </action>
+
+        <action name="getNewNumber" class="productTestAction" method="getNewNumber">
+        </action>
+
+        <action name="getRegPerson" class="softMaintenanceAction" method="getRegPerson">
+        </action>
+
+        <action name="getHandlePerson" class="softMaintenanceAction" method="getHandlePerson">
+        </action>
+    </package>
+
+    <!--warehouseInput-->
+    <package name="warehouseInput" extends="base" namespace="/officesys/warehouseInput">
+        <action name="warehouseInputList" class="warehouseInputAction" method="warehouseInputList">
+        </action>
+
+        <action name="addWarehouseInput" class="warehouseInputAction" method="addWarehouseInput">
+        </action>
+
+        <action name="editWarehouseInput" class="warehouseInputAction" method="editWarehouseInput">
+        </action>
+
+        <action name="deleteWarehouseInput" class="warehouseInputAction" method="deleteWarehouseInput">
+        </action>
+
+        <action name="warehouseInputProList" class="warehouseInputAction" method="warehouseInputProList">
+        </action>
+
+        <action name="addProductByApplication" class="warehouseInputAction" method="addProductByApplication">
+        </action>
+
+        <action name="editWarehouseInputPro" class="warehouseInputAction" method="editWarehouseInputPro">
+        </action>
+
+        <action name="deleteWarehouseInputPro" class="warehouseInputAction" method="deleteWarehouseInputPro">
+        </action>
+
+        <action name="getUserList" class="warehouseInputAction" method="getUserList">
+        </action>
+
+        <action name="getCompanyList" class="warehouseInputAction" method="getCompanyList">
+        </action>
+
+        <action name="getApplicationList" class="warehouseInputAction" method="getApplicationList">
+        </action>
+
+        <action name="getWarehouseType" class="warehouseInputAction" method="getWarehouseType">
+        </action>
+
+        <action name="getNewNumber" class="warehouseInputAction" method="getNewNumber">
+        </action>
+    </package>
+
+    <!--warehouseOutput-->
+    <package name="warehouseOutput" extends="base" namespace="/officesys/warehouseOutput">
+        <action name="warehouseOutputList" class="warehouseOutputAction" method="warehouseOutputList">
+        </action>
+
+        <action name="addWarehouseOutput" class="warehouseOutputAction" method="addWarehouseOutput">
+        </action>
+
+        <action name="editWarehouseOutput" class="warehouseOutputAction" method="editWarehouseOutput">
+        </action>
+
+        <action name="deleteWarehouseOutput" class="warehouseOutputAction" method="deleteWarehouseOutput">
+        </action>
+
+        <action name="warehouseOutputProList" class="warehouseOutputAction" method="warehouseOutputProList">
+        </action>
+
+        <action name="editWarehouseOutputPro" class="warehouseOutputAction" method="editWarehouseOutputPro">
+        </action>
+
+        <action name="deleteWarehouseOutputPro" class="warehouseOutputAction" method="deleteWarehouseOutputPro">
+        </action>
+
+        <action name="addProductByApplication" class="warehouseOutputAction" method="addProductByApplication">
+        </action>
+
+        <action name="getUserList" class="warehouseOutputAction" method="getUserList">
+        </action>
+
+        <action name="getCompanyList" class="warehouseOutputAction" method="getCompanyList">
+        </action>
+
+        <action name="getApplicationList" class="warehouseOutputAction" method="getApplicationList">
+        </action>
+
+        <action name="getWarehouseType" class="warehouseOutputAction" method="getWarehouseType">
+        </action>
+
+        <action name="getNewNumber" class="warehouseOutputAction" method="getNewNumber">
+        </action>
+    </package>
+
+    <!--warehouseCompanyIn-->
+    <package name="warehouseCompanyIn" extends="base" namespace="/officesys/warehouseCompanyIn">
+        <action name="warehouseCompanyList" class="warehouseCompanyInAction" method="warehouseCompanyList">
+        </action>
+
+        <action name="addWarehouseCompany" class="warehouseCompanyInAction" method="addWarehouseCompany">
+        </action>
+
+        <action name="editWarehouseCompany" class="warehouseCompanyInAction" method="editWarehouseCompany">
+        </action>
+
+        <action name="deleteWarehouseCompany" class="warehouseCompanyInAction" method="deleteWarehouseCompany">
+        </action>
+    </package>
+
+    <!--warehouseCompanyOut-->
+    <package name="warehouseCompanyOut" extends="base" namespace="/officesys/warehouseCompanyOut">
+        <action name="warehouseCompanyList" class="warehouseCompanyOutAction" method="warehouseCompanyList">
+        </action>
+
+        <action name="addWarehouseCompany" class="warehouseCompanyOutAction" method="addWarehouseCompany">
+        </action>
+
+        <action name="editWarehouseCompany" class="warehouseCompanyOutAction" method="editWarehouseCompany">
+        </action>
+
+        <action name="deleteWarehouseCompany" class="warehouseCompanyOutAction" method="deleteWarehouseCompany">
+        </action>
+    </package>
+
+    <!--warehouseProduct-->
+    <package name="warehouseProduct" extends="base" namespace="/officesys/warehouseProduct">
+        <action name="warehouseProductList" class="warehouseProductAction" method="warehouseProductList">
+        </action>
+
+        <action name="addWarehouseProduct" class="warehouseProductAction" method="addWarehouseProduct">
+        </action>
+
+        <action name="editWarehouseProduct" class="warehouseProductAction" method="editWarehouseProduct">
+        </action>
+
+        <action name="deleteWarehouseProduct" class="warehouseProductAction" method="deleteWarehouseProduct">
+        </action>
+    </package>
+
+    <!--warehouseApplication-->
+    <package name="warehouseApplication" extends="base" namespace="/officesys/warehouseApplication">
+        <action name="applicationList" class="warehouseApplicationAction" method="applicationList">
+        </action>
+
+        <action name="applicationProList" class="warehouseApplicationAction" method="applicationProList">
+        </action>
+
+        <action name="editWarehouseApplication" class="warehouseApplicationAction" method="editWarehouseApplication">
+        </action>
+
+        <action name="deleteWarehouseApplication" class="warehouseApplicationAction" method="deleteWarehouseApplication">
+        </action>
+
+        <action name="importExcel" class="warehouseApplicationAction" method="importExcel">
+        </action>
+    </package>
+
+    <!--warehouse-->
+    <package name="warehouse" extends="base" namespace="/officesys/warehouse">
+        <action name="warehouseList" class="warehouseAction" method="warehouseList">
+        </action>
+    </package>
+
+    <!--warehouseBorrow-->
+    <package name="warehouseBorrow" extends="base" namespace="/officesys/warehouseBorrow">
+        <action name="warehouseBorrowList" class="warehouseBorrowAction" method="warehouseBorrowList">
+        </action>
+
+        <action name="addWarehouseBorrow" class="warehouseBorrowAction" method="addWarehouseBorrow">
+        </action>
+
+        <action name="editWarehouseBorrow" class="warehouseBorrowAction" method="editWarehouseBorrow">
+        </action>
+
+        <action name="deleteWarehouseBorrow" class="warehouseBorrowAction" method="deleteWarehouseBorrow">
+        </action>
+
+        <action name="getNewNumber" class="warehouseBorrowAction" method="getNewNumber">
+        </action>
+
+        <action name="getUserList" class="warehouseBorrowAction" method="getUserList">
+        </action>
+
+        <action name="getProductList" class="warehouseBorrowAction" method="getProductList">
+        </action>
+
+        <action name="getProductInfo" class="warehouseBorrowAction" method="getProductInfo">
+        </action>
+
+        <action name="backProduct" class="warehouseBorrowAction" method="backProduct">
+        </action>
+    </package>
+</struts>

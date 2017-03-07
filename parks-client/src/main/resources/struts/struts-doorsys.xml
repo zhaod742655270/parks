@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="doorsys" extends="base" namespace="/doorsys/accessEvent">
+        <!--<action name="empCardEventList" class="empCardEventAction" method="empCardEventList"/>-->
+        <!--<action name="visCardEventList" class="accessEventAction" method="visCardEventList"/>-->
+        <!--<action name="empLatestCardEventList" class="accessEventAction" method="empLatestCardEventList"/>-->
+        <action name="accessEventList" class="accessEventAction" method="accessEventList"/>
+        <action name="accessEventLatestList" class="accessEventAction" method="accessEventLatestList"/>
+        <action name="accessEventRelateMeetRoomList" class="accessEventAction" method="accessEventRelateMeetRoomList"/>
+        <action name="getAccompanyList" class="accessEventAction" method="getAccompanyList"/>
+        <action name="getStatus" class="accessEventAction" method="getStatus"/>
+        <action name="exportExcel" class="accessEventAction" method="exportExcel"/>
+    </package>
+</struts>

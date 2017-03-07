@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- easy way -->
+    <!--
+    <jaxws:client id="greetingClient" serviceClass="com.hbyd.platform.common.ws.GreetingService"
+        address="http://localhost:8080/common/ws/greeting">
+    </jaxws:client>
+     -->
+
+    <!-- manual way
+    <bean id="greetingClient_manual" class="com.hbyd.platform.common.ws.GreetingService"
+        factory-bean="clientFactory" factory-method="create" />
+    <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="com.hbyd.platform.common.ws.GreetingService" />
+        <property name="address" value="http://localhost:8080/common/ws/greeting" />
+    </bean>
+    -->
+    <!-- HTTP 请求头信息，添加 AcceptEncoding="gzip" -->
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client AcceptEncoding="gzip"/>
+    </http-conf:conduit>
+
+    <!-- 为 SOAP 请求添加验证信息 -->
+    <bean id="addAuthInfoInterceptor" class="com.hbyd.parks.common.cxf.interceptor.AddAuthInfoInterceptor">
+        <constructor-arg index="0" value="pre-protocol"></constructor-arg>
+        <constructor-arg index="1" value="admin"></constructor-arg>
+        <constructor-arg index="2" value="admin"></constructor-arg>
+    </bean>
+
+    <!--
+        Attribute:bus
+            Specifies the ID of the Spring bean configuring the bus managing the endpoint.
+
+        http://cxf.apache.org/docs/jax-ws-configuration.html
+            The bus name that will be used in the jaxws endpoint (defaults to cxf).
+            因为 client 的 bus 属性默认为 "cxf"，因此，如果想要关联自定义 bus, 还是显式指定 bus 属性最好
+     -->
+    <context:property-placeholder location="classpath*:properties/ws.properties"/>
+    <!-- managesys服务的地址-->
+    <jaxws:client bus="bus_client" id="roleWS" serviceClass="com.hbyd.parks.ws.managesys.RoleWS"
+                  address="${managesys.ws}/roleWS"/>
+    <jaxws:client bus="bus_client" id="deptWS" serviceClass="com.hbyd.parks.ws.managesys.DeptWS"
+                  address="${managesys.ws}/deptWS"/>
+    <jaxws:client bus="bus_client" id="priviledgeWS" serviceClass="com.hbyd.parks.ws.managesys.PriviledgeWS"
+                  address="${managesys.ws}/priviledgeWS"/>
+    <jaxws:client bus="bus_client" id="userWS" serviceClass="com.hbyd.parks.ws.managesys.UserWS"
+                  address="${managesys.ws}/userWS"/>
+    <jaxws:client bus="bus_client" id="appWS" serviceClass="com.hbyd.parks.ws.managesys.ResAppWS"
+                  address="${managesys.ws}/resAppWS"/>
+    <jaxws:client bus="bus_client" id="menuWS" serviceClass="com.hbyd.parks.ws.managesys.ResMenuWS"
+                  address="${managesys.ws}/resMenuWS"/>
+    <jaxws:client bus="bus_client" id="btnWS" serviceClass="com.hbyd.parks.ws.managesys.ResBtnWS"
+                  address="${managesys.ws}/resBtnWS"/>
+
+    <jaxws:client bus="bus_client" id="operLogWS" serviceClass="com.hbyd.parks.ws.managesys.OperLogWS"
+                  address="${managesys.ws}/operLogWS"/>
+
+
+    <!-- attendancesys服务的地址-->
+    <jaxws:client bus="bus_client" id="shiftWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.ShiftWS"
+                  address="${attendancesys.ws}/shiftWS"/>
+    <jaxws:client bus="bus_client" id="intervalWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.IntervalWS"
+                  address="${attendancesys.ws}/intervalWS"/>
+    <jaxws:client bus="bus_client" id="holidayWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.HolidayWS"
+                  address="${attendancesys.ws}/holidayWS"/>
+    <jaxws:client bus="bus_client" id="leaveTypeWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.LeaveTypeWS"
+                  address="${attendancesys.ws}/leaveTypeWS"/>
+    <jaxws:client bus="bus_client" id="leaveRecordWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.LeaveRecordWS"
+                  address="${attendancesys.ws}/leaveRecordWS"/>
+    <jaxws:client bus="bus_client" id="globalDefWS"
+
+                  serviceClass="com.hbyd.parks.ws.attendancesys.GlobalDefWS"
+                  address="${attendancesys.ws}/globalDefWS"/>
+    <jaxws:client bus="bus_client" id="atteInfoWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.AtteInfoWS"
+                  address="${attendancesys.ws}/atteInfoWS"/>
+
+    <jaxws:client bus="bus_client" id="regularShiftWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.RegularShiftWS"
+                  address="${attendancesys.ws}/regularShiftWS"/>
+
+    <jaxws:client bus="bus_client" id="shiftAssignWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.ShiftAssignWS"
+                  address="${attendancesys.ws}/shiftAssignWS"/>
+
+    <jaxws:client bus="bus_client" id="calcWS"
+                  serviceClass="com.hbyd.parks.ws.attendancesys.CalcWS"
+                  address="${attendancesys.ws}/calcWS"/>
+
+    <!-- supportsys的地址-->
+    <jaxws:client bus="bus_client" id="empWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.EmployeeWS"
+                  address="${supportsys.ws}/employeeWS"/>
+    <jaxws:client bus="bus_client" id="regionWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.RegionWS"
+                  address="${supportsys.ws}/regionWS"/>
+    <jaxws:client bus="bus_client" id="objectTypeWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.ObjectTypeWS"
+                  address="${supportsys.ws}/objectTypeWS"/>
+    <jaxws:client bus="bus_client" id="deviceWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceWS"
+                  address="${supportsys.ws}/deviceWS"/>
+    <jaxws:client bus="bus_client" id="deviceDescRelationWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescRelationWS"
+                  address="${supportsys.ws}/deviceDescRelationWS"/>
+
+    <!--doorsys 服务地址-->
+    <jaxws:client bus="bus_client" id="accessEventInfoWS"
+                  serviceClass="com.hbyd.parks.ws.doorsys.AccessEventInfoWS"
+                  address="${doorsys.ws}/accessEventInfoWS"/>
+    <!--meetsys 服务地址-->
+    <jaxws:client bus="bus_client" id="meetRoomWS"
+                  serviceClass="com.hbyd.parks.ws.meetsys.MeetRoomWS"
+                  address="${meetsys.ws}/meetRoomWS"/>
+
+    <!--officesys 服务地址-->
+
+    <jaxws:client bus="bus_client" id="acceptanceWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.AcceptanceWS"
+                  address="${officesys.ws}/acceptanceWS"/>
+
+
+    <jaxws:client bus="bus_client" id="acceptancePostilWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.AcceptancePostilWS"
+                  address="${officesys.ws}/acceptancePostilWS"/>
+
+    <jaxws:client bus="bus_client" id="acceptanceExamineWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.AcceptanceExamineWS"
+                  address="${officesys.ws}/acceptanceExamineWS"/>
+
+    <jaxws:client bus="bus_client" id="projectRecordWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.ProjectRecordWS"
+                  address="${officesys.ws}/projectRecordWS"/>
+
+    <jaxws:client bus="bus_client" id="expenditureWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.ExpenditureWS"
+                  address="${officesys.ws}/expenditureWS"/>
+
+    <!--<jaxws:client bus="bus_client" id="quotationWS"-->
+                  <!--serviceClass="com.hbyd.parks.ws.officesys.QuotationWS"-->
+                  <!--address="${officesys.ws}/quotationWS"/>-->
+
+    <jaxws:client bus="bus_client" id="contractGatheringWS" serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringWS"
+                  address="${officesys.ws}/contractGatheringWS"/>
+    <jaxws:client bus="bus_client" id="contractGatheringPostilWS" serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringPostilWS"
+                  address="${officesys.ws}/contractGatheringPostilWS"/>
+    <jaxws:client bus="bus_client" id="contractGatheringLogWS" serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringLogWS"
+                  address="${officesys.ws}/contractGatheringLogWS"/>
+    <jaxws:client bus="bus_client" id="paymentWS" serviceClass="com.hbyd.parks.ws.officesys.PaymentWS"
+                  address="${officesys.ws}/paymentWS"/>
+    <jaxws:client bus="bus_client" id="paymentPostilWS" serviceClass="com.hbyd.parks.ws.officesys.PaymentPostilWS"
+                  address="${officesys.ws}/paymentPostilWS"/>
+    <jaxws:client bus="bus_client" id="paymentLogWS" serviceClass="com.hbyd.parks.ws.officesys.PaymentLogWS"
+                  address="${officesys.ws}/paymentLogWS"/>
+
+    <jaxws:client bus="bus_client" id="quotationWS" serviceClass="com.hbyd.parks.ws.officesys.QuotationWS"
+                  address="${officesys.ws}/quotationWS"/>
+    <jaxws:client bus="bus_client" id="quotationProjectWS" serviceClass="com.hbyd.parks.ws.officesys.QuotationProjectWS"
+                  address="${officesys.ws}/quotationProjectWS"/>
+
+    <jaxws:client bus="bus_client" id="softMaintenanceWS" serviceClass="com.hbyd.parks.ws.officesys.SoftMaintenanceWS"
+                  address="${officesys.ws}/softMaintenanceWS"/>
+    <jaxws:client bus="bus_client" id="softMaintenanceHandleWS" serviceClass="com.hbyd.parks.ws.officesys.SoftMaintenanceHandleWS"
+                  address="${officesys.ws}/softMaintenanceHandleWS"/>
+    <jaxws:client bus="bus_client" id="handMaintenanceWS" serviceClass="com.hbyd.parks.ws.officesys.HandMaintenanceWS"
+                  address="${officesys.ws}/handMaintenanceWS"/>
+    <jaxws:client bus="bus_client" id="productTestWS" serviceClass="com.hbyd.parks.ws.officesys.ProductTestWS"
+                  address="${officesys.ws}/productTestWS"/>
+
+    <jaxws:client bus="bus_client" id="warehouseInputWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseInputWS"
+                  address="${officesys.ws}/warehouseInputWS"/>
+    <jaxws:client bus="bus_client" id="warehouseInputProWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseInputProWS"
+                  address="${officesys.ws}/warehouseInputProWS"/>
+    <jaxws:client bus="bus_client" id="warehouseOutputWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseOutputWS"
+                  address="${officesys.ws}/warehouseOutputWS"/>
+    <jaxws:client bus="bus_client" id="warehouseOutputProWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseOutputProWS"
+                  address="${officesys.ws}/warehouseOutputProWS"/>
+    <jaxws:client bus="bus_client" id="warehouseProductWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseProductWS"
+                  address="${officesys.ws}/warehouseProductWS"/>
+    <jaxws:client bus="bus_client" id="warehouseCompanyInWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseCompanyInWS"
+                  address="${officesys.ws}/warehouseCompanyInWS"/>
+    <jaxws:client bus="bus_client" id="warehouseCompanyOutWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseCompanyOutWS"
+                  address="${officesys.ws}/warehouseCompanyOutWS"/>
+    <jaxws:client bus="bus_client" id="warehouseApplicationWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseApplicationWS"
+                  address="${officesys.ws}/warehouseApplicationWS"/>
+    <jaxws:client bus="bus_client" id="warehouseApplicationProWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseApplicationProWS"
+                  address="${officesys.ws}/warehouseApplicationProWS"/>
+    <jaxws:client bus="bus_client" id="warehouseInfoWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseInfoWS"
+                  address="${officesys.ws}/warehouseInfoWS"/>
+    <jaxws:client bus="bus_client" id="warehouseWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseWS"
+                  address="${officesys.ws}/warehouseWS"/>
+    <jaxws:client bus="bus_client" id="warehouseBorrowWS" serviceClass="com.hbyd.parks.ws.officesys.WarehouseBorrowWS"
+                  address="${officesys.ws}/warehouseBorrowWS"/>
+
+    <!-- 总线配置: 方式一，  id 或 name 用于和 client/endpoint 的 bus 属性关联， 测试均通过 -->
+    <!--
+    <bean name="bus_client" class="org.apache.cxf.bus.spring.SpringBus">
+        <property name="features">
+            <rows>
+                <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature">
+                    <property name="threshold" value="0" />
+                </bean>
+            </rows>
+        </property>
+
+        <property name="outInterceptors">
+            <rows>
+                <ref bean="addAuthInfoInterceptor"/>
+            </rows>
+        </property>
+    </bean>
+     -->
+
+    <!--
+    总线配置：方式二，name 可以和 client/endpoint 的 bus 属性关联， id 不行。
+
+    参考：
+        http://cxf.apache.org/docs/configuration.html
+        http://cxf.apache.org/docs/bus-configuration.html
+
+    异常总结：
+        1. <cxf:bus id="bus_client">
+            "No bean named 'bus_client' is defined"
+
+        2. <cxf:bus name="bus_client">
+            没有问题，说明 client/endpoint 的 bus 属性对应 <cxf:bus 的 name 属性
+
+    Attribute : name
+        A unique identifier for the bean. This can also be a rows of identifiers. See documentation for attribute
+         name in attribute group beanAttributes in http://www.springframework.org/schema/beans/spring-beans.xsd
+     -->
+
+    <cxf:bus name="bus_client">
+        <cxf:features>
+            <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature">
+                <property name="threshold" value="0"/>
+            </bean>
+        </cxf:features>
+
+        <cxf:outInterceptors>
+            <ref bean="addAuthInfoInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:bus>
+
+</beans>

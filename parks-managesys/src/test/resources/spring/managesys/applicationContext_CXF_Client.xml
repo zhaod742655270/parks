@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath*:properties/ws.properties"/>
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client AcceptEncoding="gzip"/>
+    </http-conf:conduit>
+
+    <jaxws:client bus="bus_client" id="roleWS" serviceClass="com.hbyd.parks.ws.managesys.RoleWS"
+                  address="${managesys.ws}/roleWS"/>
+    <jaxws:client bus="bus_client" id="deptWS" serviceClass="com.hbyd.parks.ws.managesys.DeptWS"
+                  address="${managesys.ws}/deptWS"/>
+    <jaxws:client bus="bus_client" id="priviledgeWS" serviceClass="com.hbyd.parks.ws.managesys.PriviledgeWS"
+                  address="${managesys.ws}/priviledgeWS"/>
+    <jaxws:client bus="bus_client" id="userWS" serviceClass="com.hbyd.parks.ws.managesys.UserWS"
+                  address="${managesys.ws}/userWS"/>
+    <jaxws:client bus="bus_client" id="resAppWS" serviceClass="com.hbyd.parks.ws.managesys.ResAppWS"
+                  address="${managesys.ws}/resAppWS"/>
+    <jaxws:client bus="bus_client" id="resMenuWS" serviceClass="com.hbyd.parks.ws.managesys.ResMenuWS"
+                  address="${managesys.ws}/resMenuWS"/>
+    <jaxws:client bus="bus_client" id="resBtnWS" serviceClass="com.hbyd.parks.ws.managesys.ResBtnWS"
+                  address="${managesys.ws}/resBtnWS"/>
+
+    <jaxws:client bus="bus_client" id="contractGatheringWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringWS"
+                  address="${managesys.ws}/contractGatheringWS"/>
+    <jaxws:client bus="bus_client" id="contractGatheringPostilWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringPostilWS"
+                  address="${managesys.ws}/contractGatheringPostilWS"/>
+    <jaxws:client bus="bus_client" id="contractGatheringLogWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.ContractGatheringLogWS"
+                  address="${managesys.ws}/contractGatheringLogWS"/>
+
+    <jaxws:client bus="bus_client" id="paymentWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.PaymentWS"
+                  address="${managesys.ws}/paymentWS"/>
+
+    <bean id="addAuthInfoInterceptor" class="com.hbyd.parks.common.cxf.interceptor.AddAuthInfoInterceptor">
+        <constructor-arg index="0" value="pre-protocol"></constructor-arg>
+        <constructor-arg index="1" value="admin"></constructor-arg>
+        <constructor-arg index="2" value="admin"></constructor-arg>
+    </bean>
+
+    <cxf:bus name="bus_client">
+        <cxf:features>
+            <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature">
+                <property name="threshold" value="0"/>
+            </bean>
+        </cxf:features>
+
+        <cxf:outInterceptors>
+            <ref bean="addAuthInfoInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:bus>
+</beans>

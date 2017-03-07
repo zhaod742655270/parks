@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Employee-->
+    <bean id="employeeWSImpl" class="com.hbyd.parks.supportsys.wsImpl.EmployeeWSImpl"/>
+    <jaxws:server bus="cxf" id="employeeWS" address="/employeeWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.EmployeeWS">
+        <jaxws:serviceBean>
+            <ref bean="employeeWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--Region-->
+    <bean id="regionWSImpl" class="com.hbyd.parks.supportsys.wsImpl.RegionWSImpl"/>
+    <jaxws:server bus="cxf" id="regionWS" address="/regionWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.RegionWS">
+        <jaxws:serviceBean>
+            <ref bean="regionWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--ObjectType-->
+    <bean id="objectTypeWSImpl" class="com.hbyd.parks.supportsys.wsImpl.ObjectTypeWSImpl"/>
+    <jaxws:server bus="cxf" id="objectTypeWS" address="/objectTypeWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.ObjectTypeWS">
+        <jaxws:serviceBean>
+            <ref bean="objectTypeWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--PredefObject-->
+    <bean id="predefObjectWSImpl" class="com.hbyd.parks.supportsys.wsImpl.PredefObjectWSImpl"/>
+    <jaxws:server bus="cxf" id="predefObjectWS" address="/predefObjectWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.PredefObjectWS">
+        <jaxws:serviceBean>
+            <ref bean="predefObjectWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--Device-->
+    <bean id="deviceWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceWS" address="/deviceWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceWSImpl"/>
+        </jaxws:serviceBean>
+        <!--
+        <jaxws:properties>
+            <entry key="javax.xml.stream.XMLOutputFactory" value-ref="xmlOutputFactory"/>
+        </jaxws:properties>
+        -->
+    </jaxws:server>
+
+    <!--DeviceCamera-->
+    <bean id="deviceCameraWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceCameraWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceCameraWS" address="/deviceCameraWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceCameraWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceCameraWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceController-->
+    <bean id="deviceControllerWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceControllerWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceControllerWS" address="/deviceControllerWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceControllerWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceControllerWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceDoor-->
+    <bean id="deviceDoorWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceDoorWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceDoorWS" address="/deviceDoorWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDoorWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceDoorWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceElecfence-->
+    <bean id="deviceElecfenceWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceElecfenceWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceElecfenceWS" address="/deviceElecfenceWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceElecfenceWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceElecfenceWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceExtmod-->
+    <bean id="deviceExtmodWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceExtmodWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceExtmodWS" address="/deviceExtmodWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceExtmodWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceExtmodWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceFirehost-->
+    <bean id="deviceFirehostWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceFirehostWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceFirehostWS" address="/deviceFirehostWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceFirehostWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceFirehostWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceFireprobe-->
+    <bean id="deviceFireprobeWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceFireprobeWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceFireprobeWS" address="/deviceFireprobeWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceFireprobeWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceFireprobeWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceIo-->
+    <bean id="deviceIoWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceIoWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceIoWS" address="/deviceIoWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceIoWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceIoWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceReader-->
+    <bean id="deviceReaderWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceReaderWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceReaderWS" address="/deviceReaderWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceReaderWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceReaderWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceTerminal-->
+    <bean id="deviceTerminalWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceTerminalWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceTerminalWS" address="/deviceTerminalWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceTerminalWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceTerminalWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceDescComm-->
+    <bean id="deviceDescCommWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceDescCommWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceDescCommWS" address="/deviceDescCommWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescCommWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceDescCommWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceDescFiregroup-->
+    <bean id="deviceDescFiregroupWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceDescFiregroupWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceDescFiregroupWS" address="/deviceDescFiregroupWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescFiregroupWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceDescFiregroupWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceDescType-->
+    <bean id="deviceDescTypeWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceDescTypeWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceDescTypeWS" address="/deviceDescTypeWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescTypeWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceDescTypeWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+    <!--DeviceDescRelation-->
+    <bean id="deviceDescRelationWSImpl" class="com.hbyd.parks.supportsys.wsImpl.DeviceDescRelationWSImpl"/>
+    <jaxws:server bus="cxf" id="deviceDescRelationWS" address="/deviceDescRelationWS"
+                  serviceClass="com.hbyd.parks.ws.supportsys.DeviceDescRelationWS">
+        <jaxws:serviceBean>
+            <ref bean="deviceDescRelationWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+</beans>

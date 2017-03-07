@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!--This 'global configuration' only scope to current mapping file-->
+<!--
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>yyyy-MM-dd HH:mm:ss</date-format>
+        <wildcard>true</wildcard>
+        <map-null>false</map-null>
+    </configuration>
+-->
+
+    <!--会议室-->
+	<mapping map-null="false" date-format="yyyy-MM-dd HH:mm:ss">
+		<class-a>com.hbyd.parks.domain.meetsys.MeetRoom</class-a>
+		<class-b>com.hbyd.parks.dto.meetsys.MeetRoomDTO</class-b>
+
+		<field>
+			<a>region.id</a>
+			<b>regionId</b>
+		</field>
+        <field>
+            <a>region.regionName</a>
+            <b>regionName</b>
+        </field>
+	</mapping>
+</mappings>

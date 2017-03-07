@@ -1,0 +1,60 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+.DS_Store
+*.swp
+
+# Directory based project format (.idea directory) - This format is used by all the recent IDE versions by default. Here is what you need to share:
+# -> All the files under .idea directory in the project root except the workspace.xml and tasks.xml files which store user specific settings
+# -> All the .iml module files that can be located in different module directories (applies to IntelliJ IDEA)
+workspace.xml
+tasks.xml
+
+# Be careful about sharing the following:
+# -> Android artifacts that produce a signed build (will contain keystore passwords)
+# -> In IDEA 13 and earlier dataSources.ids, datasources.xml can contain database passwords. IDEA 14 solves this problem - http://youtrack.jetbrains.com/issue/IDEA-127105#comment=27-765064
+dataSources.ids
+datasources.xml
+
+# You may consider not to share the following:
+# -> gradle.xml file, see this discussion - http://youtrack.jetbrains.com/issue/IDEA-55923
+# -> user dictionaries folder (to avoid conflicts if other developer has the same name)
+# -> XML files under .idea/libraries in case they are generated from Gradle project
+gradle.xml
+
+# IDEA - Legacy project format (.ipr/.iml/.iws files)：
+# Share the project .ipr file and all the .iml module files, don't share the .iws file as it stores user specific settings
+# *.iml
+# *.ipr
+*.iws
+
+# IDEA 的 artifact 配置：${projDir}\.idea\artifacts 下的配置
+*_war.xml
+*_war_exploded.xml
+
+# Eclipse
+.classpath
+.project
+.settings/
+.springBeans/
+build/
+*.launch
+
+# Maven
+target/
+
+# Git
+.git/
+
+
+

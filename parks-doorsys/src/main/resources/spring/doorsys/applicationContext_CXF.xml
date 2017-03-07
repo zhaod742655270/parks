@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--CapturePhoto-->
+    <bean id="alarmPhotoWSImpl" class="com.hbyd.parks.doorsys.wsImpl.CapturePhotoWSImpl"/>
+    <jaxws:server bus="cxf" id="alarmPhotoWS" address="/alarmPhotoWS"
+                  serviceClass="com.hbyd.parks.ws.doorsys.CapturePhotoWS">
+        <jaxws:serviceBean>
+            <ref bean="alarmPhotoWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+
+    <!--AccessEvent-->
+    <bean id="accessEventWSImpl" class="com.hbyd.parks.doorsys.wsImpl.AccessEventWSImpl"/>
+    <jaxws:server bus="cxf" id="accessEventWS" address="/accessEventWS"
+                  serviceClass="com.hbyd.parks.ws.doorsys.AccessEventWS">
+        <jaxws:serviceBean>
+            <ref bean="accessEventWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+
+
+    <!--AccessEventInfo-->
+    <bean id="accessEventInfoWSImpl" class="com.hbyd.parks.doorsys.wsImpl.AccessEventInfoWSImpl"/>
+    <jaxws:server bus="cxf" id="accessEventInfoWS" address="/accessEventInfoWS"
+                  serviceClass="com.hbyd.parks.ws.doorsys.AccessEventInfoWS">
+        <jaxws:serviceBean>
+            <ref bean="accessEventInfoWSImpl"/>
+        </jaxws:serviceBean>
+    </jaxws:server>
+</beans>

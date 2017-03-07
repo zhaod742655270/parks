@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 支持注解 -->
+	<context:component-scan base-package="com.hbyd.parks"/>
+	
+	<!-- 启用 @AspectJ: 开启 CGLIB Proxy -->
+	<aop:aspectj-autoproxy />
+
+	<!-- Aspect -->
+    <bean id="exceptionAspect" class="com.hbyd.parks.common.aspect.ExceptionAspect"/>
+    <bean id="validateAspect" class="com.hbyd.parks.common.aspect.ValidateAspect"/>
+
+	<aop:config>
+        <aop:pointcut id="genericPointCut"
+                      expression="
+                      execution(* com.hbyd.parks..*Service.*(..)) or
+                      execution(* com.hbyd.parks..*ServiceImpl.*(..)) or
+                      execution(* com.hbyd.parks..*Dao.*(..)) or
+                      execution(* com.hbyd.parks..*DaoImpl.*(..)) or
+                      execution(* com.hbyd.parks..*WS.*(..)) or
+                      execution(* com.hbyd.parks..*WSImpl.*(..))"/>
+
+		<!-- 事务 -->
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="genericPointCut" />
+
+        <!-- 异常 -->
+        <aop:aspect ref="exceptionAspect">
+            <aop:after-throwing method="doException" throwing="e" pointcut-ref="genericPointCut"/>
+        </aop:aspect>
+
+        <!-- 参数验证 -->
+        <aop:aspect ref="validateAspect">
+            <aop:before method="doValidate" pointcut-ref="genericPointCut"/>
+        </aop:aspect>
+	</aop:config>
+
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+	</tx:advice>
+</beans>

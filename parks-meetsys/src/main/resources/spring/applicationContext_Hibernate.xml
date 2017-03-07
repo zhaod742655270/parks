@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 引入 JDBC 外部配置 -->
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <!-- 配置 Proxool 数据源, 参照 Hibernate.properties -->
+    <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver"><value>${jdbc.driverClassName}</value></property>
+        <property name="driverUrl"><value>${jdbc.url}</value></property>
+        <property name="user"><value>${jdbc.username}</value></property>
+        <property name="password"><value>${jdbc.password}</value></property>
+
+        <property name="maximumConnectionCount"><value>${jdbc.maxPoolSize}</value></property>
+        <property name="minimumConnectionCount"><value>${jdbc.minPoolSize}</value></property>
+        <property name="prototypeCount"><value>${jdbc.prototypeCount}</value></property>
+
+        <property name="trace"><value>true</value></property>
+        <property name="verbose"><value>true</value></property>
+    </bean>
+
+    <!--注意：必须使用 AnnotationSessionFactoryBean 才能识别 Hibernate 注解 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <prop key="connection.autocommit">false</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+
+                <!--配置二级缓存: http://ehcache.org/documentation/integrations/hibernate-->
+                    <!--二级缓存实现-->
+                <prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+                    <!--开启二级缓存-->
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                    <!--开启查询缓存-->
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+
+                <!--TODO 指定缓存的配置路径: 默认使用 classpath:ehcache.xml，尚未测试，暂时注释下面两行-->
+                <!--<prop key="net.sf.ehcache.configurationResourceName">EHCache\ehcache.xml</prop>-->
+                <!--<prop key="hibernate.cache.provider_configuration_file_resource_path">EHCache\ehcache.xml</prop>-->
+            </props>
+        </property>
+
+        <property name="packagesToScan">
+            <list>
+                <!--仅添加需要的映射实体-->
+                <value>com.hbyd.parks.domain.supportsys</value>
+                <value>com.hbyd.parks.domain.meetsys</value>
+                <value>com.hbyd.parks.domain.managesys</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- 支持注解的事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+
+        <!--TODO 模板缓存尚未测试-->
+        <!--Set whether to cache all queries executed by this template.-->
+        <!--<property name="cacheQueries" value="true"/>-->
+        <!--Set the name of the cache region for queries executed by this template.-->
+        <!--<property name="queryCacheRegion" value=""/>-->
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+</beans>

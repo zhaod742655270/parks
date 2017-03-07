@@ -1,0 +1,10 @@
+package ${daoInterPath};
+
+import com.hbyd.parks.common.base.BaseDao;
+import ${entityPath}.${entityName};
+
+/**
+ * DAO 接口：${entityName}
+ */
+public interface ${entityName}Dao extends BaseDao<${entityName}, String> {
+}

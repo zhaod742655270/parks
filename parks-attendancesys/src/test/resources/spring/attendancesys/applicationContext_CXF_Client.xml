@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath*:properties/ws.properties"/>
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client AcceptEncoding="gzip" />
+    </http-conf:conduit>
+
+	<jaxws:client bus="bus_client" id="shiftWS" serviceClass="com.hbyd.parks.ws.attendancesys.ShiftWS" address="${attendancesys.ws}/shiftWS" />
+	<jaxws:client bus="bus_client" id="intervalWS" serviceClass="com.hbyd.parks.ws.attendancesys.IntervalWS" address="${attendancesys.ws}/intervalWS" />
+	<jaxws:client bus="bus_client" id="holidayWS" serviceClass="com.hbyd.parks.ws.attendancesys.HolidayWS" address="${attendancesys.ws}/holidayWS" />
+	<jaxws:client bus="bus_client" id="leaveTypeWS" serviceClass="com.hbyd.parks.ws.attendancesys.LeaveTypeWS" address="${attendancesys.ws}/leaveTypeWS" />
+	<jaxws:client bus="bus_client" id="leaveRecordWS" serviceClass="com.hbyd.parks.ws.attendancesys.LeaveRecordWS" address="${attendancesys.ws}/leaveRecordWS" />
+	<jaxws:client bus="bus_client" id="globalDefWS" serviceClass="com.hbyd.parks.ws.attendancesys.GlobalDefWS" address="${attendancesys.ws}/globalDefWS" />
+	<jaxws:client bus="bus_client" id="atteInfoWS" serviceClass="com.hbyd.parks.ws.attendancesys.AtteInfoWS" address="${attendancesys.ws}/atteInfoWS" />
+	<jaxws:client bus="bus_client" id="regularShiftWS" serviceClass="com.hbyd.parks.ws.attendancesys.RegularShiftWS" address="${attendancesys.ws}/regularShiftWS" />
+	<jaxws:client bus="bus_client" id="shiftAssignWS" serviceClass="com.hbyd.parks.ws.attendancesys.ShiftAssignWS" address="${attendancesys.ws}/shiftAssignWS" />
+	<jaxws:client bus="bus_client" id="calcWS" serviceClass="com.hbyd.parks.ws.attendancesys.CalcWS" address="${attendancesys.ws}/calcWS" />
+
+
+    <bean id="addAuthInfoInterceptor" class="com.hbyd.parks.common.cxf.interceptor.AddAuthInfoInterceptor">
+        <constructor-arg index="0" value="pre-protocol"></constructor-arg>
+        <constructor-arg index="1" value="admin"></constructor-arg>
+        <constructor-arg index="2" value="admin"></constructor-arg>
+    </bean>
+
+    <cxf:bus name="bus_client">
+        <cxf:features>
+            <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature">
+                <property name="threshold" value="0" />
+            </bean>
+        </cxf:features>
+
+        <cxf:outInterceptors>
+            <ref bean="addAuthInfoInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:bus>
+</beans>
