@@ -849,7 +849,7 @@ function viewPayment(){
         $('#payment-table').datagrid({
             url: 'payment/paymentList',
             queryParams: {
-                contractName:contractName
+                conGatheringNameQuery:contractName
             }
         });
     }else{
