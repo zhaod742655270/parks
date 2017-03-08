@@ -5,7 +5,6 @@ import com.hbyd.parks.common.base.BaseWSImpl;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.WarehouseInputQuery;
 import com.hbyd.parks.common.util.ValHelper;
-import com.hbyd.parks.dao.managesys.UserDao;
 import com.hbyd.parks.dao.officesys.WarehouseInputDao;
 import com.hbyd.parks.domain.officesys.WarehouseInput;
 import com.hbyd.parks.dto.officesys.WarehouseInputDTO;
@@ -25,9 +24,6 @@ public class WarehouseInputWSImpl extends BaseWSImpl<WarehouseInputDTO,Warehouse
 
     @Resource
     private WarehouseInputDao warehouseInputDao;
-
-    @Resource
-    private UserDao userDao;
 
     @Override
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseInputQuery query){

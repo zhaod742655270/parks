@@ -2,7 +2,7 @@ package com.hbyd.parks.domain.managesys;
 
 // Generated 2014-6-18 13:23:23 by Hibernate Tools 3.4.0.CR1
 
-import com.hbyd.parks.common.base.BaseEntity;
+import com.hbyd.parks.common.base.RecoverableEntity;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "base_user")
-public class User extends BaseEntity {
+public class User extends RecoverableEntity {
 
     /**
      * 登录名称

@@ -5,7 +5,6 @@ import com.hbyd.parks.common.base.BaseWSImpl;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.SoftMaintenanceQuery;
 import com.hbyd.parks.common.util.ValHelper;
-import com.hbyd.parks.dao.managesys.UserDao;
 import com.hbyd.parks.dao.officesys.SoftMaintenanceDao;
 import com.hbyd.parks.domain.officesys.SoftMaintenance;
 import com.hbyd.parks.dto.officesys.SoftMaintenanceDTO;
@@ -25,9 +24,6 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
 
     @Resource
     SoftMaintenanceDao softMaintenanceDao;
-
-    @Resource
-    UserDao userDao;
 
     @Override
     public PageBeanEasyUI getPageBeanByQueryBean(SoftMaintenanceQuery query){

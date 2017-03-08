@@ -179,7 +179,8 @@ public class UserWSImpl extends BaseWSImpl<UserDTO, User> implements UserWS {
     public List<UserDTO> getUserByDeptName(String deptName) {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class)
                 .createAlias("department", "d")
-                .add(eq("d.deptName", deptName));
+                .add(eq("d.deptName", deptName))
+                .add(eq("isValid",true));
         List<User> list = criteria.getExecutableCriteria(baseDao.getCurrSession()).list();
         List dList = new ArrayList(list.size());
         for (User user : list) {

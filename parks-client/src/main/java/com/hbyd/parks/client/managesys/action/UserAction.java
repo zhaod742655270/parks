@@ -71,6 +71,7 @@ public class UserAction extends ActionSupport implements ModelDriven<QueryBeanEa
             hql = "where  userName like ? and  userName <> ?";
             params.add("super");
         }
+        hql += "and isValid=1";
 
 
         PageBeanEasyUI list = userWS.getPageBean(page, hql, params.toArray());
@@ -168,7 +169,9 @@ public class UserAction extends ActionSupport implements ModelDriven<QueryBeanEa
     public String deleteUser() {
         AjaxMessage message = new AjaxMessage();
         try {
-            userWS.delByID(userId);
+            //userWS.delByID(userId);
+            //由于有多个表外键关联用户信息，故改为伪删
+            userWS.delFake(userId);
 
         } catch (Exception e) {
             message.setSuccess(false);
