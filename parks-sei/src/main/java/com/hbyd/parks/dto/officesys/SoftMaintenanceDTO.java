@@ -23,6 +23,9 @@ public class SoftMaintenanceDTO extends BaseDTO {
     private String resultPersonName;
     private String resultDate;          //最终结论填写日期
 
+    private String assignPersonId;      //指派处理人
+    private String assignPersonName;
+
 
     public String getProjectName() {
         return projectName;
@@ -142,5 +145,21 @@ public class SoftMaintenanceDTO extends BaseDTO {
 
     public void setResultPersonName(String resultPersonName) {
         this.resultPersonName = resultPersonName;
+    }
+
+    public String getAssignPersonId() {
+        return assignPersonId;
+    }
+
+    public void setAssignPersonId(String assignPersonId) {
+        this.assignPersonId = assignPersonId;
+    }
+
+    public String getAssignPersonName() {
+        return assignPersonName;
+    }
+
+    public void setAssignPersonName(String assignPersonName) {
+        this.assignPersonName = assignPersonName;
     }
 }

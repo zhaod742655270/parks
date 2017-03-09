@@ -34,6 +34,9 @@ public class ProductTestDTO extends BaseDTO {
     private String summany;             //总结
     private String note;                //备注
 
+    private String assignPersonId;      //指派处理人
+    private String assignPersonName;
+
     public String getProductName() {
         return productName;
     }
@@ -240,5 +243,21 @@ public class ProductTestDTO extends BaseDTO {
 
     public void setTestPersonName(String testPersonName) {
         this.testPersonName = testPersonName;
+    }
+
+    public String getAssignPersonId() {
+        return assignPersonId;
+    }
+
+    public void setAssignPersonId(String assignPersonId) {
+        this.assignPersonId = assignPersonId;
+    }
+
+    public String getAssignPersonName() {
+        return assignPersonName;
+    }
+
+    public void setAssignPersonName(String assignPersonName) {
+        this.assignPersonName = assignPersonName;
     }
 }

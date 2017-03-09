@@ -62,11 +62,21 @@ public class WarehouseInputWSImpl extends BaseWSImpl<WarehouseInputDTO,Warehouse
         WarehouseInput target = warehouseInputDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setWarehouseApplication(null);
-        target.setWarehouse(null);
-        target.setRecordPerson(null);
-        target.setExaminePerson(null);
-        target.setCompany(null);
+        if(!Strings.isNullOrEmpty(dto.getApplicationID())) {
+            target.setWarehouseApplication(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getWarehouseID())) {
+            target.setWarehouse(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getRecordPersonID())) {
+            target.setRecordPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getExaminePersonID())) {
+            target.setExaminePerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getCompanyId())) {
+            target.setCompany(null);
+        }
         dozerMapper.map(dto,target);
         warehouseInputDao.update(target);
     }

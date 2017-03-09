@@ -194,13 +194,21 @@
         <a>contracts.userName</a>
         <b>contractsName</b>
     </field>
+    <field>
+        <a>resultPerson.id</a>
+        <b>resultPersonID</b>
+    </field>
+    <field>
+        <a>resultPerson.userName</a>
+        <b>resultPersonName</b>
+    </field>
         <field>
-            <a>resultPerson.id</a>
-            <b>resultPersonID</b>
+            <a>assignPerson.id</a>
+            <b>assignPersonId</b>
         </field>
         <field>
-            <a>resultPerson.userName</a>
-            <b>resultPersonName</b>
+            <a>assignPerson.userName</a>
+            <b>assignPersonName</b>
         </field>
     </mapping>
 
@@ -288,6 +296,14 @@
             <a>testPerson.userName</a>
             <b>testPersonName</b>
         </field>
+        <field>
+            <a>assignPerson.id</a>
+            <b>assignPersonId</b>
+        </field>
+        <field>
+            <a>assignPerson.userName</a>
+            <b>assignPersonName</b>
+        </field>
     </mapping>
 
     <mapping map-null="false">
@@ -318,6 +334,14 @@
         <field>
             <a>testPerson.userName</a>
             <b>testPersonName</b>
+        </field>
+        <field>
+            <a>assignPerson.id</a>
+            <b>assignPersonId</b>
+        </field>
+        <field>
+            <a>assignPerson.userName</a>
+            <b>assignPersonName</b>
         </field>
     </mapping>
 

@@ -66,7 +66,7 @@
                 <tr>
                     <td><label>产品名称型号</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>登记人</label><input class="text"  id="registerPersonQuery"   style="width: 110px"/>&nbsp;</td>
+                    <td><label>登记人</label><input class="easyui-combobox"  id="registerPersonQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登录日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/>&nbsp;</td>
                     <td><label>测试人</label><input class="text"  id="testPeronQuery"   style="width: 110px"/></td>
@@ -237,6 +237,29 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveApprove()">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#approveDlg').dialog('close')">取消</a>
+</div>
+
+<!--指定处理人界面-->
+<div id="assignDlg" class="easyui-dialog" style="padding: 10px" modal="true" closed="true" buttons="#assignDlg-button">
+    <form id="addAssign">
+        <table>
+            <tr>
+                <td style="height: 5px;"><input type="hidden" id="assignId" name="productTest.id"/></td>
+            </tr>
+
+            <tr>
+                <td class="tdLeft"><label>指定处理人员：</label></td>
+                <td class="tdRight"><input id="assignPerson" class="easyui-combobox" name="productTest.assignPersonId"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--指定处理人员界面按钮-->
+<div id="assignDlg-button">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveAssign()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+       onclick="javascript:$('#assignDlg').dialog('close')">取消</a>
 </div>
 
 <!--选择测试依据界面-->

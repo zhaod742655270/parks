@@ -40,7 +40,8 @@ public class HandMaintenanceWSImpl extends BaseWSImpl<HandMaintenanceDTO,HandMai
             criteria.add(like("productName",query.getProductNameQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getRegisterPersonQuery())){
-            criteria.add(like("registerPerson",query.getRegisterPersonQuery()));
+            criteria.createAlias("registerPerson","registerPerson")
+                    .add(eq("registerPerson.id",query.getRegisterPersonQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getNumberQuery())){
             criteria.add(like("number",query.getNumberQuery()));
@@ -50,6 +51,10 @@ public class HandMaintenanceWSImpl extends BaseWSImpl<HandMaintenanceDTO,HandMai
         }
         if (!Strings.isNullOrEmpty(query.getRegDateEndQuery())) {
             criteria.add(le("registerDate", query.getRegDateEndQuery()));
+        }
+        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery())){
+            criteria.createAlias("assignPerson","assignPerson")
+                    .add(eq("assignPerson.id",query.getAssignPersonQuery()));
         }
         PageBeanEasyUI pageBeanEasyUI = handMaintenanceDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());
@@ -70,14 +75,44 @@ public class HandMaintenanceWSImpl extends BaseWSImpl<HandMaintenanceDTO,HandMai
         ValHelper.notNull(dto.getId(), "更新操作接收的 ID 不能为 NULL!");
         HandMaintenance target = handMaintenanceDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
+        //将ID为空的人员类字段置为NULL，防止出现脏数据
+        if(dto.getVerifyPersonID() == ""){
+            dto.setVerifyPersonID(null);
+        }
+        if(dto.getAnalyPersonID() == ""){
+            dto.setAnalyPersonID(null);
+        }
+        if(dto.getRepairPersonID() == ""){
+            dto.setRepairPersonID(null);
+        }
+        if(dto.getTestPersonID() == ""){
+            dto.setTestPersonID(null);
+        }
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setRegisterPerson(null);
-        target.setApprovePerson(null);
-        target.setReportPerson(null);
-        target.setVerifyPerson(null);
-        target.setAnalyPerson(null);
-        target.setRepairPerson(null);
-        target.setTestPerson(null);
+        if (!Strings.isNullOrEmpty(dto.getRegisterPersonID())) {
+            target.setRegisterPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getApprovePersonID())) {
+            target.setApprovePerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getReportPersonID())) {
+            target.setReportPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getVerifyPersonID())) {
+            target.setVerifyPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getAnalyPersonID())) {
+            target.setAnalyPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getRepairPersonID())) {
+            target.setRepairPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getTestPersonID())) {
+            target.setTestPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getAssignPersonId())) {
+            target.setAssignPerson(null);
+        }
         dozerMapper.map(dto, target);
         handMaintenanceDao.update(target);
     }

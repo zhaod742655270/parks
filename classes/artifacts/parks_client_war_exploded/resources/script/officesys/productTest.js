@@ -13,7 +13,7 @@ $(function(){
         sortOrder: 'desc',
         striped: true,
         rownumbers: true,
-        fitColumns: true,
+        fitColumns: false,
         fit: true,
         singleSelect: true,
         pagination: true,
@@ -28,6 +28,7 @@ $(function(){
             {field:'registerPersonName',title:'登记人'},
             {field:'registerDate',title:'登记日期'},
             {field:'hopeEndDate',title:'要求完成日期'},
+            {field:'assignPersonName',title:'指定处理人员'},
             {field:'approvePersonName',title:'批准人'},
             {field:'approveDate',title:'批准日期'},
             {field:'quantity',title:'数量'},
@@ -74,8 +75,16 @@ $(function(){
             return data;
         }
     });
-    
+
     $('#registerPerson').combotree({
+        required:true,
+        url: 'productTest/getRegPerson',
+        valueField: 'id',
+        textField: 'text'
+    });
+
+    //获取登录人选项列表
+    $('#registerPersonQuery').combobox({
         url: 'productTest/getRegPerson',
         valueField: 'id',
         textField: 'text'
@@ -92,6 +101,14 @@ $(function(){
         valueField: 'id',
         textField: 'text'
     });
+
+    //获取指定处理人员列表
+    $('#assignPerson').combotree({
+        required:true,
+        url: 'softMaintenance/getHandlePerson',
+        valueField: 'id',
+        textField: 'text'
+    });
 });
 
 //列表查询
@@ -99,7 +116,7 @@ function productTestQuery(){
     var params={
         productNameQuery:$('#productNameQuery').val(),
         numberQuery:$('#numberQuery').val(),
-        registerPersonQuery:$('#registerPersonQuery').val(),
+        registerPersonQuery:$('#registerPersonQuery').combobox('getValue'),
         regDateBegQuery:$('#regDateBegQuery').datebox('getValue'),
         regDateEndQuery:$('#regDateEndQuery').datebox('getValue'),
         testPersonQuery:$('#testPersonQuery').val()
@@ -310,6 +327,40 @@ function saveApprove(){
             var data = jQuery.parseJSON(result);
             if (data.success) {
                 $('#approveDlg').dialog('close');
+                $('#productTest-dg').datagrid('reload');
+            }else {
+                $.messager.alert('操作失败', data.message, 'error');
+            }
+        }
+    });
+}
+
+//打开指定处理人员界面
+function addAssign(){
+    var row = $('#productTest-dg').datagrid('getSelected');
+    if(row){
+        $('#addAssign').form('clear');
+        $('#assignId').val(row.id);
+        $('#assignPerson').combobox('setValue',row.assignPersonId);
+        $('#assignPerson').combobox('setText',row.assignPersonName);
+
+        $('#assignDlg').dialog('open').dialog('setTitle', '指定处理人员');
+    }else{
+        $.messager.alert('提示', '需要选择一条测试登记记录，才能指定处理人员。', 'info');
+    }
+}
+
+//保存指定人员
+function saveAssign(){
+    $('#addAssign').form('submit', {
+        url: 'productTest/editProductTest',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var data = jQuery.parseJSON(result);
+            if (data.success) {
+                $('#assignDlg').dialog('close');
                 $('#productTest-dg').datagrid('reload');
             }else {
                 $.messager.alert('操作失败', data.message, 'error');

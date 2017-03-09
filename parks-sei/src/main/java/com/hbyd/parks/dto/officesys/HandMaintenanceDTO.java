@@ -42,6 +42,9 @@ public class HandMaintenanceDTO extends BaseDTO {
     private String materialsCost;        //材料费
     private String repairCost;           //维修成本(合计)
 
+    private String assignPersonId;      //指派处理人
+    private String assignPersonName;
+
     public String getProjectName() {
         return projectName;
     }
@@ -320,5 +323,21 @@ public class HandMaintenanceDTO extends BaseDTO {
 
     public void setRepairCost(String repairCost) {
         this.repairCost = repairCost;
+    }
+
+    public String getAssignPersonId() {
+        return assignPersonId;
+    }
+
+    public void setAssignPersonId(String assignPersonId) {
+        this.assignPersonId = assignPersonId;
+    }
+
+    public String getAssignPersonName() {
+        return assignPersonName;
+    }
+
+    public void setAssignPersonName(String assignPersonName) {
+        this.assignPersonName = assignPersonName;
     }
 }

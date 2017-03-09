@@ -26,6 +26,8 @@ public class SoftMaintenanceQuery extends QueryBeanEasyUI {
 
     private String handleResultQuery;           //处理结果
 
+    private String assignPersonQuery;           //指派处理人
+
     public String getProjectNameQuery() {
         return projectNameQuery;
     }
@@ -112,5 +114,13 @@ public class SoftMaintenanceQuery extends QueryBeanEasyUI {
 
     public void setRegDateEndQuery(String regDateEndQuery) {
         this.regDateEndQuery = regDateEndQuery;
+    }
+
+    public String getAssignPersonQuery() {
+        return assignPersonQuery;
+    }
+
+    public void setAssignPersonQuery(String assignPersonQuery) {
+        this.assignPersonQuery = assignPersonQuery;
     }
 }

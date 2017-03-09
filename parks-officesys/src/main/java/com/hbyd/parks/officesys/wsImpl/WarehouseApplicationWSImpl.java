@@ -62,7 +62,9 @@ public class WarehouseApplicationWSImpl extends BaseWSImpl<WarehouseApplicationD
         WarehouseApplication target = warehouseApplicationDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setRecordPerson(null);
+        if(!Strings.isNullOrEmpty(dto.getRecordPersonID())) {
+            target.setRecordPerson(null);
+        }
         dozerMapper.map(dto,target);
         warehouseApplicationDao.update(target);
     }

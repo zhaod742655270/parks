@@ -67,6 +67,11 @@ public class HandMaintenance extends RecoverableEntity {
     private String materialsCost;        //材料费
     private String repairCost;           //维修成本(合计)
 
+    @ManyToOne
+    @JoinColumn(name="assignPersonFK")
+    @NotAudited
+    private User assignPerson;      //指派处理人
+
     public String getProjectName() {
         return projectName;
     }
@@ -289,5 +294,13 @@ public class HandMaintenance extends RecoverableEntity {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public User getAssignPerson() {
+        return assignPerson;
+    }
+
+    public void setAssignPerson(User assignPerson) {
+        this.assignPerson = assignPerson;
     }
 }

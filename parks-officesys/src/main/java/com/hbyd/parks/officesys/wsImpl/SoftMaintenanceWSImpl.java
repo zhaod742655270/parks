@@ -36,7 +36,8 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
             criteria.add(like("productName","%" + query.getProductNameQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getRegPersonQuery())){
-            criteria.add(like("regPerson","%" + query.getRegPersonQuery() + "%"));
+            criteria.createAlias("regPerson","regPerson")
+                    .add(eq("regPerson.id",query.getRegPersonQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getNumberQuery())){
             criteria.add(like("number","%" + query.getNumberQuery() + "%"));
@@ -49,6 +50,10 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
         }
         if(!Strings.isNullOrEmpty(query.getIdQuery())){
             criteria.add(eq("id",query.getIdQuery()));
+        }
+        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery())){
+            criteria.createAlias("assignPerson","assignPerson")
+                    .add(eq("assignPerson.id",query.getAssignPersonQuery()));
         }
         PageBeanEasyUI pageBeanEasyUI = softMaintenanceDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());
@@ -70,9 +75,18 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
         SoftMaintenance target = softMaintenanceDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setRegPerson(null);
-        target.setContracts(null);
-        target.setResultPerson(null);
+        if(!Strings.isNullOrEmpty(dto.getRegPersonID())) {
+            target.setRegPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getContractsID())) {
+            target.setContracts(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getResultPersonID())) {
+            target.setResultPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getAssignPersonId())) {
+            target.setAssignPerson(null);
+        }
         dozerMapper.map(dto, target);
         softMaintenanceDao.update(target);
     }

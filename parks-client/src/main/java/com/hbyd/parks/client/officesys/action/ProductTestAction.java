@@ -15,15 +15,16 @@ import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.ProductTestQuery;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.ProductTestDTO;
+import com.hbyd.parks.ws.managesys.PriviledgeWS;
 import com.hbyd.parks.ws.managesys.UserWS;
 import com.hbyd.parks.ws.officesys.ProductTestWS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,16 +44,50 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
     @Resource
     private UserWS userWS;
 
+    @Resource
+    private PriviledgeWS priviledgeWS;
+
     private Gson gson = new Gson();
     private ProductTestDTO productTest = new ProductTestDTO();
     private ProductTestQuery query = new ProductTestQuery();
 
     public void productTestList(){
+        //获得当前登录的用户
+        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
+        //判断该用户是否有查询被指派记录的权限
+        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), "officesys/productTest/getProductTestListForAssign");
+        //判断该用户是否有查询所有记录的权限
+        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), "officesys/productTest/getProductTestList");
+        if(hasPriAll){
+            getProductTestList();
+        }else if(hasPriAssign){
+            getProductTestListForAssign(user.getId());
+        }else{
+            getProductTestListNull();
+        }
+    }
+
+    //查询所有数据
+    public void getProductTestList(){
         PageBeanEasyUI list = productTestWS.getPageBeanByQueryBean(query);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
         }
         String result = getGson().toJson(list);
+        JsonHelper.writeJson(result);
+    }
+
+    //查询被指派的数据
+    public void getProductTestListForAssign(String userId){
+        query.setAssignPersonQuery(userId);
+        getProductTestList();
+    }
+
+    //没有查询权限，返回空数据
+    public void getProductTestListNull(){
+        PageBeanEasyUI list = new PageBeanEasyUI();
+        list.setRows(new ArrayList());
+        String result = gson.toJson(list);
         JsonHelper.writeJson(result);
     }
 
@@ -144,10 +179,9 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
             Map<String,String> map = getDataMap(dto);
 
             String classPath = this.getClass().getClassLoader().getResource("").getFile();      //获得项目部署位置
-            //String file = "D:\\售后管理模板\\001-测试登记表.docx";
             String file = classPath + "accessory/售后管理模板/001-测试登记表.docx";          //模板文件地址
-            file = URLDecoder.decode(file,"utf-8");     //地址转为UTF-8以防止编码出错
-            String fileName = "workbook.docx";                                                   //生成文件名
+            String fileName = java.net.URLEncoder.encode(dto.getProductName(),"UTF-8");                  //生成文件名
+            fileName += ".docx";
             ExportWordHelper.writeWord(file,fileName,map);
         }catch(Exception e){
             message.setSuccess(false);

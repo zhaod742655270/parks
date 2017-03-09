@@ -37,7 +37,8 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
             criteria.add(like("productName",query.getProductNameQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getRegisterPersonQuery())){
-            criteria.add(like("registerPerson",query.getRegisterPersonQuery()));
+            criteria.createAlias("registerPerson","registerPerson")
+                    .add(eq("registerPerson.id",query.getRegisterPersonQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getTestPersonQuery())){
             criteria.add(like("testPerson",query.getTestPersonQuery()));
@@ -50,6 +51,10 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
         }
         if (!Strings.isNullOrEmpty(query.getRegDateEndQuery())) {
             criteria.add(le("registerDate", query.getRegDateEndQuery()));
+        }
+        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery())){
+            criteria.createAlias("assignPerson","assignPerson")
+                    .add(eq("assignPerson.id",query.getAssignPersonQuery()));
         }
         PageBeanEasyUI pageBeanEasyUI = productTestDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());
@@ -71,9 +76,15 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
         ProductTest target = productTestDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setRegisterPerson(null);
-        target.setApprovePerson(null);
-        target.setTestPerson(null);
+        if (!Strings.isNullOrEmpty(dto.getRegisterPersonID())) {
+            target.setRegisterPerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getApprovePersonID())) {
+            target.setApprovePerson(null);
+        }
+        if (!Strings.isNullOrEmpty(dto.getTestPersonID())) {
+            target.setTestPerson(null);
+        }
 
         dozerMapper.map(dto, target);
         productTestDao.update(target);

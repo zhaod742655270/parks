@@ -70,7 +70,7 @@
                     <td><label>项目名称</label><input class="text"  id="projectNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>产品名称</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>登记人</label><input class="text"  id="regPersonQuery"   style="width: 110px"/>&nbsp;</td>
+                    <td><label>登记人</label><input class="easyui-combobox"  id="regPersonQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登录日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="maintenanceQuery()"
@@ -249,6 +249,29 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveResult()">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#resultDlg').dialog('close')">取消</a>
+</div>
+
+<!--指定处理人界面-->
+<div id="assignDlg" class="easyui-dialog" style="padding: 10px" modal="true" closed="true" buttons="#assignDlg-button">
+    <form id="addAssign">
+        <table>
+            <tr>
+                <td style="height: 5px;"><input type="hidden" id="assignId" name="maintenance.id"/></td>
+            </tr>
+
+            <tr>
+                <td class="tdLeft"><label>指定处理人员：</label></td>
+                <td class="tdRight"><input id="assignPerson" class="easyui-combobox" name="maintenance.assignPersonId"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--指定处理人员界面按钮-->
+<div id="assignDlg-button">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveAssign()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+       onclick="javascript:$('#assignDlg').dialog('close')">取消</a>
 </div>
 
 <!--word文档模板选择-->

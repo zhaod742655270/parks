@@ -42,6 +42,10 @@ public class SoftMaintenance extends RecoverableEntity {
     @NotAudited
     private List<SoftMaintenanceHandle> softMaintenanceHandle;
 
+    @ManyToOne
+    @JoinColumn(name="assignPersonFK")
+    @NotAudited
+    private User assignPerson;      //指派处理人
 
     public String getProjectName() {
         return projectName;
@@ -145,5 +149,13 @@ public class SoftMaintenance extends RecoverableEntity {
 
     public void setContracts(User contracts) {
         this.contracts = contracts;
+    }
+
+    public User getAssignPerson() {
+        return assignPerson;
+    }
+
+    public void setAssignPerson(User assignPerson) {
+        this.assignPerson = assignPerson;
     }
 }

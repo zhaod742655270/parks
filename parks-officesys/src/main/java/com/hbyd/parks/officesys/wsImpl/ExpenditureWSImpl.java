@@ -61,8 +61,12 @@ public class ExpenditureWSImpl extends BaseWSImpl<ExpenditureDTO,Expenditure> im
         Expenditure target = expenditureDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setRecordPerson(null);
-        target.setProjectRecord(null);
+        if(!Strings.isNullOrEmpty(dto.getRecordPersonId())) {
+            target.setRecordPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getProjectRecordId())) {
+            target.setProjectRecord(null);
+        }
 
         dozerMapper.map(dto,target);
         expenditureDao.update(target);

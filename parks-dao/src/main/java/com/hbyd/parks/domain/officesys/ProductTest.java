@@ -50,6 +50,11 @@ public class ProductTest  extends RecoverableEntity{
     private String summany;             //总结
     private String note;                //备注
 
+    @ManyToOne
+    @JoinColumn(name="assignPersonFK")
+    @NotAudited
+    private User assignPerson;      //指派处理人
+
     public String getProductName() {
         return productName;
     }
@@ -232,5 +237,13 @@ public class ProductTest  extends RecoverableEntity{
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public User getAssignPerson() {
+        return assignPerson;
+    }
+
+    public void setAssignPerson(User assignPerson) {
+        this.assignPerson = assignPerson;
     }
 }

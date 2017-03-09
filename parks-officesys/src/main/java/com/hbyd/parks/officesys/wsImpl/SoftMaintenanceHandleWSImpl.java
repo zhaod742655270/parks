@@ -42,8 +42,7 @@ public class SoftMaintenanceHandleWSImpl extends BaseWSImpl<SoftMaintenanceHandl
             if (!Strings.isNullOrEmpty(query.getHandleResultQuery())) {
                 criteria.add(like("handleResult", "%" + query.getHandleResultQuery() + "%"));
             }
-            PageBeanEasyUI pageBeanEasyUI = null;
-            pageBeanEasyUI = softMaintenanceHandleDao.getPageBean(query, criteria);
+            PageBeanEasyUI pageBeanEasyUI = softMaintenanceHandleDao.getPageBean(query, criteria);
             List list = getDTOList(pageBeanEasyUI.getRows());
             pageBeanEasyUI.setRows(list);
             return pageBeanEasyUI;
@@ -63,7 +62,9 @@ public class SoftMaintenanceHandleWSImpl extends BaseWSImpl<SoftMaintenanceHandl
         SoftMaintenanceHandle target = softMaintenanceHandleDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setHandlePerson(null);
+        if(!Strings.isNullOrEmpty(dto.getHandlePersonID())) {
+            target.setHandlePerson(null);
+        }
         dozerMapper.map(dto, target);
         softMaintenanceHandleDao.update(target);
     }

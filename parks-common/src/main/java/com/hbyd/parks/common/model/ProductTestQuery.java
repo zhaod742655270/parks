@@ -11,6 +11,7 @@ public class ProductTestQuery extends QueryBeanEasyUI{
     private String numberQuery;             //编号
     private String regDateBegQuery;         //登记日期起
     private String regDateEndQuery;         //登记日期起
+    private String assignPersonQuery;       //指定处理人员
 
     public String getIdQuery() {
         return idQuery;
@@ -66,5 +67,13 @@ public class ProductTestQuery extends QueryBeanEasyUI{
 
     public void setRegDateEndQuery(String regDateEndQuery) {
         this.regDateEndQuery = regDateEndQuery;
+    }
+
+    public String getAssignPersonQuery() {
+        return assignPersonQuery;
+    }
+
+    public void setAssignPersonQuery(String assignPersonQuery) {
+        this.assignPersonQuery = assignPersonQuery;
     }
 }

@@ -12,7 +12,7 @@ $(function(){
         sortOrder:'desc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         singleSelect:true,
         pagination: true,
@@ -29,6 +29,7 @@ $(function(){
             {field:'hopeEndDate',title:'要求完成日期'},
             {field:'contractsName',title:'项目联系人'},
             {field:'phoneNo',title:'联系方式'},
+            {field:'assignPersonName',title:'指定处理人员'},
             {field:'faultDesc',title:'故障现象',width:80},
             {field:'result',title:'结论',width:80},
             {field:'resultPersonName',title:'总结人'},
@@ -100,6 +101,13 @@ $(function(){
         textField: 'text'
     });
 
+    //获取登录人选项列表
+    $('#regPersonQuery').combobox({
+        url: 'softMaintenance/getRegPerson',
+        valueField: 'id',
+        textField: 'text'
+    });
+
     //获取项目联系人列表
     $('#projectContracts').combotree({
         required:true,
@@ -123,6 +131,14 @@ $(function(){
         valueField:'id',
         textField:'text'
     });
+
+    //获取指定处理人员列表
+    $('#assignPerson').combotree({
+        required:true,
+        url: 'softMaintenance/getHandlePerson',
+        valueField: 'id',
+        textField: 'text'
+    });
 });
 
 //列表查询
@@ -131,7 +147,7 @@ function maintenanceQuery(){
         projectNameQuery:$('#projectNameQuery').val(),
         productNameQuery:$('#productNameQuery').val(),
         numberQuery:$('#numberQuery').val(),
-        regPersonQuery:$('#regPersonQuery').val(),
+        regPersonQuery:$('#regPersonQuery').combobox('getValue'),
         regDateBegQuery:$('#regDateBegQuery').datebox('getValue'),
         regDateEndQuery:$('#regDateEndQuery').datebox('getValue')
     };
@@ -346,6 +362,40 @@ function saveHandle(){
             if (data.success) {
                 $('#handleDlg').dialog('close');
                 $('#handle-dg').datagrid('reload');
+            }else {
+                $.messager.alert('操作失败', data.message, 'error');
+            }
+        }
+    });
+}
+
+//打开指定处理人员界面
+function addAssign(){
+    var row = $('#maintenance-dg').datagrid('getSelected');
+    if(row){
+        $('#addAssign').form('clear');
+        $('#assignId').val(row.id);
+        $('#assignPerson').combobox('setValue',row.assignPersonId);
+        $('#assignPerson').combobox('setText',row.assignPersonName);
+
+        $('#assignDlg').dialog('open').dialog('setTitle', '指定处理人员');
+    }else{
+        $.messager.alert('提示', '需要选择一条维修记录，才能指定处理人员。', 'info');
+    }
+}
+
+//保存指定人员
+function saveAssign(){
+    $('#addAssign').form('submit', {
+        url: 'softMaintenance/editMaintenance',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var data = jQuery.parseJSON(result);
+            if (data.success) {
+                $('#assignDlg').dialog('close');
+                $('#maintenance-dg').datagrid('reload');
             }else {
                 $.messager.alert('操作失败', data.message, 'error');
             }

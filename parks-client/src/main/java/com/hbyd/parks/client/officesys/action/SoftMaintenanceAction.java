@@ -16,16 +16,17 @@ import com.hbyd.parks.common.model.SoftMaintenanceQuery;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.SoftMaintenanceDTO;
 import com.hbyd.parks.dto.officesys.SoftMaintenanceHandleDTO;
+import com.hbyd.parks.ws.managesys.PriviledgeWS;
 import com.hbyd.parks.ws.managesys.UserWS;
 import com.hbyd.parks.ws.officesys.SoftMaintenanceHandleWS;
 import com.hbyd.parks.ws.officesys.SoftMaintenanceWS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,19 +50,53 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
     private String deptName;
 
     @Resource
-    UserWS userWS;
+    private UserWS userWS;
 
     @Resource
-    SoftMaintenanceWS softMaintenanceWS;
+    private SoftMaintenanceWS softMaintenanceWS;
 
     @Resource
-    SoftMaintenanceHandleWS softMaintenanceHandleWS;
+    private SoftMaintenanceHandleWS softMaintenanceHandleWS;
+
+    @Resource
+    private PriviledgeWS priviledgeWS;
 
     public void maintenanceList(){
+        //获得当前登录的用户
+        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
+        //判断该用户是否有查询被指派记录的权限
+        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), "officesys/softMaintenance/getMaintenanceListForAssign");
+        //判断该用户是否有查询所有记录的权限
+        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), "officesys/softMaintenance/getMaintenanceList");
+        if(hasPriAll){
+            getMaintenanceList();
+        }else if(hasPriAssign){
+            getMaintenanceListForAssign(user.getId());
+        }else{
+            getMaintenanceListNull();
+        }
+    }
+
+    //查询所有数据
+    public void getMaintenanceList(){
         PageBeanEasyUI list = softMaintenanceWS.getPageBeanByQueryBean(page);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
         }
+        String result = gson.toJson(list);
+        JsonHelper.writeJson(result);
+    }
+
+    //查询被指派的数据
+    public void getMaintenanceListForAssign(String userId){
+        page.setAssignPersonQuery(userId);
+        getMaintenanceList();
+    }
+
+    //没有查询权限，返回空数据
+    public void getMaintenanceListNull(){
+        PageBeanEasyUI list = new PageBeanEasyUI();
+        list.setRows(new ArrayList());
         String result = gson.toJson(list);
         JsonHelper.writeJson(result);
     }
@@ -172,15 +207,17 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
             page.setOrder("asc");
             PageBeanEasyUI pageBeanHandle = softMaintenanceHandleWS.getPageBeanByQueryBean(page,soft.getId());
             List<SoftMaintenanceHandleDTO> handles = pageBeanHandle.getRows();
+            if(handles == null){
+                handles = new ArrayList<>();
+            }
 
             //获得替换字段与替换数据对
             Map<String,String> map = getDataMap(soft,handles);
 
             String classPath = this.getClass().getClassLoader().getResource("").getFile();      //获得项目部署位置
             String file = classPath + "accessory/售后管理模板/003-售后维护跟踪单.docx";          //模板文件地址
-            file = URLDecoder.decode(file,"utf-8");     //地址转为UTF-8以防止编码出错
-            //String file = "D:\\售后管理模板\\003-售后维护跟踪单.docx";
-            String fileName = "workbook.docx";                                                  //生成文件名
+            String fileName = java.net.URLEncoder.encode(soft.getProjectName(),"UTF-8");                  //生成文件名
+            fileName += ".docx";
             ExportWordHelper.writeWord(file,fileName,map);
         }catch(Exception e){
             message.setSuccess(false);
@@ -205,7 +242,9 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
         map.put("projectContracts",soft.getContractsName());
         map.put("phoneNo",soft.getPhoneNo());
         map.put("faultDesc",soft.getFaultDesc());
-        map.put("result",soft.getResult());
+        map.put("resultPerson",soft.getResultPersonName());
+        map.put("resultDate",soft.getResultDate());
+        map.put("resultDesc",soft.getResult());
 
         int handleCount = handles.size();       //处理过程数量
         for(int i=0;i<5;i++){

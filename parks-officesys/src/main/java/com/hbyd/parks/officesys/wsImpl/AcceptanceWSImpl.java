@@ -124,9 +124,15 @@ public class AcceptanceWSImpl extends BaseWSImpl<AcceptanceDTO, Acceptance> impl
         Acceptance target = acceptanceDao.getById(dto.getId());
         ValHelper.notNull(target, "更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setPurchaser(null);
-        target.setProjectManager(null);
-        target.setContractGathering(null);
+        if(!Strings.isNullOrEmpty(dto.getPurchaserID())) {
+            target.setPurchaser(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getProjectManagerID())) {
+            target.setProjectManager(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getContractID())) {
+            target.setContractGathering(null);
+        }
         dozerMapper.map(dto, target);
         acceptanceDao.update(target);
 

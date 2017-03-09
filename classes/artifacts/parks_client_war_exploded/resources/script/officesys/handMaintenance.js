@@ -13,7 +13,7 @@ $(function(){
         sortOrder: 'desc',
         striped: true,
         rownumbers: true,
-        fitColumns: true,
+        fitColumns: false,
         fit: true,
         singleSelect: true,
         pagination: true,
@@ -29,6 +29,7 @@ $(function(){
             {field:'registerPersonName',title:'登记人'},
             {field:'registerDate',title:'登记日期'},
             {field:'hopeEndDate',title:'要求完成日期'},
+            {field:'assignPersonName',title:'指定处理人员'},
             {field:'approvePersonName',title:'批准人'},
             
             {field:'approveDate',title:'批准日期'},
@@ -79,6 +80,13 @@ $(function(){
         textField: 'text'
     });
 
+    //获取登录人选项列表
+    $('#registerPersonQuery').combobox({
+        url: 'handMaintenance/getRegPerson',
+        valueField: 'id',
+        textField: 'text'
+    });
+
     //获取批准人列表
     $('#approvePerson').combotree({
         required:true,
@@ -121,6 +129,14 @@ $(function(){
         valueField: 'id',
         textField: 'text'
     });
+
+    //获取指定处理人员列表
+    $('#assignPerson').combotree({
+        required:true,
+        url: 'handMaintenance/getHandlePerson',
+        valueField: 'id',
+        textField: 'text'
+    });
 });
 
 //列表查询
@@ -129,7 +145,7 @@ function maintenanceQuery(){
         projectNameQuery:$('#projectNameQuery').val(),
         productNameQuery:$('#productNameQuery').val(),
         numberQuery:$('#numberQuery').val(),
-        registerPersonQuery:$('#registerPersonQuery').val(),
+        registerPersonQuery:$('#registerPersonQuery').combobox('getValue'),
         regDateBegQuery:$('#regDateBegQuery').datebox('getValue'),
         regDateEndQuery:$('#regDateEndQuery').datebox('getValue')
     };
@@ -250,17 +266,17 @@ function begHandle(){
 
         $('#idHandle').val(row.id);
         $('#faultVerify').textbox('setValue',row.faultVerify);
-        $('#verifyPerson').combobox('setValue',row.verifyPersonID);
-        $('#verifyPerson').combobox('setText',row.verifyPersonName);
+        $('#verifyPerson').combobox('setValue', row.verifyPersonID);
+        $('#verifyPerson').combobox('setText', row.verifyPersonName);
         $('#techAnalysis').textbox('setValue',row.techAnalysis);
-        $('#analyPerson').combobox('setValue',row.analyPersonID);
-        $('#analyPerson').combobox('setText',row.analyPersonName);
+        $('#analyPerson').combobox('setValue', row.analyPersonID);
+        $('#analyPerson').combobox('setText', row.analyPersonName);
         $('#repairContent').textbox('setValue',row.repairContent);
-        $('#repairPerson').combobox('setValue',row.repairPersonID);
-        $('#repairPerson').combobox('setText',row.repairPersonName);
+        $('#repairPerson').combobox('setValue', row.repairPersonID);
+        $('#repairPerson').combobox('setText', row.repairPersonName);
         $('#repairResult').textbox('setValue',row.repairResult);
-        $('#testPerson').combobox('setValue',row.testPersonID);
-        $('#testPerson').combobox('setText',row.testPersonName);
+        $('#testPerson').combobox('setValue', row.testPersonID);
+        $('#testPerson').combobox('setText', row.testPersonName);
         $('#checkCost').textbox('setValue',row.checkCost);
         $('#manhourCost').textbox('setValue',row.manhourCost);
         $('#materialsCost').textbox('setValue',row.materialsCost);
@@ -336,6 +352,40 @@ function saveApprove(){
             var data = jQuery.parseJSON(result);
             if (data.success) {
                 $('#approveDlg').dialog('close');
+                $('#maintenance-dg').datagrid('reload');
+            }else {
+                $.messager.alert('操作失败', data.message, 'error');
+            }
+        }
+    });
+}
+
+//打开指定处理人员界面
+function addAssign(){
+    var row = $('#maintenance-dg').datagrid('getSelected');
+    if(row){
+        $('#addAssign').form('clear');
+        $('#assignId').val(row.id);
+        $('#assignPerson').combobox('setValue',row.assignPersonId);
+        $('#assignPerson').combobox('setText',row.assignPersonName);
+
+        $('#assignDlg').dialog('open').dialog('setTitle', '指定处理人员');
+    }else{
+        $.messager.alert('提示', '需要选择一条维修记录，才能指定处理人员。', 'info');
+    }
+}
+
+//保存指定人员
+function saveAssign(){
+    $('#addAssign').form('submit', {
+        url: 'handMaintenance/editMaintenance',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var data = jQuery.parseJSON(result);
+            if (data.success) {
+                $('#assignDlg').dialog('close');
                 $('#maintenance-dg').datagrid('reload');
             }else {
                 $.messager.alert('操作失败', data.message, 'error');

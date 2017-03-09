@@ -64,8 +64,12 @@ public class WarehouseBorrowWSImpl extends BaseWSImpl<WarehouseBorrowDTO,Warehou
         WarehouseBorrow target = warehouseBorrowDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错
-        target.setBorrowPerson(null);
-        target.setWarehouseProduct(null);
+        if(!Strings.isNullOrEmpty(dto.getBorrowPersonId())) {
+            target.setBorrowPerson(null);
+        }
+        if(!Strings.isNullOrEmpty(dto.getProductId())) {
+            target.setWarehouseProduct(null);
+        }
         dozerMapper.map(dto,target);
         warehouseBorrowDao.update(target);
     }
