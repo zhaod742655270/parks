@@ -58,7 +58,6 @@
 <div id="maintenance-toolbar">
     <div id="maintenance-btn" style="height: 30px">
         <td>
-            <a href="javascript:void(0);" onclick="window.print()">打印</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" plain="true"
                onclick="$('#maintenance-dg').datagrid('reload')" iconcls="icon-reload">刷新</a>
         </td>
