@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,6 +217,7 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
 
             String classPath = this.getClass().getClassLoader().getResource("").getFile();      //获得项目部署位置
             String file = classPath + "accessory/售后管理模板/003-售后维护跟踪单.docx";          //模板文件地址
+            file = URLDecoder.decode(file,"utf-8");
             String fileName = java.net.URLEncoder.encode(soft.getProjectName(),"UTF-8");                  //生成文件名
             fileName += ".docx";
             ExportWordHelper.writeWord(file,fileName,map);
