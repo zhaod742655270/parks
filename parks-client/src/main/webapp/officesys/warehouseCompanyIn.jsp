@@ -63,7 +63,6 @@
             <table>
                 <tr>
                     <td><label>名称</label> &nbsp;<input id="nameQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>类型</label> &nbsp;<input id="typeQuery" class="easyui-combobox" style="width: 110px"/>&nbsp;</td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="companyQuery()"
                                  iconcls="icon-search" plain="false">查询</a></td>
                 </tr>
@@ -94,20 +93,17 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>类别：</label></td>
-                <td class="tdRight"><input id="type" class="easyui-combobox" name="warehouseCompany.type"></td>
-
                 <td class="tdLeft"><label>邮编：</label></td>
                 <td class="tdRight"><input id="postcode" name="warehouseCompany.postcode"></td>
 
                 <td class="tdLeft"><label>传真：</label></td>
                 <td class="tdRight"><input id="fax" name="warehouseCompany.fax"></td>
+
+                <td class="tdLeft"><label>税号：</label></td>
+                <td class="tdRight"><input id="taxSign" name="warehouseCompany.taxSign"></td>
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>税号：</label></td>
-                <td class="tdRight"><input id="taxSign" name="warehouseCompany.taxSign"></td>
-
                 <td class="tdLeft"><label>开户行：</label></td>
                 <td class="tdRight"><input id="bank" name="warehouseCompany.bank"></td>
 

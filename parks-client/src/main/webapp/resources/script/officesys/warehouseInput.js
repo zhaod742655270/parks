@@ -59,7 +59,7 @@ $(function(){
         sortOrder:'asc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         singleSelect:true,
         pagination: true,
@@ -169,6 +169,12 @@ $(function(){
     });
 
     $('#inputType').combobox({
+        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        valueField: 'id',
+        textField: 'text'
+    });
+
+    $('#inputTypeQuery').combobox({
         data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
         valueField: 'id',
         textField: 'text'

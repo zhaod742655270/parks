@@ -1,5 +1,6 @@
 package com.hbyd.parks.officesys.wsImpl;
 
+import com.google.common.base.Strings;
 import com.hbyd.parks.common.base.BaseWSImpl;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.WarehouseOutputQuery;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.like;
 
 /**
  * Created by Zhao_d on 2017/2/20.
@@ -27,6 +29,19 @@ public class WarehouseOutputProWSImpl extends BaseWSImpl<WarehouseOutputProDTO,W
         DetachedCriteria criteria = DetachedCriteria.forClass(WarehouseOutputPro.class);
         criteria.add(eq("isValid",true));
         criteria.add(eq("warehouseOutput.id",parentId));
+
+        if(!Strings.isNullOrEmpty(query.getNameQuery())){
+            criteria.createAlias("warehouseProduct","product")
+                    .add(like("product.name","%" + query.getNameQuery() + "%"));
+        }
+        if(!Strings.isNullOrEmpty(query.getModelNumberQuery())){
+            criteria.createAlias("warehouseProduct","product")
+                    .add(like("product.modelNumber","%" + query.getModelNumberQuery() + "%"));
+        }
+        if(!Strings.isNullOrEmpty(query.getSpecificationsQuery())){
+            criteria.createAlias("warehouseProduct","product")
+                    .add(like("product.specifications","%" + query.getSpecificationsQuery() + "%"));
+        }
 
         PageBeanEasyUI pageBeanEasyUI = warehouseOutputProDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());

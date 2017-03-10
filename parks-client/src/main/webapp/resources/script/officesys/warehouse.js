@@ -31,7 +31,12 @@ $(function () {
             {field:'quantityBorrow',title:'借用数量'},
             {field:'quantity',title:'库存总量'}
         ]]
-    })
+    });
+    $('#typeQuery').combobox({
+        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        valueField: 'id',
+        textField: 'text'
+    });
 });
 
 /**
@@ -43,7 +48,7 @@ function warehouseQuery(){
         typeQuery:$('#typeQuery').combobox('getValue'),
         brandQuery:$('#brandQuery').val()
     };
-    $('#company-dg').datagrid({
+    $('#warehouse-dg').datagrid({
         queryParams:query
     });
 }

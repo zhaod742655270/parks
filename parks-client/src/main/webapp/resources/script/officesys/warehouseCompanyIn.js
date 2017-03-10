@@ -25,7 +25,6 @@ $(function(){
             {field:'contact',title:'联系人'},
             {field:'phone',title:'电话'},
             {field:'address',title:'地址',width:100},
-            {field:'type',title:'类别'},
             {field:'postcode',title:'邮编'},
             {field:'fax',title:'传真'},
             {field:'taxSign',title:'税号'},
@@ -44,8 +43,7 @@ $(function(){
  */
 function companyQuery(){
     var query = {
-        nameQuery:$('#nameQuery').val(),
-        typeQuery:$('#typeQuery').combobox('getValue')
+        nameQuery:$('#nameQuery').val()
     };
     $('#company-dg').datagrid({
         queryParams:query
@@ -76,8 +74,6 @@ function editCompany(){
         $('#name').val(row.name);
         $('#contact').val(row.contact);
         $('#phone').val(row.phone);
-        $('#type').combobox('setValue',row.type);
-        $('#type').combobox('setText',row.type);
         $('#postcode').val(row.postcode);
         $('#fax').val(row.fax);
         $('#taxSign').val(row.taxSign);

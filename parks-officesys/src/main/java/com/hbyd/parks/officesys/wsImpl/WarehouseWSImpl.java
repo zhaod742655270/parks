@@ -30,16 +30,20 @@ public class WarehouseWSImpl extends BaseWSImpl<WarehouseDTO,Warehouse> implemen
         criteria.add(eq("isValid",true));
 
         if(!Strings.isNullOrEmpty(query.getProductIdQuery())){
-            criteria.add(eq("warehouseProduct.id",query.getProductIdQuery()));
+            criteria.createAlias("warehouseProduct","warehouseProduct")
+                    .add(eq("warehouseProduct.id",query.getProductIdQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getNameQuery())){
-            criteria.add(like("warehouseProduct.name","%" + query.getNameQuery() + "%"));
+            criteria.createAlias("warehouseProduct","warehouseProduct")
+                    .add(like("warehouseProduct.name","%" + query.getNameQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getTypeQuery())){
-            criteria.add(like("warehouseProduct.type","%" + query.getTypeQuery() + "%"));
+            criteria.createAlias("warehouseProduct","warehouseProduct")
+                    .add(eq("warehouseProduct.productType",query.getTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getBrandQuery())){
-            criteria.add(eq("warehouseProduct.brand",query.getBrandQuery()));
+            criteria.createAlias("warehouseProduct","warehouseProduct")
+                    .add(eq("warehouseProduct.brand",query.getBrandQuery()));
         }
 
         PageBeanEasyUI pageBeanEasyUI = warehouseDao.getPageBean(query,criteria);

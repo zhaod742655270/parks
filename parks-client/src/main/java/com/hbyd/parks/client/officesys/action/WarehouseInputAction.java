@@ -311,6 +311,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         applyQuery.setSort("name");
         applyQuery.setOrder("asc");
         applyQuery.setRows(10000);
+        applyQuery.setTypeQuery("入库");
         List<WarehouseApplicationDTO> lists = warehouseApplicationWS.getPageBeanByQueryBean(applyQuery).getRows();
         if(lists==null){
             lists=new ArrayList<>();

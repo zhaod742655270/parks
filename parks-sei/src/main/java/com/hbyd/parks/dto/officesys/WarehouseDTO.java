@@ -8,6 +8,7 @@ import com.hbyd.parks.common.base.BaseDTO;
 public class WarehouseDTO extends BaseDTO {
 
     private String productId;           //货品ID
+    private String type;            //货品类型
     private String name;         //货品名称
     private String modelNumber;   //货品型号
     private String specifications;   //货品封装
@@ -96,5 +97,13 @@ public class WarehouseDTO extends BaseDTO {
 
     public void setNewCost(Double newCost) {
         this.newCost = newCost;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

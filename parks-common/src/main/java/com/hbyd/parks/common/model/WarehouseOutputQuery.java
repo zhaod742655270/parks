@@ -9,6 +9,10 @@ public class WarehouseOutputQuery extends QueryBeanEasyUI {
     private String outputDateBegQuery;
     private String outputDateEndQuery;
 
+    private String nameQuery;
+    private String modelNumberQuery;
+    private String specificationsQuery;
+
     public String getNumberQuery() {
         return numberQuery;
     }
@@ -39,5 +43,29 @@ public class WarehouseOutputQuery extends QueryBeanEasyUI {
 
     public void setOutputDateEndQuery(String outputDateEndQuery) {
         this.outputDateEndQuery = outputDateEndQuery;
+    }
+
+    public String getNameQuery() {
+        return nameQuery;
+    }
+
+    public void setNameQuery(String nameQuery) {
+        this.nameQuery = nameQuery;
+    }
+
+    public String getModelNumberQuery() {
+        return modelNumberQuery;
+    }
+
+    public void setModelNumberQuery(String modelNumberQuery) {
+        this.modelNumberQuery = modelNumberQuery;
+    }
+
+    public String getSpecificationsQuery() {
+        return specificationsQuery;
+    }
+
+    public void setSpecificationsQuery(String specificationsQuery) {
+        this.specificationsQuery = specificationsQuery;
     }
 }

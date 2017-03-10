@@ -49,7 +49,7 @@
             <form id="query-form">
                 <table>
                     <tr>
-                        <td><label>货品名</label> &nbsp;<input id="nameQuery"   style="width: 110px"/>&nbsp;</td>
+                        <td><label>名称</label> &nbsp;<input id="nameQuery"   style="width: 110px"/>&nbsp;</td>
                         <td><label>类型</label> &nbsp;<input id="typeQuery" class="easyui-combobox" style="width: 110px"/>&nbsp;</td>
                         <td><label>品牌</label> &nbsp;<input id="brandQuery"  style="width: 110px"/>&nbsp;</td>
                         <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="warehouseQuery()"
