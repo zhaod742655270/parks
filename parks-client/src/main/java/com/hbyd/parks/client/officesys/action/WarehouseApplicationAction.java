@@ -133,6 +133,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         applyDTO = warehouseApplicationWS.save(applyDTO);
 
         //读取数据
+        int SN = 1;
         for(int index=firstRowIndex+2;index<lastRowIndex;index++) {
             WarehouseApplicationProDTO product = new WarehouseApplicationProDTO();
             XSSFRow row = readsheet.getRow(index);          // 获取当前行
@@ -141,6 +142,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             if(row.getCell(1).getStringCellValue().equals("")){
                 continue;
             }
+            product.setSND(String.valueOf(SN));
             product.setParentIdFK(applyDTO.getId());
             product.setProductName(row.getCell(1).getStringCellValue());
             product.setProductModelNumber(row.getCell(2).getStringCellValue());
@@ -151,13 +153,16 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             row.getCell(8).setCellType(CellType.STRING);
             if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
                 product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
+                product.setQuantityInput(Double.valueOf(row.getCell(8).getStringCellValue()));
             }else{
                 product.setQuantity(0d);
+                product.setQuantityInput(0d);
             }
             product.setNote(row.getCell(10).getStringCellValue());
             product.setQuantityInput(product.getQuantity());
 
             warehouseApplicationProWS.save(product);
+            SN ++;
         }
     }
 
@@ -183,6 +188,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         applyDTO = warehouseApplicationWS.save(applyDTO);
 
         //读取数据
+        int SN = 1;
         for(int index=firstRowIndex+2;index<lastRowIndex;index++) {
             WarehouseApplicationProDTO product = new WarehouseApplicationProDTO();
             HSSFRow row = readsheet.getRow(index);          // 获取当前行
@@ -191,6 +197,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             if(row.getCell(1).getStringCellValue().equals("")){
                 continue;
             }
+            product.setSND(String.valueOf(SN));
             product.setParentIdFK(applyDTO.getId());
             product.setProductName(row.getCell(1).getStringCellValue());
             product.setProductModelNumber(row.getCell(2).getStringCellValue());
@@ -201,13 +208,15 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             row.getCell(8).setCellType(CellType.STRING);
             if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
                 product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
+                product.setQuantityInput(Double.valueOf(row.getCell(8).getStringCellValue()));
             }else{
                 product.setQuantity(0d);
+                product.setQuantityInput(0d);
             }
             product.setNote(row.getCell(10).getStringCellValue());
-            product.setQuantityInput(product.getQuantity());
 
             warehouseApplicationProWS.save(product);
+            SN ++;
         }
     }
 

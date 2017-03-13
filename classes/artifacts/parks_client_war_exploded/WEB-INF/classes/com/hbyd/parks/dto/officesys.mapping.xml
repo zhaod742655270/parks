@@ -555,6 +555,10 @@
             <b>name</b>
         </field>
         <field>
+            <a>warehouseProduct.productType</a>
+            <b>type</b>
+        </field>
+        <field>
             <a>warehouseProduct.modelNumber</a>
             <b>modelNumber</b>
         </field>

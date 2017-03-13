@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.hbyd.parks.client.util.ComboHelper;
+import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.model.*;
@@ -231,8 +232,8 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
             WarehouseOutputProDTO dto = new WarehouseOutputProDTO();
             dto.setParentIdFK(warehouseOutput.getId());
             dto.setProductId(productId);
-            if(map.get("quantityOutput") != null && !Strings.isNullOrEmpty(map.get("quantityOutput").toString())) {
-                dto.setQuantity(Double.valueOf(map.get("quantityOutput").toString()));
+            if(map.get("quantityInput") != null && !Strings.isNullOrEmpty(map.get("quantityInput").toString())) {
+                dto.setQuantity(Double.valueOf(map.get("quantityInput").toString()));
             }else{
                 dto.setQuantity(Double.valueOf(0));
             }
@@ -248,7 +249,7 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
     }
 
     public void getUserList(){
-        List<UserDTO> lists = userWS.getUserByDeptName("采购部");
+        List<UserDTO> lists = userWS.findAllValid();
         if(lists==null){
             lists=new ArrayList<>();
         }
@@ -352,6 +353,26 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         String number = warehouseOutputWS.getNewNumber(query);
         if(number.length() == 10){
             JsonHelper.writeJson(number);
+        }
+    }
+
+    public void exportExcel() throws Exception {
+        AjaxMessage message = new AjaxMessage();
+        try {
+            query.setSort("number");
+            query.setOrder("desc");
+            query.setRows(10000);
+            PageBeanEasyUI pageBean = warehouseOutputProWS.getPageBeanByQueryBean(query,id);
+            ExportExcelHelper.exportWarehouseOutput(pageBean.getRows());
+        }catch(Exception e) {
+            message.setSuccess(false);
+            message.setMessage(e.getMessage());
+        }finally{
+            //由于导出文件时Response存在冲突，因此只在导出失败时返回信息
+            if(!message.getSuccess()) {
+                String result = gson.toJson(message);
+                JsonHelper.writeJson(result);
+            }
         }
     }
 

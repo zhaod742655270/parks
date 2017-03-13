@@ -33,8 +33,6 @@ $(function(){
             {field:'companyDesc',title:'描述',width:120}
         ]]
     });
-
-    
 });
 
 

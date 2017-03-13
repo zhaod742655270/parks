@@ -12,7 +12,7 @@ $(function(){
         sortOrder:'desc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         url:'warehouseBorrow/warehouseBorrowList',
         singleSelect:true,
@@ -239,6 +239,32 @@ function onSelectProduct(record){
             $('#productUnit').val(data.unit);
         });
     }
+}
+
+function exportExcel(){
+    $.messager.confirm('确认','是否将列表导出为Excel文件',function(r){
+        if(r)
+        {
+            $('#query-form').form({
+                queryParams:{
+                    borrowPersonQuery:$('#borrowPersonQuery').combobox('getValue'),
+                    stateQuery:$('#stateQuery').combobox('getValue'),
+                    borrowDateBegQuery:$('#borrowDateBegQuery').datebox('getValue'),
+                    borrowDateEndQuery:$('#borrowDateEndQuery').datebox('getValue')
+                }
+            });
+            $('#query-form').form('submit',{
+                url:"warehouseBorrow/exportExcel",
+                method:"post",
+                success:function(data){
+                    var result = jQuery.parseJSON(data);
+                    if(!result.success){
+                        $.message.alert("Excel导出失败",result.message,'error');
+                    }
+                }
+            });
+        }
+    });
 }
 
 

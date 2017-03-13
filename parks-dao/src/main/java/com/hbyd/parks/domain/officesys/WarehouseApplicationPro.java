@@ -21,6 +21,7 @@ public class WarehouseApplicationPro extends RecoverableEntity {
     @NotAudited
     private WarehouseApplication warehouseApplication;          //申请单
 
+    private String SND;              //序号
     private String productName;         //货品名称
     private String productModelNumber;   //货品型号
     private String productSpecifications;   //货品封装
@@ -109,5 +110,13 @@ public class WarehouseApplicationPro extends RecoverableEntity {
 
     public void setQuantityInput(Double quantityInput) {
         this.quantityInput = quantityInput;
+    }
+
+    public String getSND() {
+        return SND;
+    }
+
+    public void setSND(String SND) {
+        this.SND = SND;
     }
 }

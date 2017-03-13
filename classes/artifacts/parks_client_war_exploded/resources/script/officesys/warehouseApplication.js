@@ -12,7 +12,7 @@ $(function() {
         sortOrder: 'desc',
         striped: true,
         rownumbers: true,
-        fitColumns: true,
+        fitColumns: false,
         fit: true,
         singleSelect: true,
         pagination: true,
@@ -44,11 +44,11 @@ $(function() {
         toolbar: '#product-toolbar',
         method: 'post',
         nowrap: true,
-        sortName: 'id',
+        sortName: 'SND',
         sortOrder: 'asc',
         striped: true,
         rownumbers: true,
-        fitColumns: true,
+        fitColumns: false,
         fit: true,
         singleSelect: true,
         pagination: true,
@@ -56,6 +56,7 @@ $(function() {
         frozenColumns: [[
             {field: 'id', title: 'ID', align: 'left', hidden: true},
             {field: 'parentIdFK', hidden: true},
+            {field:'SND',title:'序号'},
             {field: 'productName', title: '名称'}
         ]],
         columns: [[
@@ -64,19 +65,20 @@ $(function() {
             {field: 'productNum', title: '生产任务单号', width: 100},
             {field:'productBrand',title:'品牌'},
             {field: 'quantity', title: '数量'},
+            {field:'quantityInput',title:'出入库数量'},
             {field: 'productUnit', title: '单位'},
             {field: 'note', title: '备注', width: 100}
         ]]
     });
 
     $('#type').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "入库", "text": "入库"}, {"id": "出库", "text": "出库"}],
         valueField: 'id',
         textField: 'text'
     });
 
     $('#typeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "入库", "text": "入库"}, {"id": "出库", "text": "出库"}],
         valueField: 'id',
         textField: 'text'
     });
@@ -185,14 +187,6 @@ function openProduct(){
  * 打开导入文件界面
  */
 function openImportDlg(){
-    $('#importExcel-dlg').dialog('open').dialog('setTitle', '表格导入');
-    $('#file').filebox('setValue', '');
-}
-
-/**
- * 导入文件
- */
-function importExcel(){
     //录入人与录入日期
     var today = new Date();
     $('#recordDate').val(today.toLocaleDateString());
@@ -203,11 +197,18 @@ function importExcel(){
         dataType: 'json',
         success: function (result) {
             if (result) {
-                $('#recordPerson').val(result.userId);        
+                $('#recordPerson').val(result.id);
             }
         }
     });
-    
+    $('#importExcel-dlg').dialog('open').dialog('setTitle', '表格导入');
+    $('#file').filebox('setValue', '');
+}
+
+/**
+ * 导入文件
+ */
+function importExcel(){
     //得到上传文件的全路径
     var fileName = $('#file').filebox('getValue');
 

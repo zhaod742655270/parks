@@ -7,6 +7,7 @@ import com.hbyd.parks.common.base.BaseDTO;
  */
 public class WarehouseApplicationProDTO extends BaseDTO {
     private String parentIdFK;          //申请单ID
+    private String SND;                  //序号
     private String productName;         //货品名称
     private String productModelNumber;   //货品型号
     private String productSpecifications;   //货品封装
@@ -95,5 +96,13 @@ public class WarehouseApplicationProDTO extends BaseDTO {
 
     public void setQuantityInput(Double quantityInput) {
         this.quantityInput = quantityInput;
+    }
+
+    public String getSND() {
+        return SND;
+    }
+
+    public void setSND(String SND) {
+        this.SND = SND;
     }
 }

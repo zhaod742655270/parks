@@ -374,6 +374,9 @@
 
         <action name="getNewNumber" class="warehouseInputAction" method="getNewNumber">
         </action>
+
+        <action name="exportExcel" class="warehouseInputAction" method="exportExcel">
+        </action>
     </package>
 
     <!--warehouseOutput-->
@@ -415,6 +418,9 @@
         </action>
 
         <action name="getNewNumber" class="warehouseOutputAction" method="getNewNumber">
+        </action>
+
+        <action name="exportExcel" class="warehouseOutputAction" method="exportExcel">
         </action>
     </package>
 
@@ -514,6 +520,9 @@
         </action>
 
         <action name="backProduct" class="warehouseBorrowAction" method="backProduct">
+        </action>
+
+        <action name="exportExcel" class="warehouseBorrowAction" method="exportExcel">
         </action>
     </package>
 </struts>

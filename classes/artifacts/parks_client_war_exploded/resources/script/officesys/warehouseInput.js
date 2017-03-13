@@ -12,7 +12,7 @@ $(function(){
         sortOrder:'desc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         singleSelect:true,
         pagination: true,
@@ -59,7 +59,7 @@ $(function(){
         sortOrder:'asc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         singleSelect:true,
         pagination: true,
@@ -85,11 +85,6 @@ $(function(){
                     type:'numberbox',
                     options:{precision:2}
                 },width:60},
-            {field:'valence',title:'合价',
-                editor :{
-                    type:'numberbox',
-                    options:{precision:2}
-                },width:60},
             {field:'note',title:'备注',editor : 'textbox',width:100}
         ]],
         onClickRow: onClickRow
@@ -103,7 +98,7 @@ $(function(){
         sortOrder:'asc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         fit:true,
         singleSelect:false,
         pagination: true,
@@ -130,7 +125,7 @@ $(function(){
         sortOrder:'asc',
         striped:true,
         rownumbers:true,
-        fitColumns:true,
+        fitColumns:false,
         pagination:false,
         fit:true,
         selectOnCheck:true,
@@ -144,24 +139,24 @@ $(function(){
             {field: 'productName', title: '名称'}
         ]],
         columns: [[
-            {field: 'productModelNumber', title: '型号'},
-            {field: 'productSpecifications', title: '封装'},
-            {field: 'productNum', title: '生产任务单号', width: 100},
-            {field:'productBrand',title:'品牌'},
             {field: 'quantity', title: '申请数量'},
-            {field: 'quantityInput', title: '入库数量',
+            {field: 'quantityInput', title: '入库数量',width: 100,
                 editor :{
                     type:'numberbox',
                     options:{precision:2}
                 }
             },
             {field: 'productUnit', title: '单位'},
-            {field: 'price', title: '单价',
+            {field: 'price', title: '单价',width: 100,
                 editor :{
                     type:'numberbox',
                     options:{precision:2}
                 }},
-            {field: 'note', title: '备注', 
+            {field: 'productModelNumber', title: '型号', width: 100},
+            {field: 'productSpecifications', title: '封装', width: 100},
+            {field:'productBrand',title:'品牌', width: 100},
+            {field: 'productNum', title: '生产任务单号', width: 120},
+            {field: 'note', title: '备注', width: 100,
                 editor :{
                     type:'textbox'
                 }}
@@ -169,6 +164,12 @@ $(function(){
     });
 
     $('#inputType').combobox({
+        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        valueField: 'id',
+        textField: 'text'
+    });
+
+    $('#inputTypeQuery').combobox({
         data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
         valueField: 'id',
         textField: 'text'
@@ -292,7 +293,7 @@ function addWarehouseInput(){
         dataType: 'json',
         success: function (result) {
             if (result) {
-                $('#recordPerson').combobox('setValue',result.userId);        //登录人
+                $('#recordPerson').combobox('setValue',result.id);        //登录人
                 $('#recordPerson').combobox('setText',result.userName);
             }
         }
@@ -358,7 +359,7 @@ function saveWarehouseInput(){
             var index = $('#application-dg').datagrid('getRowIndex',selectRows[i]);
             $('#application-dg').datagrid('endEdit',index);
         }
-        var changeRows = $('#application-dg').datagrid('getChanges');
+        var changeRows = $('#application-dg').datagrid('getSelections');
         jsonAllRows = JSON.stringify(changeRows);
         $('#jsonAllRows').val(jsonAllRows);
     }
@@ -546,7 +547,7 @@ function addApprove(){
                 dataType: 'json',
                 success: function (result) {
                     if (result) {
-                        $('#examinePerson').combobox('setValue',result.userId);
+                        $('#examinePerson').combobox('setValue',result.id);
                         $('#examinePerson').combobox('setText',result.userName);
                     }
                 }
@@ -579,6 +580,32 @@ function saveApprove(){
             }else{
                 $.messager.alert('操作失败', data.message, 'error');
             }
+        }
+    });
+}
+
+function exportExcel(){
+    $.messager.confirm('确认','是否将列表导出为Excel文件',function(r){
+        if(r)
+        {
+            $('#query-form').form({
+                queryParams:{
+                    numberQuery:$('#numberQuery').val(),
+                    inputTypeQuery:$('#inputTypeQuery').combobox('getValue'),
+                    inputDateBegQuery:$('#inputDateBegQuery').datebox('getValue'),
+                    inputDateEndQuery:$('#inputDateEndQuery').datebox('getValue')
+                }
+            });
+            $('#query-form').form('submit',{
+                url:"warehouseInput/exportExcel",
+                method:"post",
+                success:function(data){
+                    var result = jQuery.parseJSON(data);
+                    if(!result.success){
+                        $.message.alert("Excel导出失败",result.message,'error');
+                    }
+                }
+            });
         }
     });
 }

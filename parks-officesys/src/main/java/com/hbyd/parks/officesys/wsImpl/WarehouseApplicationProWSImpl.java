@@ -27,6 +27,8 @@ public class WarehouseApplicationProWSImpl extends BaseWSImpl<WarehouseApplicati
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseApplicationQuery query, String parentId){
         DetachedCriteria criteria = DetachedCriteria.forClass(WarehouseApplicationPro.class);
         criteria.add(eq("isValid",true));
+        criteria.createAlias("warehouseApplication","warehouseApplication")
+                .add(eq("warehouseApplication.id",parentId));
 
         PageBeanEasyUI pageBeanEasyUI = warehouseApplicationProDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());

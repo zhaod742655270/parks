@@ -67,7 +67,7 @@
                     <tr>
                         <td><label>借用人</label><input id="borrowPersonQuery" class="easyui-combobox" style="width: 110px"></td>
                         <td><label>状态</label><input id="stateQuery" class="easyui-combobox" style="width: 110px;"></td>
-                        <td colspan="2"><label>入库日期</label><input class="easyui-datebox"  id="borrowDateBegQuery"   style="width: 110px"/>
+                        <td colspan="2"><label>借用日期</label><input class="easyui-datebox"  id="borrowDateBegQuery"   style="width: 110px"/>
                             <label>至</label> <input class="easyui-datebox"  id="borrowDateEndQuery"   style="width: 110px"/></td>
                         <td rowspan="2">&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="warehouseBorrowQuery()"
                                                  iconcls="icon-search" plain="false">查询</a></td>

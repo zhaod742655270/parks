@@ -1111,6 +1111,271 @@ public class ExportExcelHelper {
         fileOut.close();
         wb.close();
     }
+
+
+    /**
+     * 导出入库单列表信息
+     * @param list 导出数据
+     * @throws IOException
+     */
+    public static void exportWarehouseInput(List<WarehouseInputDTO> list) throws IOException {
+        HttpServletResponse resp = ServletActionContext.getResponse();
+        //创建Excel对象
+        Workbook wb = new HSSFWorkbook();  // or new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("入库单列表");
+
+        //表格样式
+        CellStyle commonStyle = wb.createCellStyle();               //数据样式
+        CellStyle commonStyleHander = wb.createCellStyle();         //表头样式
+        commonStyle.setAlignment(HorizontalAlignment.CENTER);
+        commonStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        //设置边框
+        commonStyle.setBorderBottom(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderTop(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderLeft(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderRight(BorderStyle.valueOf((short) 1));
+        //设置字体
+        Font fontHander = wb.createFont();          //表头字体
+        Font font = wb.createFont();                //数据字体
+        fontHander.setFontHeightInPoints((short) 10);//设置字体大小
+        fontHander.setBold(true);       //设置加粗
+        font.setFontHeightInPoints((short) 10);//设置字体大小
+
+        commonStyle.setFont(font);
+        commonStyleHander.cloneStyleFrom(commonStyle);
+        commonStyleHander.setFont(fontHander);
+
+        //空一行
+        sheet.createRow(0);
+
+        //设置表头
+        Row handerRow = sheet.createRow(1);
+        handerRow.setHeight((short)(1.4f*256));
+        createCell(handerRow,1,"编号",commonStyleHander);
+        createCell(handerRow,2,"入库单号",commonStyleHander);
+        createCell(handerRow,3,"入库类型",commonStyleHander);
+        createCell(handerRow,4,"入库日期",commonStyleHander);
+        createCell(handerRow,5,"仓库",commonStyleHander);
+        createCell(handerRow,6,"申请单名称",commonStyleHander);
+        createCell(handerRow,7,"录入人",commonStyleHander);
+        createCell(handerRow,8,"录入日期",commonStyleHander);
+        createCell(handerRow,9,"供应方",commonStyleHander);
+        createCell(handerRow,10,"备注",commonStyleHander);
+
+        //填充数据
+        if(list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Row row = sheet.createRow(i + 2);
+                row.setHeight((short)(1.4f*256));
+                WarehouseInputDTO warehouse = list.get(i);
+                createCell(row, 1, String.valueOf(i+1), commonStyle);
+                createCell(row, 2, warehouse.getNumber(), commonStyle);
+                createCell(row, 3, warehouse.getInputType(), commonStyle);
+                createCell(row, 4, warehouse.getInputDate(), commonStyle);
+                createCell(row, 5, warehouse.getWarehouseName(), commonStyle);
+                createCell(row, 6, warehouse.getApplicationName(), commonStyle);
+                createCell(row, 7, warehouse.getRecordPersonName(), commonStyle);
+                createCell(row, 8, warehouse.getRecordDate(), commonStyle);
+                createCell(row, 9, warehouse.getCompanyName(), commonStyle);
+                createCell(row, 10, warehouse.getNote(), commonStyle);
+                createCell(row, 11, "", null);
+            }
+        }
+        //调整列宽（适应中文）
+        for(int i=0;i<11;i++) {
+            sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i,(int)(sheet.getColumnWidth(i)*1.25));
+        }
+        sheet.setColumnWidth(10,25*256);        //备注
+
+        //以流的形式将文件提交至前台
+        resp.setContentType("application/x-download");
+        resp.addHeader("Content-Disposition", "attachment;filename=" + "workbook.xls");
+        resp.setCharacterEncoding("utf-8");
+        OutputStream fileOut = resp.getOutputStream();
+        wb.write(fileOut);
+        fileOut.close();
+        wb.close();
+    }
+
+
+    /**
+     * 导出出库单列表信息
+     * @param list 导出数据
+     * @throws IOException
+     */
+    public static void exportWarehouseOutput(List<WarehouseOutputDTO> list) throws IOException {
+        HttpServletResponse resp = ServletActionContext.getResponse();
+        //创建Excel对象
+        Workbook wb = new HSSFWorkbook();  // or new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("出库单列表");
+
+        //表格样式
+        CellStyle commonStyle = wb.createCellStyle();               //数据样式
+        CellStyle commonStyleHander = wb.createCellStyle();         //表头样式
+        commonStyle.setAlignment(HorizontalAlignment.CENTER);
+        commonStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        //设置边框
+        commonStyle.setBorderBottom(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderTop(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderLeft(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderRight(BorderStyle.valueOf((short) 1));
+        //设置字体
+        Font fontHander = wb.createFont();          //表头字体
+        Font font = wb.createFont();                //数据字体
+        fontHander.setFontHeightInPoints((short) 10);//设置字体大小
+        fontHander.setBold(true);       //设置加粗
+        font.setFontHeightInPoints((short) 10);//设置字体大小
+
+        commonStyle.setFont(font);
+        commonStyleHander.cloneStyleFrom(commonStyle);
+        commonStyleHander.setFont(fontHander);
+
+        //空一行
+        sheet.createRow(0);
+
+        //设置表头
+        Row handerRow = sheet.createRow(1);
+        handerRow.setHeight((short)(1.4f*256));
+        createCell(handerRow,1,"编号",commonStyleHander);
+        createCell(handerRow,2,"出库单号",commonStyleHander);
+        createCell(handerRow,3,"出库类型",commonStyleHander);
+        createCell(handerRow,4,"出库日期",commonStyleHander);
+        createCell(handerRow,5,"仓库",commonStyleHander);
+        createCell(handerRow,6,"申请单名称",commonStyleHander);
+        createCell(handerRow,7,"录入人",commonStyleHander);
+        createCell(handerRow,8,"录入日期",commonStyleHander);
+        createCell(handerRow,9,"供应方",commonStyleHander);
+        createCell(handerRow,10,"备注",commonStyleHander);
+
+        //填充数据
+        if(list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Row row = sheet.createRow(i + 2);
+                row.setHeight((short)(1.4f*256));
+                WarehouseOutputDTO warehouse = list.get(i);
+                createCell(row, 1, String.valueOf(i+1), commonStyle);
+                createCell(row, 2, warehouse.getNumber(), commonStyle);
+                createCell(row, 3, warehouse.getOutputType(), commonStyle);
+                createCell(row, 4, warehouse.getOutputDate(), commonStyle);
+                createCell(row, 5, warehouse.getWarehouseName(), commonStyle);
+                createCell(row, 6, warehouse.getApplicationName(), commonStyle);
+                createCell(row, 7, warehouse.getRecordPersonName(), commonStyle);
+                createCell(row, 8, warehouse.getRecordDate(), commonStyle);
+                createCell(row, 9, warehouse.getCompanyName(), commonStyle);
+                createCell(row, 10, warehouse.getNote(), commonStyle);
+                createCell(row, 11, "", null);
+            }
+        }
+        //调整列宽（适应中文）
+        for(int i=0;i<11;i++) {
+            sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i,(int)(sheet.getColumnWidth(i)*1.25));
+        }
+        sheet.setColumnWidth(10,25*256);        //备注
+
+        //以流的形式将文件提交至前台
+        resp.setContentType("application/x-download");
+        resp.addHeader("Content-Disposition", "attachment;filename=" + "workbook.xls");
+        resp.setCharacterEncoding("utf-8");
+        OutputStream fileOut = resp.getOutputStream();
+        wb.write(fileOut);
+        fileOut.close();
+        wb.close();
+    }
+
+    /**
+     * 导出借用列表信息
+     * @param list 导出数据
+     * @throws IOException
+     */
+    public static void exportWarehouseBorrow(List<WarehouseBorrowDTO> list) throws IOException {
+        HttpServletResponse resp = ServletActionContext.getResponse();
+        //创建Excel对象
+        Workbook wb = new HSSFWorkbook();  // or new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("借用信息列表");
+
+        //表格样式
+        CellStyle commonStyle = wb.createCellStyle();               //数据样式
+        CellStyle commonStyleHander = wb.createCellStyle();         //表头样式
+        commonStyle.setAlignment(HorizontalAlignment.CENTER);
+        commonStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        //设置边框
+        commonStyle.setBorderBottom(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderTop(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderLeft(BorderStyle.valueOf((short) 1));
+        commonStyle.setBorderRight(BorderStyle.valueOf((short) 1));
+        //设置字体
+        Font fontHander = wb.createFont();          //表头字体
+        Font font = wb.createFont();                //数据字体
+        fontHander.setFontHeightInPoints((short) 10);//设置字体大小
+        fontHander.setBold(true);       //设置加粗
+        font.setFontHeightInPoints((short) 10);//设置字体大小
+
+        commonStyle.setFont(font);
+        commonStyleHander.cloneStyleFrom(commonStyle);
+        commonStyleHander.setFont(fontHander);
+
+        //空一行
+        sheet.createRow(0);
+
+        //设置表头
+        Row handerRow = sheet.createRow(1);
+        handerRow.setHeight((short)(1.4f*256));
+        createCell(handerRow,1,"编号",commonStyleHander);
+        createCell(handerRow,2,"借用单号",commonStyleHander);
+        createCell(handerRow,3,"借用人",commonStyleHander);
+        createCell(handerRow,4,"借用日期",commonStyleHander);
+        createCell(handerRow,5,"状态",commonStyleHander);
+        createCell(handerRow,6,"借用物品",commonStyleHander);
+        createCell(handerRow,7,"借用数量",commonStyleHander);
+        createCell(handerRow,8,"物品型号",commonStyleHander);
+        createCell(handerRow,9,"物品封装",commonStyleHander);
+        createCell(handerRow,10,"物品单位",commonStyleHander);
+        createCell(handerRow,11,"归还日期",commonStyleHander);
+        createCell(handerRow,12,"备注",commonStyleHander);
+
+        //填充数据
+        if(list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Row row = sheet.createRow(i + 2);
+                row.setHeight((short)(1.4f*256));
+                WarehouseBorrowDTO warehouse = list.get(i);
+                createCell(row, 1, String.valueOf(i+1), commonStyle);
+                createCell(row, 2, warehouse.getNumber(), commonStyle);
+                createCell(row, 3, warehouse.getBorrowPersonName(), commonStyle);
+                createCell(row, 4, warehouse.getBorrowDate(), commonStyle);
+                createCell(row, 5, warehouse.getState(), commonStyle);
+                createCell(row, 6, warehouse.getProductName(), commonStyle);
+                if(warehouse.getQuantity() != null) {
+                    createCell(row, 7, String.valueOf(warehouse.getQuantity()), commonStyle);
+                }else{
+                    createCell(row, 7, "", commonStyle);
+                }
+                createCell(row, 8, warehouse.getProductModelNumber(), commonStyle);
+                createCell(row, 9, warehouse.getProductSpecifications(), commonStyle);
+                createCell(row, 10, warehouse.getProductUnit(), commonStyle);
+                createCell(row, 11, warehouse.getBackDate(), commonStyle);
+                createCell(row, 12, warehouse.getNote(), commonStyle);
+                createCell(row, 13, "", null);
+            }
+        }
+        //调整列宽（适应中文）
+        for(int i=0;i<13;i++) {
+            sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i,(int)(sheet.getColumnWidth(i)*1.25));
+        }
+        sheet.setColumnWidth(12,25*256);        //备注
+
+        //以流的形式将文件提交至前台
+        resp.setContentType("application/x-download");
+        resp.addHeader("Content-Disposition", "attachment;filename=" + "workbook.xls");
+        resp.setCharacterEncoding("utf-8");
+        OutputStream fileOut = resp.getOutputStream();
+        wb.write(fileOut);
+        fileOut.close();
+        wb.close();
+    }
 }
 
 

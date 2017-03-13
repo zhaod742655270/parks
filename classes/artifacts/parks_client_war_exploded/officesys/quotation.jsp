@@ -118,7 +118,7 @@
 <!-- 报价清单datagrid-->
 <div id="quotationDgd" class="easyui-dialog" style="width: 900px; height: 420px" modal="true"
      closed="true" data-options="maximizable:true,maximized:true">
-    <table id="quotation-dg">
+    <table id="quotation-dg" style="width:100%;height:100%">
         <thead data-options="frozen:true">
             <tr>
                 <th data-options="field:'id',hidden:true">quotationID</th>

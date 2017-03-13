@@ -164,9 +164,9 @@
             <form id="queryProduct-form">
                 <table>
                     <tr>
-                        <td><label>简称</label> &nbsp;<input id="nameQuery"   style="width: 110px"/>&nbsp;</td>
+                        <td><label>名称</label> &nbsp;<input id="nameQuery"   style="width: 110px"/>&nbsp;</td>
                         <td><label>型号</label> &nbsp;<input id="modelNumberQuery"   style="width: 110px"/>&nbsp;</td>
-                        <td><label>规格</label> &nbsp;<input id="specificationsQuery"   style="width: 110px"/>&nbsp;</td>
+                        <td><label>封装</label> &nbsp;<input id="specificationsQuery"   style="width: 110px"/>&nbsp;</td>
                         <td>&nbsp;<a href="javascript:void(0)" class="easyui-linkbutton" onclick="productQuery()"
                                                  iconcls="icon-search" plain="false">查询</a></td>
                     </tr>
