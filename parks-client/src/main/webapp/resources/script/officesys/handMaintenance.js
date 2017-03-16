@@ -69,7 +69,8 @@ $(function(){
                 }
             }
             return data;
-        }
+        },
+        onDblClickRow:editMaintenance
     });
 
     //获取登录人列表
@@ -169,9 +170,9 @@ function addMaintenance(){
         success: function (result) {
             if (result) {
                 $('#registerPerson').combobox('setValue',result.id);        //登录人
-                $('#registerPerson').combobox('setText',result.userName);
+                $('#registerPerson').combobox('setText',result.nickname);
                 $('#reportPerson').combobox('setValue',result.id);        //上报人
-                $('#reportPerson').combobox('setText',result.userName);
+                $('#reportPerson').combobox('setText',result.nickname);
             }
         }
     });
@@ -324,7 +325,7 @@ function addApprove(){
                 success: function (result) {
                     if (result) {
                         $('#approvePerson').combobox('setValue',result.id);
-                        $('#approvePerson').combobox('setText',result.userName);
+                        $('#approvePerson').combobox('setText',result.nickname);
                     }
                 }
             });

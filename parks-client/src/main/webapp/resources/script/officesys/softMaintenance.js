@@ -48,7 +48,8 @@ $(function(){
                 }
             }
             return data;
-        }
+        },
+        onDblClickRow:editMaintenance
     });
 
     $('#handle-dg').datagrid({
@@ -171,7 +172,7 @@ function addMaintenance(){
         success: function (result) {
             if (result) {
                 $('#regPerson').combobox('setValue',result.id);        //登录人
-                $('#regPerson').combobox('setText',result.userName);
+                $('#regPerson').combobox('setText',result.nickname);
             }
         }
     });
@@ -297,7 +298,7 @@ function addHandle(){
         success: function (result) {
             if (result) {
                 $('#handlePerson').combobox('setValue',result.id);        //承担人
-                $('#handlePerson').combobox('setText',result.userName);
+                $('#handlePerson').combobox('setText',result.nickname);
             }
         }
     });
@@ -421,7 +422,7 @@ function addResult(){
                 success: function (result) {
                     if (result) {
                         $('#resultPerson').combobox('setValue',result.id);
-                        $('#resultPerson').combobox('setText',result.userName);
+                        $('#resultPerson').combobox('setText',result.nickname);
                     }
                 }
             });

@@ -142,7 +142,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             if(row.getCell(1).getStringCellValue().equals("")){
                 continue;
             }
-            product.setSND(String.valueOf(SN));
+            product.setSN(SN);
             product.setParentIdFK(applyDTO.getId());
             product.setProductName(row.getCell(1).getStringCellValue());
             product.setProductModelNumber(row.getCell(2).getStringCellValue());
@@ -153,13 +153,11 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             row.getCell(8).setCellType(CellType.STRING);
             if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
                 product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
-                product.setQuantityInput(Double.valueOf(row.getCell(8).getStringCellValue()));
             }else{
                 product.setQuantity(0d);
-                product.setQuantityInput(0d);
             }
             product.setNote(row.getCell(10).getStringCellValue());
-            product.setQuantityInput(product.getQuantity());
+            product.setFinished(false);
 
             warehouseApplicationProWS.save(product);
             SN ++;
@@ -197,7 +195,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             if(row.getCell(1).getStringCellValue().equals("")){
                 continue;
             }
-            product.setSND(String.valueOf(SN));
+            product.setSN(SN);
             product.setParentIdFK(applyDTO.getId());
             product.setProductName(row.getCell(1).getStringCellValue());
             product.setProductModelNumber(row.getCell(2).getStringCellValue());
@@ -208,12 +206,11 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             row.getCell(8).setCellType(CellType.STRING);
             if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
                 product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
-                product.setQuantityInput(Double.valueOf(row.getCell(8).getStringCellValue()));
             }else{
                 product.setQuantity(0d);
-                product.setQuantityInput(0d);
             }
             product.setNote(row.getCell(10).getStringCellValue());
+            product.setFinished(false);
 
             warehouseApplicationProWS.save(product);
             SN ++;

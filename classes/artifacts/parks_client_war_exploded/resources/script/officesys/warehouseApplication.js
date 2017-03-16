@@ -44,7 +44,7 @@ $(function() {
         toolbar: '#product-toolbar',
         method: 'post',
         nowrap: true,
-        sortName: 'SND',
+        sortName: 'SN',
         sortOrder: 'asc',
         striped: true,
         rownumbers: true,
@@ -56,7 +56,7 @@ $(function() {
         frozenColumns: [[
             {field: 'id', title: 'ID', align: 'left', hidden: true},
             {field: 'parentIdFK', hidden: true},
-            {field:'SND',title:'序号'},
+            {field:'SN',title:'序号'},
             {field: 'productName', title: '名称'}
         ]],
         columns: [[
@@ -65,10 +65,20 @@ $(function() {
             {field: 'productNum', title: '生产任务单号', width: 100},
             {field:'productBrand',title:'品牌'},
             {field: 'quantity', title: '数量'},
-            {field:'quantityInput',title:'出入库数量'},
             {field: 'productUnit', title: '单位'},
+            {field: 'finishState',title:'完成情况'},
             {field: 'note', title: '备注', width: 100}
-        ]]
+        ]],
+        loadFilter:function(data){
+            for (var i = 0; i < data.rows.length; i++) {
+                if(data.rows[i].isFinished){
+                    data.rows[i].finishState = "已完成"
+                }else{
+                    data.rows[i].finishState = "未完成"
+                }
+            }
+            return data;
+        }
     });
 
     $('#type').combobox({

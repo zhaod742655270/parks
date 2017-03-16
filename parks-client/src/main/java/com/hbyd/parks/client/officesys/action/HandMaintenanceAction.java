@@ -41,6 +41,8 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     private Gson gson = new Gson();
     private HandMaintenanceDTO maintenance = new HandMaintenanceDTO();
     private HandMaintenanceQuery query = new HandMaintenanceQuery();
+    private String assignPath = "officesys/handMaintenance/getMaintenanceListForAssign";        //查询被指派记录的地址
+    private String allPath = "officesys/handMaintenance/getMaintenanceList";                    //查询所有记录的地址
 
     @Resource
     private HandMaintenanceWS handMaintenanceWS;
@@ -55,9 +57,9 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         //获得当前登录的用户
         UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
         //判断该用户是否有查询被指派记录的权限
-        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), "officesys/handMaintenance/getMaintenanceListForAssign");
+        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
         //判断该用户是否有查询所有记录的权限
-        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), "officesys/handMaintenance/getMaintenanceList");
+        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
         if(hasPriAll){
             getMaintenanceList();
         }else if(hasPriAssign){
@@ -78,9 +80,26 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     }
 
     //查询被指派的数据
-    public void getMaintenanceListForAssign(String userId){
-        query.setAssignPersonQuery(userId);
-        getMaintenanceList();
+    public void getMaintenanceListForAssign(String userId) {
+        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }else{
+            for(int i=0;i<list.getRows().size();i++){
+                HandMaintenanceDTO dto = (HandMaintenanceDTO)list.getRows().get(i);
+                if(dto.getAssignPersonId() == null){
+                    dto.setAssignPersonId("");
+                }
+                //查询被指派的数据及本人记录的数据(非此类数据去掉)
+                if(!dto.getAssignPersonId().equals(userId) && !dto.getRegisterPersonID().equals(userId)){
+                    list.getRows().remove(i);
+                    i--;
+                }
+            }
+        }
+
+        String result = gson.toJson(list);
+        JsonHelper.writeJson(result);
     }
 
     //没有查询权限，返回空数据
@@ -150,7 +169,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         if(lists==null){
             lists=new ArrayList<>();
         }
-        List<Combobox> project = ComboHelper.getPurchaserNameCombobox(lists);
+        List<Combobox> project = ComboHelper.getNicknameCombobox(lists);
         String result = gson.toJson(project);
         JsonHelper.writeJson(result);
     }
@@ -160,7 +179,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         if(lists==null){
             lists=new ArrayList<>();
         }
-        List<Combobox> project = ComboHelper.getPurchaserNameCombobox(lists);
+        List<Combobox> project = ComboHelper.getNicknameCombobox(lists);
         String result = gson.toJson(project);
         JsonHelper.writeJson(result);
     }

@@ -33,7 +33,7 @@ public class WarehouseApplicationWSImpl extends BaseWSImpl<WarehouseApplicationD
             criteria.add(like("name","%" + query.getNameQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getTypeQuery())){
-            criteria.add(like("type","%" + query.getTypeQuery() + "%"));
+            criteria.add(eq("type",query.getTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getRecordDateBegQuery())){
             criteria.add(ge("recordDate",query.getRecordDateBegQuery()));

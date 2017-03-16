@@ -24,7 +24,7 @@ $(function(){
             {field:'productName',title:'产品名称型号'}
         ]],
         columns:[[
-            {field:'extractPosition',title:'产品提取位置'},
+            {field:'extractPosition',title:'产品提取位置',width:180},
             {field:'registerPersonName',title:'登记人'},
             {field:'registerDate',title:'登记日期'},
             {field:'hopeEndDate',title:'要求完成日期'},
@@ -34,7 +34,7 @@ $(function(){
             {field:'quantity',title:'数量'},
             {field:'testBasis',title:'测试依据'},
             {field:'testType',title:'测试类别'},
-            {field:'testDesc',title:'测试功能项描述',width:120},
+            {field:'testDesc',title:'测试功能项描述',width:180},
 
             {field:'testPersonName',title:'测试人'},
             {field:'planBegDate',title:'计划开始时间'},
@@ -73,7 +73,8 @@ $(function(){
                 }
             }
             return data;
-        }
+        },
+        onDblClickRow:editProductTest
     });
 
     $('#registerPerson').combotree({
@@ -141,7 +142,7 @@ function addProductTest(){
         success: function (result) {
             if (result) {
                 $('#registerPerson').combobox('setValue',result.id);        //登录人
-                $('#registerPerson').combobox('setText',result.userName);
+                $('#registerPerson').combobox('setText',result.nickname);
             }
         }
     });
@@ -241,7 +242,7 @@ function begHandle(){
                 success: function (result) {
                     if (result) {
                         $('#testPerson').combobox('setValue',result.id);
-                        $('#testPerson').combobox('setText',result.userName);
+                        $('#testPerson').combobox('setText',result.nickname);
                     }
                 }
             });
@@ -299,7 +300,7 @@ function addApprove(){
                 success: function (result) {
                     if (result) {
                         $('#approvePerson').combobox('setValue',result.id);
-                        $('#approvePerson').combobox('setText',result.userName);
+                        $('#approvePerson').combobox('setText',result.nickname);
                     }
                 }
             });

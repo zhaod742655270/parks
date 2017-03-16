@@ -7,6 +7,7 @@ import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
+import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.*;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.*;
@@ -53,6 +54,9 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
     @Resource
     private WarehouseProductWS warehouseProductWS;
 
+    @Resource
+    private WarehouseApplicationProWS warehouseApplicationProWS;
+
     private WarehouseInputQuery query = new WarehouseInputQuery();
     private WarehouseInputDTO warehouseInput = new WarehouseInputDTO();
     private WarehouseInputProDTO warehouseInputPro = new WarehouseInputProDTO();
@@ -61,6 +65,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
 
     private Gson gson = new Gson();
 
+    @Operation(type="查询入库信息")
     public void warehouseInputList(){
         PageBeanEasyUI list = warehouseInputWS.getPageBeanByQueryBean(query);
         if(list.getRows() == null){
@@ -70,11 +75,20 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         JsonHelper.writeJson(result);
     }
 
+    @Operation(type="新增入库信息")
     public void addWarehouseInput(){
         AjaxMessage massage = new AjaxMessage();
         try{
+            //没有申请单时，将申请单字段置为空
+            if(Strings.isNullOrEmpty(warehouseInput.getApplicationID())){
+                warehouseInput.setApplicationID(null);
+            }
             warehouseInput = warehouseInputWS.save(warehouseInput);
-            addProductByApplication();
+
+            //同时更新库存信息
+            if(!Strings.isNullOrEmpty(warehouseInput.getApplicationID())) {
+                addProductByApplication();
+            }
         }catch(Exception e){
             massage.setSuccess(false);
             massage.setMessage(e.getMessage());
@@ -84,6 +98,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }
     }
 
+    @Operation(type="修改入库信息")
     public void editWarehouseInput(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -97,10 +112,23 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }
     }
 
+    @Operation(type="删除入库信息")
     public void deleteWarehouseInput(){
         AjaxMessage massage = new AjaxMessage();
         try{
             warehouseInputWS.delFake(id);
+
+            //同时更新库存信息
+            WarehouseInputQuery query = new WarehouseInputQuery();
+            query.setRows(1000);
+            query.setSort("id");
+            query.setOrder("asc");
+            PageBeanEasyUI list = warehouseInputProWS.getPageBeanByQueryBean(query,id);
+            for(int i=0;i<list.getTotal();i++){
+                WarehouseInputProDTO dto = (WarehouseInputProDTO) list.getRows().get(i);
+                Double quantity = dto.getQuantity() * -1;
+                warehouseWS.changeQuantity(dto.getProductId(),quantity,dto.getPrice());
+            }
         }catch(Exception e){
             massage.setSuccess(false);
             massage.setMessage(e.getMessage());
@@ -110,6 +138,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }
     }
 
+    @Operation(type="查询入库详细信息")
     public void warehouseInputProList(){
         PageBeanEasyUI list = warehouseInputProWS.getPageBeanByQueryBean(query,id);
         if(list.getRows() == null){
@@ -119,6 +148,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         JsonHelper.writeJson(result);
     }
 
+    @Operation(type="编辑入库货品信息")
     public void editWarehouseInputPro(){
         AjaxMessage message = new AjaxMessage();
         try {
@@ -155,6 +185,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
                 }else{
                     dto.setValence(Double.valueOf(0));
                 }
+                dto.setProductNum(map.get("productNum").toString());
                 if(map.get("note") != null) {
                     dto.setNote(map.get("note").toString());
                 }else{
@@ -183,6 +214,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }
     }
 
+    @Operation(type="删除入库货品信息")
     public void deleteWarehouseInputPro(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -224,7 +256,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             if(list.getRows() == null){
                 WarehouseProductDTO productDTO = new WarehouseProductDTO();
                 productDTO.setName(map.get("productName").toString());
-                productDTO.setProductType("原材料");
+                productDTO.setProductType(warehouseInput.getInputType());
                 productDTO.setModelNumber(map.get("productModelNumber").toString());
                 productDTO.setSpecifications(map.get("productSpecifications").toString());
                 productDTO.setBrand(map.get("productBrand").toString());
@@ -238,12 +270,13 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
                 WarehouseProductDTO inputProDTO = (WarehouseProductDTO)(list.getRows().get(0));
                 productId = inputProDTO.getId();
             }
+
             //保存货品信息
             WarehouseInputProDTO dto = new WarehouseInputProDTO();
             dto.setParentIdFK(warehouseInput.getId());
             dto.setProductId(productId);
-            if(map.get("quantityInput") != null && !Strings.isNullOrEmpty(map.get("quantityInput").toString())) {
-                dto.setQuantity(Double.valueOf(map.get("quantityInput").toString()));
+            if(map.get("quantity") != null && !Strings.isNullOrEmpty(map.get("quantity").toString())) {
+                dto.setQuantity(Double.valueOf(map.get("quantity").toString()));
             }else{
                 dto.setQuantity(Double.valueOf(0));
             }
@@ -253,14 +286,19 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
                 dto.setPrice(Double.valueOf(0));
             }
             dto.setValence(dto.getPrice() * dto.getQuantity());
+            dto.setProductNum(map.get("productNum").toString());
             if(map.get("note") != null) {
                 dto.setNote(map.get("note").toString());
             }else{
                 dto.setNote("");
             }
             warehouseInputProWS.save(dto);
+
             //同时更新库存中的数据
             warehouseWS.changeQuantity(dto.getProductId(),dto.getQuantity(),dto.getPrice());
+
+            //将申请单中该物品置为已完成
+            warehouseApplicationProWS.setProductFinished(map.get("id").toString(),true);
         }
     }
 
@@ -269,7 +307,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         if(lists==null){
             lists=new ArrayList<>();
         }
-        List<Combobox> project = ComboHelper.getPurchaserNameCombobox(lists);   //根据数据填充下拉框
+        List<Combobox> project = ComboHelper.getNicknameCombobox(lists);   //根据数据填充下拉框
         String result = gson.toJson(project);
         JsonHelper.writeJson(result);
     }
@@ -320,10 +358,6 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
 
         //根据数据填充下拉框
         ArrayList<Combobox> nodes = new ArrayList<>();
-        Combobox nodeNull = new Combobox();
-        nodeNull.setId(null);
-        nodeNull.setText("");
-        nodes.add(nodeNull);
         for (int i = 0; i < lists.size(); i++) {
             WarehouseApplicationDTO dto = lists.get(i);
             Combobox node = new Combobox();

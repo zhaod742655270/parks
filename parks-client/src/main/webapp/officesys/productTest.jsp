@@ -95,8 +95,9 @@
                 <td class="tdRight"><input id="number" class="easyui-numberbox" name="productTest.number"
                                            data-options="required:true,precision:0"></td>
 
-                <td class="tdLeft"><label>提取位置：</label></td>
-                <td class="tdRight"><input id="extractPosition" class="easyui-textbox" name="productTest.extractPosition"></td>
+                <td class="tdLeft"><label>数量：</label></td>
+                <td class="tdRight"><input id="quantity" class="easyui-numberbox" name="productTest.quantity"
+                                           data-options="precision:0"></td>
             </tr>
 
             <tr>
@@ -111,12 +112,10 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>数量：</label></td>
-                <td class="tdRight"><input id="quantity" class="easyui-numberbox" name="productTest.quantity"
-                                           data-options="precision:0"></td>
+                <td class="tdLeft"><label>提取位置：</label></td>
+                <td class="tdRight" colspan="5"><input id="extractPosition" class="easyui-textbox" style="width: 90%"
+                                                       name="productTest.extractPosition"></td>
             </tr>
-        </table>
-        <table>
             <tr>
                 <td class="tdLeft"><label>测试依据：</label></td>
                 <td style="width:400px">
@@ -133,9 +132,9 @@
             </tr>
             <tr>
                 <td class="tdLeft"><label>测试项描述：</label></td>
-                <td>
+                <td class="tdRight" colspan="5">
                     <input id="testDesc" class="easyui-textbox" name="productTest.testDesc"
-                           style="width: 100%;height:50px" data-options="multiline:true">
+                           style="width: 90%;height:80px" data-options="multiline:true">
                 </td>
             </tr>
         </table>

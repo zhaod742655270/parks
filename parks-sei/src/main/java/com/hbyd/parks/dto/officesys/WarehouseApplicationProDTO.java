@@ -7,7 +7,7 @@ import com.hbyd.parks.common.base.BaseDTO;
  */
 public class WarehouseApplicationProDTO extends BaseDTO {
     private String parentIdFK;          //申请单ID
-    private String SND;                  //序号
+    private int SN;                  //序号
     private String productName;         //货品名称
     private String productModelNumber;   //货品型号
     private String productSpecifications;   //货品封装
@@ -15,7 +15,7 @@ public class WarehouseApplicationProDTO extends BaseDTO {
     private String productUnit;          //货品单位
     private String productNum;          //生产任务单号
     private Double quantity;             //数量
-    private Double quantityInput;       //入库、出库数量
+    private Boolean isFinished;         //是否完成出入库操作
     private String note;                //备注
 
     public String getParentIdFK() {
@@ -90,19 +90,19 @@ public class WarehouseApplicationProDTO extends BaseDTO {
         this.productBrand = productBrand;
     }
 
-    public Double getQuantityInput() {
-        return quantityInput;
+    public int getSN() {
+        return SN;
     }
 
-    public void setQuantityInput(Double quantityInput) {
-        this.quantityInput = quantityInput;
+    public void setSN(int SN) {
+        this.SN = SN;
     }
 
-    public String getSND() {
-        return SND;
+    public Boolean getFinished() {
+        return isFinished;
     }
 
-    public void setSND(String SND) {
-        this.SND = SND;
+    public void setFinished(Boolean finished) {
+        isFinished = finished;
     }
 }

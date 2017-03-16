@@ -33,7 +33,7 @@ public class WarehouseOutputWSImpl extends BaseWSImpl<WarehouseOutputDTO,Warehou
             criteria.add(like("number","%" + query.getNumberQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getOutputTypeQuery())){
-            criteria.add(like("outputType","%" + query.getOutputTypeQuery() + "%"));
+            criteria.add(eq("outputType",query.getOutputTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getOutputDateBegQuery())){
             criteria.add(ge("outputDate",query.getOutputDateBegQuery()));

@@ -33,7 +33,7 @@ public class WarehouseCompanyOutWSImpl extends BaseWSImpl<WarehouseCompanyOutDTO
             criteria.add(like("name","%" + query.getNameQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getTypeQuery())){
-            criteria.add(like("type","%" + query.getTypeQuery() + "%"));
+            criteria.add(eq("type",query.getTypeQuery()));
         }
 
         PageBeanEasyUI pageBeanEasyUI = warehouseCompanyOutDao.getPageBean(query,criteria);

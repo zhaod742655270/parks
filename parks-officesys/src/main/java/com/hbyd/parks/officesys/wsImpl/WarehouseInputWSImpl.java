@@ -33,7 +33,7 @@ public class WarehouseInputWSImpl extends BaseWSImpl<WarehouseInputDTO,Warehouse
             criteria.add(like("number","%" + query.getNumberQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getInputTypeQuery())){
-            criteria.add(like("inputType","%" + query.getInputTypeQuery() + "%"));
+            criteria.add(eq("inputType",query.getInputTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getInputDateBegQuery())){
             criteria.add(ge("inputDate",query.getInputDateBegQuery()));

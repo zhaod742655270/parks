@@ -43,4 +43,11 @@ public class WarehouseApplicationProWSImpl extends BaseWSImpl<WarehouseApplicati
         warehouseApplicationProDao.save(target);
         return dozerMapper.map(target, WarehouseApplicationProDTO.class);
     }
+
+    //将申请单中的货品状态置为已完成/未完成
+    public void setProductFinished(String id,boolean isFinished){
+        WarehouseApplicationPro product = warehouseApplicationProDao.getById(id);
+        product.setFinished(isFinished);
+        warehouseApplicationProDao.update(product);
+    }
 }

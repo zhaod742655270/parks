@@ -19,4 +19,6 @@ import javax.xml.ws.soap.SOAPBinding;
 @XmlSeeAlso({WarehouseApplicationProDTO.class})
 public interface WarehouseApplicationProWS extends BaseWS<WarehouseApplicationProDTO>,RecoverableWS {
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseApplicationQuery query, String parentId);
+
+    public void setProductFinished(String id,boolean isFinished);
 }

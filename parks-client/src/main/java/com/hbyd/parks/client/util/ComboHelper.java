@@ -1,5 +1,6 @@
 package com.hbyd.parks.client.util;
 
+import com.google.common.base.Strings;
 import com.hbyd.parks.common.model.Combobox;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringDTO;
@@ -45,6 +46,21 @@ public class ComboHelper {
             node.setText(dto.getUserName());
             nodes.add(node);
 
+        }
+
+        return nodes;
+    }
+
+    public static List<Combobox> getNicknameCombobox(List<UserDTO> list) {
+        ArrayList<Combobox> nodes = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            UserDTO dto = list.get(i);
+            Combobox node = new Combobox();
+            node.setId(dto.getId());
+            if(!Strings.isNullOrEmpty(dto.getNickname())) {
+                node.setText(dto.getNickname());
+                nodes.add(node);
+            }
         }
 
         return nodes;

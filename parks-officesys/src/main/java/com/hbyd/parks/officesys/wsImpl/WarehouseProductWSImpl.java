@@ -33,7 +33,7 @@ public class WarehouseProductWSImpl extends BaseWSImpl<WarehouseProductDTO,Wareh
             criteria.add(like("name","%" + query.getNameQuery() + "%"));
         }
         if(!Strings.isNullOrEmpty(query.getProductTypeQuery())){
-            criteria.add(like("productType","%" + query.getProductTypeQuery() + "%"));
+            criteria.add(eq("productType",query.getProductTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getBrandQuery())){
             criteria.add(eq("brand",query.getBrandQuery()));

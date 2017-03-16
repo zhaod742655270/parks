@@ -116,7 +116,7 @@ $(function(){
     $('#application-dg').datagrid({
         method:'post',
         nowrap:true,
-        sortName:'id',
+        sortName:'SN',
         sortOrder:'asc',
         striped:true,
         rownumbers:true,
@@ -135,15 +135,10 @@ $(function(){
         ]],
         columns: [[
             {field: 'quantity', title: '申请数量'},
-            {field: 'quantityInput', title: '出库数量',width: 100,
-                editor :{
-                    type:'numberbox',
-                    options:{precision:2}
-                }},
+            {field: 'quantityInput', title: '数量',width: 100},
             {field: 'productUnit', title: '单位',width: 100},
             {field: 'productModelNumber', title: '型号',width: 100},
             {field: 'productSpecifications', title: '封装',width: 100},
-            {field: 'productNum', title: '生产任务单号', width: 120},
             {field:'productBrand',title:'品牌',width: 100},
             {field: 'note', title: '备注',width: 100,
                 editor :{
@@ -186,7 +181,7 @@ $(function(){
         textField:'text'
     });
 
-    $('#application').combotree({
+    $('#application').combobox({
         url:'warehouseOutput/getApplicationList',
         valueField:'id',
         textField:'text',
@@ -198,6 +193,12 @@ $(function(){
         url:'warehouseOutput/getWarehouseType',
         valueField:'id',
         textField:'text'
+    });
+
+    $('#productTypeQuery').combobox({
+        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        valueField: 'id',
+        textField: 'text'
     });
 
     var editIndex = undefined;
@@ -284,7 +285,7 @@ function addWarehouseOutput(){
         success: function (result) {
             if (result) {
                 $('#recordPerson').combobox('setValue',result.id);        //登录人
-                $('#recordPerson').combobox('setText',result.userName);
+                $('#recordPerson').combobox('setText',result.nickname);
             }
         }
     });
@@ -493,9 +494,9 @@ function selectProduct(){
  */
 function productSelectQuery(){
     var query = {
-        nameSelectQuery:$('#nameSelectQuery').val(),
-        productTypeQuery:$('#productTypeQuery').combobox('getValue'),
-        brandQuery:$('#brandQuery').combobox('getValue')
+        nameQuery:$('#nameSelectQuery').val(),
+        typeQuery:$('#productTypeQuery').combobox('getValue'),
+        brandQuery:$('#brandQuery').val()
     };
     $('#productSelect-dg').datagrid({
         queryParams:query
@@ -538,7 +539,7 @@ function addApprove(){
                 success: function (result) {
                     if (result) {
                         $('#examinePerson').combobox('setValue',result.id);
-                        $('#examinePerson').combobox('setText',result.userName);
+                        $('#examinePerson').combobox('setText',result.nickname);
                     }
                 }
             });

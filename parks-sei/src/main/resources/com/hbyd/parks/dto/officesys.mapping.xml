@@ -183,7 +183,7 @@
         <b>regPersonID</b>
     </field>
     <field>
-        <a>regPerson.userName</a>
+        <a>regPerson.nickname</a>
         <b>regPersonName</b>
     </field>
     <field>
@@ -191,7 +191,7 @@
         <b>contractsID</b>
     </field>
     <field>
-        <a>contracts.userName</a>
+        <a>contracts.nickname</a>
         <b>contractsName</b>
     </field>
     <field>
@@ -199,7 +199,7 @@
         <b>resultPersonID</b>
     </field>
     <field>
-        <a>resultPerson.userName</a>
+        <a>resultPerson.nickname</a>
         <b>resultPersonName</b>
     </field>
         <field>
@@ -207,7 +207,7 @@
             <b>assignPersonId</b>
         </field>
         <field>
-            <a>assignPerson.userName</a>
+            <a>assignPerson.nickname</a>
             <b>assignPersonName</b>
         </field>
     </mapping>
@@ -226,7 +226,7 @@
             <b>handlePersonID</b>
         </field>
         <field>
-            <a>handlePerson.userName</a>
+            <a>handlePerson.nickname</a>
             <b>handlePersonName</b>
         </field>
     </mapping>
@@ -239,7 +239,7 @@
             <b>registerPersonID</b>
         </field>
         <field>
-            <a>registerPerson.userName</a>
+            <a>registerPerson.nickname</a>
             <b>registerPersonName</b>
         </field>
 
@@ -248,7 +248,7 @@
             <b>approvePersonID</b>
         </field>
         <field>
-            <a>approvePerson.userName</a>
+            <a>approvePerson.nickname</a>
             <b>approvePersonName</b>
         </field>
 
@@ -257,7 +257,7 @@
             <b>reportPersonID</b>
         </field>
         <field>
-            <a>reportPerson.userName</a>
+            <a>reportPerson.nickname</a>
             <b>reportPersonName</b>
         </field>
 
@@ -266,7 +266,7 @@
             <b>verifyPersonID</b>
         </field>
         <field>
-            <a>verifyPerson.userName</a>
+            <a>verifyPerson.nickname</a>
             <b>verifyPersonName</b>
         </field>
 
@@ -275,7 +275,7 @@
             <b>analyPersonID</b>
         </field>
         <field>
-            <a>analyPerson.userName</a>
+            <a>analyPerson.nickname</a>
             <b>analyPersonName</b>
         </field>
 
@@ -284,7 +284,7 @@
             <b>repairPersonID</b>
         </field>
         <field>
-            <a>repairPerson.userName</a>
+            <a>repairPerson.nickname</a>
             <b>repairPersonName</b>
         </field>
 
@@ -293,7 +293,7 @@
             <b>testPersonID</b>
         </field>
         <field>
-            <a>testPerson.userName</a>
+            <a>testPerson.nickname</a>
             <b>testPersonName</b>
         </field>
         <field>
@@ -301,7 +301,7 @@
             <b>assignPersonId</b>
         </field>
         <field>
-            <a>assignPerson.userName</a>
+            <a>assignPerson.nickname</a>
             <b>assignPersonName</b>
         </field>
     </mapping>
@@ -314,7 +314,7 @@
             <b>registerPersonID</b>
         </field>
         <field>
-            <a>registerPerson.userName</a>
+            <a>registerPerson.nickname</a>
             <b>registerPersonName</b>
         </field>
 
@@ -323,7 +323,7 @@
             <b>approvePersonID</b>
         </field>
         <field>
-            <a>approvePerson.userName</a>
+            <a>approvePerson.nickname</a>
             <b>approvePersonName</b>
         </field>
 
@@ -332,7 +332,7 @@
             <b>testPersonID</b>
         </field>
         <field>
-            <a>testPerson.userName</a>
+            <a>testPerson.nickname</a>
             <b>testPersonName</b>
         </field>
         <field>
@@ -340,7 +340,7 @@
             <b>assignPersonId</b>
         </field>
         <field>
-            <a>assignPerson.userName</a>
+            <a>assignPerson.nickname</a>
             <b>assignPersonName</b>
         </field>
     </mapping>
@@ -375,7 +375,7 @@
         </field>
 
         <field>
-            <a>recordPerson.userName</a>
+            <a>recordPerson.nickname</a>
             <b>recordPersonName</b>
         </field>
 
@@ -385,7 +385,7 @@
         </field>
 
         <field>
-            <a>examinePerson.userName</a>
+            <a>examinePerson.nickname</a>
             <b>examinePersonName</b>
         </field>
 
@@ -461,7 +461,7 @@
         </field>
 
         <field>
-            <a>recordPerson.userName</a>
+            <a>recordPerson.nickname</a>
             <b>recordPersonName</b>
         </field>
 
@@ -471,7 +471,7 @@
         </field>
 
         <field>
-            <a>examinePerson.userName</a>
+            <a>examinePerson.nickname</a>
             <b>examinePersonName</b>
         </field>
 
@@ -527,7 +527,7 @@
         </field>
 
         <field>
-            <a>recordPerson.userName</a>
+            <a>recordPerson.nickname</a>
             <b>recordPersonName</b>
         </field>
     </mapping>
@@ -586,7 +586,7 @@
         </field>
 
         <field>
-            <a>borrowPerson.userName</a>
+            <a>borrowPerson.nickname</a>
             <b>borrowPersonName</b>
         </field>
 

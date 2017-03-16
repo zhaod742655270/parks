@@ -105,8 +105,7 @@
                     <td class="tdRight"><input id="company" class="easyui-combobox" name="warehouseInput.companyId"></td>
 
                     <td class="tdLeft"><label>申请单：</label></td>
-                    <td class="tdRight"><input id="application" class="easyui-combobox" name="warehouseInput.applicationID"
-                                               data-options="editable:false"></td>
+                    <td class="tdRight"><input id="application" class="easyui-combobox" name="warehouseInput.applicationID"></td>
                 </tr>
 
                 <tr>
@@ -188,7 +187,7 @@
                     <tr>
                         <td><label>名称</label> &nbsp;<input id="nameSelectQuery"   style="width: 110px"/>&nbsp;</td>
                         <td><label>类型</label> &nbsp;<input id="productTypeQuery" class="easyui-combobox" style="width: 110px"/>&nbsp;</td>
-                        <td><label>品牌</label> &nbsp;<input id="brandQuery"  class="easyui-combobox" style="width: 110px"/>&nbsp;</td>
+                        <td><label>品牌</label> &nbsp;<input id="brandQuery" style="width: 110px"/>&nbsp;</td>
                         <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productSelectQuery()"
                                      iconcls="icon-search" plain="false">查询</a></td>
                         <td>&nbsp;&nbsp;&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productAdd()"

@@ -355,9 +355,11 @@
         </action>
 
         <action name="editWarehouseInputPro" class="warehouseInputAction" method="editWarehouseInputPro">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="deleteWarehouseInputPro" class="warehouseInputAction" method="deleteWarehouseInputPro">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="getUserList" class="warehouseInputAction" method="getUserList">
@@ -397,9 +399,11 @@
         </action>
 
         <action name="editWarehouseOutputPro" class="warehouseOutputAction" method="editWarehouseOutputPro">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="deleteWarehouseOutputPro" class="warehouseOutputAction" method="deleteWarehouseOutputPro">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="addProductByApplication" class="warehouseOutputAction" method="addProductByApplication">

@@ -133,7 +133,7 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         if(lists==null){
             lists=new ArrayList<>();
         }
-        List<Combobox> project = ComboHelper.getPurchaserNameCombobox(lists);   //根据数据填充下拉框
+        List<Combobox> project = ComboHelper.getNicknameCombobox(lists);   //根据数据填充下拉框
         String result = gson.toJson(project);
         JsonHelper.writeJson(result);
     }

@@ -125,9 +125,8 @@
 
             <tr>
                 <td class="tdLeft"><label>故障现象：</label></td>
-
                 <td class="tdRight" rowspan="2" colspan="5"><input id="faultDesc" class="easyui-textbox" name="maintenance.faultDesc"
-                                                                   style="width: 100%;height:50px" data-options="multiline:true"></td>
+                                                                   style="width: 100%;height:80px" data-options="multiline:true"></td>
             </tr>
         </table>
     </form>
