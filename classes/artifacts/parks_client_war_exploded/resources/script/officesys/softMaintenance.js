@@ -19,21 +19,21 @@ $(function(){
         url:'softMaintenance/maintenanceList',
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
-            {field:'projectName',title:'项目名称'},
-            {field:'number',title:'编号',align:'left'},
-            {field:'productName',title:'产品名称'}
+            {field:'projectName',title:'项目名称',sortable:true},
+            {field:'number',title:'编号',align:'left',sortable:true},
+            {field:'productName',title:'产品名称',sortable:true}
         ]],
         columns:[[
             {field:'regPersonName',title:'登记人'},
-            {field:'regDate',title:'登记日期'},
-            {field:'hopeEndDate',title:'要求完成日期'},
+            {field:'regDate',title:'登记日期',sortable:true},
+            {field:'hopeEndDate',title:'要求完成日期',sortable:true},
             {field:'contractsName',title:'项目联系人'},
             {field:'phoneNo',title:'联系方式'},
             {field:'assignPersonName',title:'指定处理人员'},
             {field:'faultDesc',title:'故障现象',width:80},
             {field:'result',title:'结论',width:80},
             {field:'resultPersonName',title:'总结人'},
-            {field:'resultDate',title:'总结日期'}
+            {field:'resultDate',title:'总结日期',sortable:true}
         ]],
         loadFilter:function(data){
             for(var i = 0; i < data.rows.length; i++){

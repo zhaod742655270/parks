@@ -6,7 +6,6 @@ import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.ExportWordHelper;
 import com.hbyd.parks.client.util.JsonHelper;
-import com.hbyd.parks.common.hql.HqlQuery;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.AjaxMessage;
@@ -51,6 +50,7 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
     private String deptName;
     private String assignPath = "officesys/softMaintenance/getMaintenanceListForAssign";    //查询被指派记录的地址
     private String allPath = "officesys/softMaintenance/getMaintenanceList";                //查询所有记录的地址
+    private String regPath = "officesys/softMaintenance/getMaintenanceListForReg";          //只能查询自己记录的数据的地址
 
     @Resource
     private UserWS userWS;
@@ -65,24 +65,7 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
     private PriviledgeWS priviledgeWS;
 
     public void maintenanceList(){
-        //获得当前登录的用户
-        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
-        //判断该用户是否有查询被指派记录的权限
-        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
-        //判断该用户是否有查询所有记录的权限
-        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
-        if(hasPriAll){
-            getMaintenanceList();
-        }else if(hasPriAssign){
-            getMaintenanceListForAssign(user.getId());
-        }else{
-            getMaintenanceListNull();
-        }
-    }
-
-    //查询所有数据
-    public void getMaintenanceList(){
-        PageBeanEasyUI list = softMaintenanceWS.getPageBeanByQueryBean(page);
+        PageBeanEasyUI list = getPageBean();        //获得数据列表
         if(list.getRows() == null){
             list.setRows(new ArrayList());
         }
@@ -90,8 +73,36 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    public PageBeanEasyUI getPageBean(){
+        PageBeanEasyUI list;
+        //获得当前登录的用户
+        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
+        //判断该用户是否有查询被指派记录的权限
+        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
+        //判断该用户是否有查询所有记录的权限
+        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
+        //判断该用户是否有查询自己添加的记录的权限
+        boolean hasPriReg = priviledgeWS.validatePriviledge(user.getId(), regPath);
+        if(hasPriAll){
+            list = getMaintenanceList();
+        }else if(hasPriAssign){
+            list = getMaintenanceListForAssign(user.getId());
+        }else if(hasPriReg){
+            list = getMaintenanceListForReg(user.getId());
+        }else{
+            list = getMaintenanceListNull();
+        }
+        return list;
+    }
+
+    //查询所有数据
+    public PageBeanEasyUI getMaintenanceList(){
+        PageBeanEasyUI list = softMaintenanceWS.getPageBeanByQueryBean(page);
+        return list;
+    }
+
     //查询被指派的数据
-    public void getMaintenanceListForAssign(String userId){
+    public PageBeanEasyUI getMaintenanceListForAssign(String userId){
         PageBeanEasyUI list = softMaintenanceWS.getPageBeanByQueryBean(page);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
@@ -109,16 +120,33 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
             }
         }
 
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
+    }
+
+    //只能查询自己添加的数据
+    public PageBeanEasyUI getMaintenanceListForReg(String userId){
+        PageBeanEasyUI list = softMaintenanceWS.getPageBeanByQueryBean(page);
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }else{
+            for(int i=0;i<list.getRows().size();i++){
+                SoftMaintenanceDTO dto = (SoftMaintenanceDTO)list.getRows().get(i);
+                //查询本人记录的数据(非此类数据去掉)
+                if(!dto.getRegPersonID().equals(userId)){
+                    list.getRows().remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return list;
     }
 
     //没有查询权限，返回空数据
-    public void getMaintenanceListNull(){
+    public PageBeanEasyUI getMaintenanceListNull(){
         PageBeanEasyUI list = new PageBeanEasyUI();
         list.setRows(new ArrayList());
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
     }
 
     public void handleList(){
@@ -296,10 +324,7 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
             page.setSort("number");
             page.setOrder("asc");
             page.setRows(10000);
-            String hql = getOutputHql();
-            HqlQuery query = new HqlQuery(hql);
-            Object[] params = query.getParametersValue();
-            PageBeanEasyUI pageBean = softMaintenanceWS.getPageBeanByHQL(page, hql, params);
+            PageBeanEasyUI pageBean = getPageBean();
             ExportExcelHelper.exportSoftMaintenance(pageBean.getRows());
         }catch(Exception e) {
             message.setSuccess(false);

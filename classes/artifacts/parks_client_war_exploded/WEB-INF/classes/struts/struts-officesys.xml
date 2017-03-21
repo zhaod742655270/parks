@@ -297,10 +297,10 @@
         <action name="getNewNumber" class="handMaintenanceAction" method="getNewNumber">
         </action>
 
-        <action name="getRegPerson" class="softMaintenanceAction" method="getRegPerson">
+        <action name="getRegPerson" class="handMaintenanceAction" method="getRegPerson">
         </action>
 
-        <action name="getHandlePerson" class="softMaintenanceAction" method="getHandlePerson">
+        <action name="getHandlePerson" class="handMaintenanceAction" method="getHandlePerson">
         </action>
     </package>
 
@@ -327,10 +327,10 @@
         <action name="getNewNumber" class="productTestAction" method="getNewNumber">
         </action>
 
-        <action name="getRegPerson" class="softMaintenanceAction" method="getRegPerson">
+        <action name="getRegPerson" class="productTestAction" method="getRegPerson">
         </action>
 
-        <action name="getHandlePerson" class="softMaintenanceAction" method="getHandlePerson">
+        <action name="getHandlePerson" class="productTestAction" method="getHandlePerson">
         </action>
     </package>
 
@@ -479,6 +479,9 @@
         </action>
 
         <action name="applicationProList" class="warehouseApplicationAction" method="applicationProList">
+        </action>
+
+        <action name="applicationProListUnfinished" class="warehouseApplicationAction" method="applicationProListUnfinished">
         </action>
 
         <action name="editWarehouseApplication" class="warehouseApplicationAction" method="editWarehouseApplication">

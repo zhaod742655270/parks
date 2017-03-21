@@ -76,16 +76,16 @@ public class HandMaintenanceWSImpl extends BaseWSImpl<HandMaintenanceDTO,HandMai
         HandMaintenance target = handMaintenanceDao.getById(dto.getId());
         ValHelper.notNull(target,"更新的目标不存在!");
         //将ID为空的人员类字段置为NULL，防止出现脏数据
-        if(dto.getVerifyPersonID() == ""){
+        if(Strings.isNullOrEmpty(dto.getVerifyPersonID())){
             dto.setVerifyPersonID(null);
         }
-        if(dto.getAnalyPersonID() == ""){
+        if(Strings.isNullOrEmpty(dto.getAnalyPersonID())){
             dto.setAnalyPersonID(null);
         }
-        if(dto.getRepairPersonID() == ""){
+        if(Strings.isNullOrEmpty(dto.getRepairPersonID())){
             dto.setRepairPersonID(null);
         }
-        if(dto.getTestPersonID() == ""){
+        if(Strings.isNullOrEmpty(dto.getTestPersonID())){
             dto.setTestPersonID(null);
         }
         //首先将所有关联的表置空，否则会以为要级联更新关联表的主键而报错

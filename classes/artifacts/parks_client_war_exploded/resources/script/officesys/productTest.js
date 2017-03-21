@@ -20,17 +20,17 @@ $(function(){
         url: 'productTest/productTestList',
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
-            {field:'number',title:'编号'},
-            {field:'productName',title:'产品名称型号'}
+            {field:'number',title:'编号',sortable:true},
+            {field:'productName',title:'产品名称型号',sortable:true}
         ]],
         columns:[[
             {field:'extractPosition',title:'产品提取位置',width:180},
             {field:'registerPersonName',title:'登记人'},
-            {field:'registerDate',title:'登记日期'},
-            {field:'hopeEndDate',title:'要求完成日期'},
+            {field:'registerDate',title:'登记日期',sortable:true},
+            {field:'hopeEndDate',title:'要求完成日期',sortable:true},
             {field:'assignPersonName',title:'指定处理人员'},
             {field:'approvePersonName',title:'批准人'},
-            {field:'approveDate',title:'批准日期'},
+            {field:'approveDate',title:'批准日期',sortable:true},
             {field:'quantity',title:'数量'},
             {field:'testBasis',title:'测试依据'},
             {field:'testType',title:'测试类别'},

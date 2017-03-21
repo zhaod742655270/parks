@@ -67,7 +67,7 @@
                     <td><label>产品名称型号</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登记人</label><input class="easyui-combobox"  id="registerPersonQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>登录日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
+                    <td><label>登记日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/>&nbsp;</td>
                     <td><label>测试人</label><input class="text"  id="testPeronQuery"   style="width: 110px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productTestQuery()"
@@ -95,8 +95,9 @@
                 <td class="tdRight"><input id="number" class="easyui-numberbox" name="productTest.number"
                                            data-options="required:true,precision:0"></td>
 
-                <td class="tdLeft"><label>提取位置：</label></td>
-                <td class="tdRight"><input id="extractPosition" class="easyui-textbox" name="productTest.extractPosition"></td>
+                <td class="tdLeft"><label>数量：</label></td>
+                <td class="tdRight"><input id="quantity" class="easyui-numberbox" name="productTest.quantity"
+                                           data-options="precision:0"></td>
             </tr>
 
             <tr>
@@ -111,12 +112,10 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>数量：</label></td>
-                <td class="tdRight"><input id="quantity" class="easyui-numberbox" name="productTest.quantity"
-                                           data-options="precision:0"></td>
+                <td class="tdLeft"><label>提取位置：</label></td>
+                <td class="tdRight" colspan="5"><input id="extractPosition" class="easyui-textbox" style="width: 90%"
+                                                       name="productTest.extractPosition"></td>
             </tr>
-        </table>
-        <table>
             <tr>
                 <td class="tdLeft"><label>测试依据：</label></td>
                 <td style="width:400px">
@@ -133,9 +132,9 @@
             </tr>
             <tr>
                 <td class="tdLeft"><label>测试项描述：</label></td>
-                <td>
+                <td class="tdRight" colspan="5">
                     <input id="testDesc" class="easyui-textbox" name="productTest.testDesc"
-                           style="width: 100%;height:50px" data-options="multiline:true">
+                           style="width: 90%;height:80px" data-options="multiline:true">
                 </td>
             </tr>
         </table>

@@ -6,7 +6,6 @@ import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.ExportWordHelper;
 import com.hbyd.parks.client.util.JsonHelper;
-import com.hbyd.parks.common.hql.HqlQuery;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.AjaxMessage;
@@ -41,8 +40,11 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     private Gson gson = new Gson();
     private HandMaintenanceDTO maintenance = new HandMaintenanceDTO();
     private HandMaintenanceQuery query = new HandMaintenanceQuery();
+    private String userID;      //登录者ID,用于使故障处理时的处理人、测试人等只能选择登录人自己
+    private String oldUserID;   //之前填入的人员ID,用途同上
     private String assignPath = "officesys/handMaintenance/getMaintenanceListForAssign";        //查询被指派记录的地址
     private String allPath = "officesys/handMaintenance/getMaintenanceList";                    //查询所有记录的地址
+    private String regPath = "officesys/handMaintenance/getMaintenanceListForReg";          //只能查询自己记录的数据的地址
 
     @Resource
     private HandMaintenanceWS handMaintenanceWS;
@@ -54,24 +56,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     private PriviledgeWS priviledgeWS;
 
     public void maintenanceList(){
-        //获得当前登录的用户
-        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
-        //判断该用户是否有查询被指派记录的权限
-        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
-        //判断该用户是否有查询所有记录的权限
-        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
-        if(hasPriAll){
-            getMaintenanceList();
-        }else if(hasPriAssign){
-            getMaintenanceListForAssign(user.getId());
-        }else{
-            getMaintenanceListNull();
-        }
-    }
-
-    //查询所有数据
-    public void getMaintenanceList(){
-        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        PageBeanEasyUI list = getPageBean();        //获得数据列表
         if(list.getRows() == null){
             list.setRows(new ArrayList());
         }
@@ -79,8 +64,36 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    public PageBeanEasyUI getPageBean(){
+        PageBeanEasyUI list;
+        //获得当前登录的用户
+        UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
+        //判断该用户是否有查询被指派记录的权限
+        boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
+        //判断该用户是否有查询所有记录的权限
+        boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
+        //判断该用户是否有查询自己添加的记录的权限
+        boolean hasPriReg = priviledgeWS.validatePriviledge(user.getId(), regPath);
+        if(hasPriAll){
+            list = getMaintenanceList();
+        }else if(hasPriAssign){
+            list = getMaintenanceListForAssign(user.getId());
+        }else if(hasPriReg){
+            list = getMaintenanceListForReg(user.getId());
+        }else{
+            list = getMaintenanceListNull();
+        }
+        return list;
+    }
+
+    //查询所有数据
+    public PageBeanEasyUI getMaintenanceList(){
+        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        return list;
+    }
+
     //查询被指派的数据
-    public void getMaintenanceListForAssign(String userId) {
+    public PageBeanEasyUI getMaintenanceListForAssign(String userId) {
         PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
@@ -98,16 +111,33 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
             }
         }
 
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
+    }
+
+    //只能查询自己添加的数据
+    public PageBeanEasyUI getMaintenanceListForReg(String userId){
+        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }else{
+            for(int i=0;i<list.getRows().size();i++){
+                HandMaintenanceDTO dto = (HandMaintenanceDTO)list.getRows().get(i);
+                //查询本人记录的数据(非此类数据去掉)
+                if(!dto.getRegisterPersonID().equals(userId)){
+                    list.getRows().remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return list;
     }
 
     //没有查询权限，返回空数据
-    public void getMaintenanceListNull(){
+    public PageBeanEasyUI getMaintenanceListNull(){
         PageBeanEasyUI list = new PageBeanEasyUI();
         list.setRows(new ArrayList());
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
     }
 
     @Operation(type="添加记录")
@@ -178,6 +208,15 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         List<UserDTO> lists = userWS.getUserByDeptName("研发部");
         if(lists==null){
             lists=new ArrayList<>();
+        }
+        //如果请求中带有userID和oldUserID，则只返回该用户信息和之前已填入的用户信息
+        if(!Strings.isNullOrEmpty(userID)){
+            for(int i=0;i<lists.size();i++){
+                if(!lists.get(i).getId().equals(userID) && !lists.get(i).getId().equals(oldUserID)){
+                    lists.remove(i);
+                    i--;
+                }
+            }
         }
         List<Combobox> project = ComboHelper.getNicknameCombobox(lists);
         String result = gson.toJson(project);
@@ -331,10 +370,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
             query.setOrder("asc");
             query.setSort("number");
             query.setRows(10000);
-            String hql = getOutputHql();
-            HqlQuery hqlQuery = new HqlQuery(hql);
-            Object[] params = hqlQuery.getParametersValue();
-            PageBeanEasyUI pageBean = handMaintenanceWS.getPageBeanByHQL(query, hql, params);
+            PageBeanEasyUI pageBean = getPageBean();
             ExportExcelHelper.exportHandMaintenance(pageBean.getRows());
         }catch(Exception e) {
             message.setSuccess(false);
@@ -409,5 +445,21 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
 
     public void setQuery(HandMaintenanceQuery query) {
         this.query = query;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getOldUserID() {
+        return oldUserID;
+    }
+
+    public void setOldUserID(String oldUserID) {
+        this.oldUserID = oldUserID;
     }
 }

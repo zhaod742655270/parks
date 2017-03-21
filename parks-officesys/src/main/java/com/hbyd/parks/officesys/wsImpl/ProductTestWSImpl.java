@@ -85,6 +85,9 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
         if (!Strings.isNullOrEmpty(dto.getTestPersonID())) {
             target.setTestPerson(null);
         }
+        if(!Strings.isNullOrEmpty(dto.getAssignPersonId())) {
+            target.setAssignPerson(null);
+        }
 
         dozerMapper.map(dto, target);
         productTestDao.update(target);

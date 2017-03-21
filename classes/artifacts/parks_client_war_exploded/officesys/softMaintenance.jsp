@@ -71,7 +71,7 @@
                     <td><label>产品名称</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登记人</label><input class="easyui-combobox"  id="regPersonQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>登录日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
+                    <td><label>登记日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="maintenanceQuery()"
                                              iconcls="icon-search" plain="false">查询</a></td>
@@ -125,9 +125,8 @@
 
             <tr>
                 <td class="tdLeft"><label>故障现象：</label></td>
-
                 <td class="tdRight" rowspan="2" colspan="5"><input id="faultDesc" class="easyui-textbox" name="maintenance.faultDesc"
-                                                                   style="width: 100%;height:50px" data-options="multiline:true"></td>
+                                                                   style="width: 100%;height:80px" data-options="multiline:true"></td>
             </tr>
         </table>
     </form>

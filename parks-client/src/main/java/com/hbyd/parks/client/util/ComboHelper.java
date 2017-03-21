@@ -53,9 +53,13 @@ public class ComboHelper {
 
     public static List<Combobox> getNicknameCombobox(List<UserDTO> list) {
         ArrayList<Combobox> nodes = new ArrayList<>();
+        Combobox nodeNull = new Combobox();
+        nodeNull.setId(null);
+        nodeNull.setText("");
+        nodes.add(nodeNull);
         for (int i = 0; i < list.size(); i++) {
-            UserDTO dto = list.get(i);
             Combobox node = new Combobox();
+            UserDTO dto = list.get(i);
             node.setId(dto.getId());
             if(!Strings.isNullOrEmpty(dto.getNickname())) {
                 node.setText(dto.getNickname());

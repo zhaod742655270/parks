@@ -67,7 +67,7 @@
                     <td><label>产品名称型号</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登记人</label><input class="easyui-combobox"  id="registerPersonQuery"   style="width: 110px"/>&nbsp;</td>
-                    <td><label>登录日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
+                    <td><label>登记日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/>&nbsp;</td>
                     <td><label>测试人</label><input class="text"  id="testPeronQuery"   style="width: 110px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productTestQuery()"

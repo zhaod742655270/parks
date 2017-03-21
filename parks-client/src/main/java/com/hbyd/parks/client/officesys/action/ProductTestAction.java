@@ -6,7 +6,6 @@ import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.ExportWordHelper;
 import com.hbyd.parks.client.util.JsonHelper;
-import com.hbyd.parks.common.hql.HqlQuery;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.AjaxMessage;
@@ -53,35 +52,50 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
     private ProductTestQuery query = new ProductTestQuery();
     private String assignPath = "officesys/productTest/getProductTestListForAssign";    //查询被指派记录的地址
     private String allPath = "officesys/productTest/getProductTestList";                //查询所有记录的地址
+    private String regPath = "officesys/productTest/getProductTestListForReg";          //只能查询本人填写记录的地址
 
     public void productTestList(){
+        PageBeanEasyUI list = getPageBean();        //获得数据列表
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }
+        String result = gson.toJson(list);
+        JsonHelper.writeJson(result);
+    }
+
+    public PageBeanEasyUI getPageBean(){
+        PageBeanEasyUI list;
         //获得当前登录的用户
         UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
         //判断该用户是否有查询被指派记录的权限
         boolean hasPriAssign = priviledgeWS.validatePriviledge(user.getId(), assignPath);
         //判断该用户是否有查询所有记录的权限
         boolean hasPriAll = priviledgeWS.validatePriviledge(user.getId(), allPath);
+        //判断该用户是否有查询自己添加的记录的权限
+        boolean hasPriReg = priviledgeWS.validatePriviledge(user.getId(), regPath);
         if(hasPriAll){
-            getProductTestList();
+            list = getProductTestList();
         }else if(hasPriAssign){
-            getProductTestListForAssign(user.getId());
+            list = getProductTestListForAssign(user.getId());
+        }else if(hasPriReg){
+            list = getMaintenanceListForReg(user.getId());
         }else{
-            getProductTestListNull();
+            list = getProductTestListNull();
         }
+        return list;
     }
 
     //查询所有数据
-    public void getProductTestList(){
+    public PageBeanEasyUI getProductTestList(){
         PageBeanEasyUI list = productTestWS.getPageBeanByQueryBean(query);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
         }
-        String result = getGson().toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
     }
 
     //查询被指派的数据
-    public void getProductTestListForAssign(String userId){
+    public PageBeanEasyUI getProductTestListForAssign(String userId){
         PageBeanEasyUI list = productTestWS.getPageBeanByQueryBean(query);
         if(list.getRows() == null){
             list.setRows(new ArrayList());
@@ -99,16 +113,33 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
             }
         }
 
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
+    }
+
+    //只能查询自己添加的数据
+    public PageBeanEasyUI getMaintenanceListForReg(String userId){
+        PageBeanEasyUI list = productTestWS.getPageBeanByQueryBean(query);
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }else{
+            for(int i=0;i<list.getRows().size();i++){
+                ProductTestDTO dto = (ProductTestDTO)list.getRows().get(i);
+                //查询本人记录的数据(非此类数据去掉)
+                if(!dto.getRegisterPersonID().equals(userId)){
+                    list.getRows().remove(i);
+                    i--;
+                }
+            }
+        }
+
+        return list;
     }
 
     //没有查询权限，返回空数据
-    public void getProductTestListNull(){
+    public PageBeanEasyUI getProductTestListNull(){
         PageBeanEasyUI list = new PageBeanEasyUI();
         list.setRows(new ArrayList());
-        String result = gson.toJson(list);
-        JsonHelper.writeJson(result);
+        return list;
     }
 
     @Operation(type="添加记录")
@@ -327,10 +358,7 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
             query.setOrder("asc");
             query.setSort("number");
             query.setRows(10000);
-            String hql = getOutputHql();
-            HqlQuery hqlQuery = new HqlQuery(hql);
-            Object[] params = hqlQuery.getParametersValue();
-            PageBeanEasyUI pageBean = productTestWS.getPageBeanByHQL(query, hql, params);
+            PageBeanEasyUI pageBean = getPageBean();
             ExportExcelHelper.exportProductTest(pageBean.getRows());
         }catch(Exception e) {
             message.setSuccess(false);

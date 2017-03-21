@@ -20,19 +20,19 @@ $(function(){
         url: 'handMaintenance/maintenanceList',
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
-            {field:'projectName',title:'项目名称'},
-            {field:'number',title:'编号'},
-            {field:'productName',title:'产品名称型号'}
+            {field:'projectName',title:'项目名称',sortable:true},
+            {field:'number',title:'编号',sortable:true},
+            {field:'productName',title:'产品名称型号',sortable:true}
         ]],
         columns:[[
             {field:'quantity',title:'数量'},
             {field:'registerPersonName',title:'登记人'},
-            {field:'registerDate',title:'登记日期'},
-            {field:'hopeEndDate',title:'要求完成日期'},
+            {field:'registerDate',title:'登记日期',sortable:true},
+            {field:'hopeEndDate',title:'要求完成日期',sortable:true},
             {field:'assignPersonName',title:'指定处理人员'},
             {field:'approvePersonName',title:'批准人'},
             
-            {field:'approveDate',title:'批准日期'},
+            {field:'approveDate',title:'批准日期',sortable:true},
             {field:'faultContent',title:'故障上报现象\\测试内容',width:120},
             {field:'reportPersonName',title:'上报人'},
             {field:'productNo',title:'产品编号'},
@@ -72,6 +72,20 @@ $(function(){
         },
         onDblClickRow:editMaintenance
     });
+    
+    //获得登录人ID及昵称
+    $.ajax({
+        url: '../managesys/user/getCurrentUser',
+        type: 'get',
+        dataType: 'json',
+        success: function (result) {
+            if (result) {
+                userID = result.id;
+                userNickname = result.nickname;
+            }
+        }
+    });
+
 
     //获取登录人列表
     $('#registerPerson').combotree({
@@ -140,6 +154,9 @@ $(function(){
     });
 });
 
+var userID = "";
+var userNickname = "";
+
 //列表查询
 function maintenanceQuery(){
     var params={
@@ -158,29 +175,20 @@ function maintenanceQuery(){
 var formUrl = "";
 
 //新增记录
-function addMaintenance(){
+function addMaintenance() {
     formUrl = "handMaintenance/addMaintenance";
     $('#addMaintenance').form('clear');
-    var today=new Date();
-    $('#registerDate').datebox('setValue',today.toLocaleDateString());   //登录日期
+    var today = new Date();
+    $('#registerDate').datebox('setValue', today.toLocaleDateString());   //登录日期
+    $('#registerPerson').combobox('setValue', userID);        //登录人
+    $('#registerPerson').combobox('setText', userNickname);
+    $('#reportPerson').combobox('setValue', userID);        //上报人
+    $('#reportPerson').combobox('setText', userNickname);
     $.ajax({
-        url: '../managesys/user/getCurrentUser',
-        type: 'get',
+        url: 'handMaintenance/getNewNumber',
         dataType: 'json',
-        success: function (result) {
-            if (result) {
-                $('#registerPerson').combobox('setValue',result.id);        //登录人
-                $('#registerPerson').combobox('setText',result.nickname);
-                $('#reportPerson').combobox('setValue',result.id);        //上报人
-                $('#reportPerson').combobox('setText',result.nickname);
-            }
-        }
-    });
-    $.ajax({
-        url:'handMaintenance/getNewNumber',
-        dataType:'json',
-        success:function(number){
-            $('#number').textbox('setValue',number);        //自动添加编号
+        success: function (number) {
+            $('#number').textbox('setValue', number);        //自动添加编号
         }
     });
     $('#maintenanceDlg').dialog('open').dialog('setTitle', '新增维修记录');
@@ -265,6 +273,31 @@ function begHandle(){
     if(row){
         $('#addHandle').form('clear');
 
+        $('#verifyPerson').combotree({
+            queryParams:{
+                userID:userID,
+                oldUserID:row.verifyPersonID
+            }
+        });
+        $('#analyPerson').combotree({
+            queryParams:{
+                userID:userID,
+                oldUserID:row.analyPersonID
+            }
+        });
+        $('#repairPerson').combotree({
+            queryParams:{
+                userID:userID,
+                oldUserID:row.repairPersonID
+            }
+        });
+        $('#testPerson').combotree({
+            queryParams:{
+                userID:userID,
+                oldUserID:row.testPersonID
+            }
+        });
+
         $('#idHandle').val(row.id);
         $('#faultVerify').textbox('setValue',row.faultVerify);
         $('#verifyPerson').combobox('setValue', row.verifyPersonID);
@@ -317,18 +350,9 @@ function addApprove(){
         if(row.approvePersonName) {          //审批人
             $('#approvePerson').combobox('setValue',row.approvePersonID);
             $('#approvePerson').combobox('setText',row.approvePersonName);
-        }else{
-            $.ajax({
-                url: '../managesys/user/getCurrentUser',
-                type: 'get',
-                dataType: 'json',
-                success: function (result) {
-                    if (result) {
-                        $('#approvePerson').combobox('setValue',result.id);
-                        $('#approvePerson').combobox('setText',result.nickname);
-                    }
-                }
-            });
+        }else {
+            $('#approvePerson').combobox('setValue', userID);
+            $('#approvePerson').combobox('setText', userNickname);
         }
         if(row.approveDate) {            //审批日期
             $('#approveDate').datebox('setValue', row.approveDate);
