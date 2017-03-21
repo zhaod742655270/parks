@@ -30,6 +30,10 @@ public class WarehouseApplicationProWSImpl extends BaseWSImpl<WarehouseApplicati
         criteria.createAlias("warehouseApplication","warehouseApplication")
                 .add(eq("warehouseApplication.id",parentId));
 
+        if(query.getFinishedQuery() != null){
+            criteria.add(eq("isFinished",query.getFinishedQuery()));
+        }
+
         PageBeanEasyUI pageBeanEasyUI = warehouseApplicationProDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());
         pageBeanEasyUI.setRows(list);
@@ -42,12 +46,5 @@ public class WarehouseApplicationProWSImpl extends BaseWSImpl<WarehouseApplicati
         WarehouseApplicationPro target = dozerMapper.map(dto,WarehouseApplicationPro.class);
         warehouseApplicationProDao.save(target);
         return dozerMapper.map(target, WarehouseApplicationProDTO.class);
-    }
-
-    //将申请单中的货品状态置为已完成/未完成
-    public void setProductFinished(String id,boolean isFinished){
-        WarehouseApplicationPro product = warehouseApplicationProDao.getById(id);
-        product.setFinished(isFinished);
-        warehouseApplicationProDao.update(product);
     }
 }

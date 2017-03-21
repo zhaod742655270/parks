@@ -4,10 +4,8 @@ import com.hbyd.parks.common.base.RecoverableEntity;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Zhao_d on 2017/1/22.
@@ -19,7 +17,7 @@ public class WarehouseApplicationPro extends RecoverableEntity {
     @ManyToOne
     @JoinColumn(name = "parentIdFK", referencedColumnName = "id")
     @NotAudited
-    private WarehouseApplication warehouseApplication;          //申请单
+    private WarehouseApplication warehouseApplication;          //申请单豪达
 
     private int SN;              //序号
     private String productName;         //货品名称
@@ -31,6 +29,14 @@ public class WarehouseApplicationPro extends RecoverableEntity {
     private Double quantity;             //数量
     private Boolean isFinished;         //是否完成出入库操作
     private String note;                //备注
+
+    @OneToMany(mappedBy = "warehouseApplicationPro")
+    @NotAudited
+    private Set<WarehouseInputPro> warehouseInputPros;
+
+    @OneToMany(mappedBy = "warehouseApplicationPro")
+    @NotAudited
+    private Set<WarehouseOutputPro> warehouseOutputPros;
 
     public WarehouseApplication getWarehouseApplication() {
         return warehouseApplication;
@@ -118,5 +124,21 @@ public class WarehouseApplicationPro extends RecoverableEntity {
 
     public void setFinished(Boolean finished) {
         isFinished = finished;
+    }
+
+    public Set<WarehouseInputPro> getWarehouseInputPros() {
+        return warehouseInputPros;
+    }
+
+    public void setWarehouseInputPros(Set<WarehouseInputPro> warehouseInputPros) {
+        this.warehouseInputPros = warehouseInputPros;
+    }
+
+    public Set<WarehouseOutputPro> getWarehouseOutputPros() {
+        return warehouseOutputPros;
+    }
+
+    public void setWarehouseOutputPros(Set<WarehouseOutputPro> warehouseOutputPros) {
+        this.warehouseOutputPros = warehouseOutputPros;
     }
 }

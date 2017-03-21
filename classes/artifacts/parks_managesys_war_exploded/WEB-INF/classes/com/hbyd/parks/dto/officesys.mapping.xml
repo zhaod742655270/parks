@@ -429,6 +429,12 @@
             <a>warehouseProduct.unit</a>
             <b>productUnit</b>
         </field>
+        <field>
+            <a>warehouseApplicationPro</a>
+            <b>warehouseApplicationPro</b>
+            <a-hint>com.hbyd.parks.domain.officesys.WarehouseApplicationPro</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.WarehouseApplicationProDTO</b-hint>
+        </field>
     </mapping>
 
     <mapping map-null="false">
@@ -515,6 +521,12 @@
             <a>warehouseProduct.unit</a>
             <b>productUnit</b>
         </field>
+        <field>
+            <a>warehouseApplicationPro</a>
+            <b>warehouseApplicationPro</b>
+            <a-hint>com.hbyd.parks.domain.officesys.WarehouseApplicationPro</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.WarehouseApplicationProDTO</b-hint>
+        </field>
     </mapping>
 
     <mapping map-null="false">
@@ -573,6 +585,19 @@
         <field>
             <a>warehouseProduct.brand</a>
             <b>brand</b>
+        </field>
+        <field>
+            <a>warehouseInputPros</a>
+            <b>warehouseInputProDTOs</b>
+            <a-hint>com.hbyd.parks.domain.officesys.WarehouseInputPro</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.WarehouseInputProDTO</b-hint>
+        </field>
+
+        <field>
+            <a>warehouseOutputPros</a>
+            <b>warehouseOutputProDTOs</b>
+            <a-hint>com.hbyd.parks.domain.officesys.WarehouseOutputPro</a-hint>
+            <b-hint>com.hbyd.parks.dto.officesys.WarehouseOutputProDTO</b-hint>
         </field>
     </mapping>
 

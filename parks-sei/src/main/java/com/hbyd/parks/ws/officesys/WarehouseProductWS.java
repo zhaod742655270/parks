@@ -1,5 +1,6 @@
 package com.hbyd.parks.ws.officesys;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.hbyd.parks.common.base.BaseWS;
 import com.hbyd.parks.common.base.RecoverableWS;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
@@ -20,4 +21,6 @@ import javax.xml.ws.soap.SOAPBinding;
 public interface WarehouseProductWS extends BaseWS<WarehouseProductDTO>,RecoverableWS {
 
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseProductQuery query);
+
+    public String isProductExist(LinkedTreeMap map);
 }

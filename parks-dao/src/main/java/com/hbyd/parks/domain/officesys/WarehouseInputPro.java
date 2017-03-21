@@ -29,6 +29,16 @@ public class WarehouseInputPro extends RecoverableEntity {
     private Double valence;              //合价
     private String note;                //备注
 
+    @ManyToOne
+    @JoinColumn(name = "applyProIdFK", referencedColumnName = "id")
+    @NotAudited
+    private WarehouseApplicationPro warehouseApplicationPro;    //申请单对应货品
+
+    @ManyToOne
+    @JoinColumn(name = "warehouseFK",referencedColumnName = "id")
+    @NotAudited
+    private Warehouse warehouse;        //对应库存货品
+
     public WarehouseInput getWarehouseInput() {
         return warehouseInput;
     }
@@ -83,5 +93,21 @@ public class WarehouseInputPro extends RecoverableEntity {
 
     public void setProductNum(String productNum) {
         this.productNum = productNum;
+    }
+
+    public WarehouseApplicationPro getWarehouseApplicationPro() {
+        return warehouseApplicationPro;
+    }
+
+    public void setWarehouseApplicationPro(WarehouseApplicationPro warehouseApplicationPro) {
+        this.warehouseApplicationPro = warehouseApplicationPro;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

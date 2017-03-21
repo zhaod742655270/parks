@@ -18,6 +18,8 @@ public class WarehouseInputProDTO extends BaseDTO {
     private Double valence;              //合价
     private String note;                //备注
 
+    private WarehouseApplicationProDTO warehouseApplicationPro;  //申请单对应货品
+
     public String getParentIdFK() {
         return parentIdFK;
     }
@@ -104,5 +106,13 @@ public class WarehouseInputProDTO extends BaseDTO {
 
     public void setProductNum(String productNum) {
         this.productNum = productNum;
+    }
+
+    public WarehouseApplicationProDTO getWarehouseApplicationPro() {
+        return warehouseApplicationPro;
+    }
+
+    public void setWarehouseApplicationPro(WarehouseApplicationProDTO warehouseApplicationPro) {
+        this.warehouseApplicationPro = warehouseApplicationPro;
     }
 }

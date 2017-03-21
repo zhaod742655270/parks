@@ -4,10 +4,7 @@ import com.hbyd.parks.common.base.RecoverableEntity;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Zhao_d on 2017/2/20.
@@ -28,6 +25,16 @@ public class WarehouseOutputPro extends RecoverableEntity {
 
     private Double quantity;             //数量
     private String note;                //备注
+
+    @ManyToOne
+    @JoinColumn(name = "applyProIdFK", referencedColumnName = "id")
+    @NotAudited
+    private WarehouseApplicationPro warehouseApplicationPro;        //申请单对应货品
+
+    @ManyToOne
+    @JoinColumn(name = "warehouseFK",referencedColumnName = "id")
+    @NotAudited
+    private Warehouse warehouse;        //对应库存货品
 
     public WarehouseOutput getWarehouseOutput() {
         return warehouseOutput;
@@ -59,5 +66,21 @@ public class WarehouseOutputPro extends RecoverableEntity {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public WarehouseApplicationPro getWarehouseApplicationPro() {
+        return warehouseApplicationPro;
+    }
+
+    public void setWarehouseApplicationPro(WarehouseApplicationPro warehouseApplicationPro) {
+        this.warehouseApplicationPro = warehouseApplicationPro;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

@@ -68,6 +68,11 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         JsonHelper.writeJson(result);
     }
 
+    public void applicationProListUnfinished(){
+        query.setFinishedQuery(false);
+        applicationProList();
+    }
+
     public void editWarehouseApplication(){
         AjaxMessage massage = new AjaxMessage();
         try{

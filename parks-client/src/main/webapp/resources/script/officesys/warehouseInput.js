@@ -132,7 +132,7 @@ $(function(){
         pagination:false,
         fit:true,
         selectOnCheck:true,
-        url: 'warehouseApplication/applicationProList',
+        url: 'warehouseApplication/applicationProListUnfinished',
         onSelect:onSelect,
         onUnselect:onUnselect,
         frozenColumns: [[
@@ -142,7 +142,7 @@ $(function(){
             {field: 'productName', title: '名称'}
         ]],
         columns: [[
-            {field: 'quantityInput', title: '数量'},
+            {field: 'quantity', title: '数量'},
             {field: 'productUnit', title: '单位'},
             {field: 'price', title: '单价',width: 100,
                 editor :{

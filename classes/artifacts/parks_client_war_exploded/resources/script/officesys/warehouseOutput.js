@@ -124,7 +124,7 @@ $(function(){
         pagination:false,
         fit:true,
         selectOnCheck:true,
-        url: 'warehouseApplication/applicationProList',
+        url: 'warehouseApplication/applicationProListUnfinished',
         onSelect:onSelect,
         onUnselect:onUnselect,
         frozenColumns: [[
@@ -134,8 +134,7 @@ $(function(){
             {field: 'productName', title: '名称'}
         ]],
         columns: [[
-            {field: 'quantity', title: '申请数量'},
-            {field: 'quantityInput', title: '数量',width: 100},
+            {field: 'quantity', title: '数量',width: 100},
             {field: 'productUnit', title: '单位',width: 100},
             {field: 'productModelNumber', title: '型号',width: 100},
             {field: 'productSpecifications', title: '封装',width: 100},

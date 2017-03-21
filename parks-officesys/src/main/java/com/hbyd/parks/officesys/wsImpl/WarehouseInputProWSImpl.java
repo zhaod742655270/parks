@@ -14,6 +14,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.hbyd.parks.common.util.ReflectionUtil.hasField;
+import static com.hbyd.parks.common.util.ValHelper.notNullOrEmpty;
 import static org.hibernate.criterion.Restrictions.eq;
 import static org.hibernate.criterion.Restrictions.like;
 
@@ -65,6 +67,23 @@ public class WarehouseInputProWSImpl extends BaseWSImpl<WarehouseInputProDTO,War
         ValHelper.notNull(target,"更新的目标不存在!");
         dozerMapper.map(dto,target);
         warehouseInputProDao.update(target);
+    }
+
+    @Override
+    public void delFake(String id) {
+        notNullOrEmpty(id);
+        WarehouseInputPro target = warehouseInputProDao.getById(eClass, id);
+
+        if(hasField(target, "parent")){         //处理自身关联：有下级，禁止删除
+            confirmDel(id);
+        }
+
+        target.setValid(false);                 //"删除"自身
+        if(target.getWarehouseApplicationPro() != null) {
+            target.getWarehouseApplicationPro().setFinished(false);     //申请表对应货品完成情况置为false
+        }
+
+        baseDao.update(target);
     }
 
     public Double getQuantityById(String id){

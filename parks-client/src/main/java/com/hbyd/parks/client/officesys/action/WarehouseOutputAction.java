@@ -124,10 +124,15 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
             query.setSort("id");
             query.setOrder("asc");
             PageBeanEasyUI list = warehouseOutputProWS.getPageBeanByQueryBean(query,id);
-            for(int i=0;i<list.getTotal();i++){
-                WarehouseOutputProDTO dto = (WarehouseOutputProDTO) list.getRows().get(i);
-                Double quantity = dto.getQuantity();
-                warehouseWS.changeQuantity(dto.getProductId(),quantity,null);
+            if(list != null) {
+                for (int i = 0; i < list.getTotal(); i++) {
+                    WarehouseOutputProDTO dto = (WarehouseOutputProDTO) list.getRows().get(i);
+                    Double quantity = dto.getQuantity();
+                    warehouseWS.changeQuantity(dto.getProductId(), quantity, null);
+
+                    //同时伪删除入库单下货品信息
+                    warehouseOutputProWS.delFake(dto.getId());
+                }
             }
         }catch(Exception e){
             massage.setSuccess(false);
@@ -152,7 +157,6 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
     public void editWarehouseOutputPro(){
         AjaxMessage message = new AjaxMessage();
         try {
-            Boolean saveRow = false;
             String update = getJsonAllRows();
             List<LinkedTreeMap> listUpdated = new ArrayList();
             listUpdated = gson.fromJson(update,listUpdated.getClass());
@@ -160,29 +164,9 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
             for(int i=0;i<listUpdated.size();i++){
                 LinkedTreeMap map = listUpdated.get(i);
                 //填充DTO
-                WarehouseOutputProDTO dto;
-                if(map.get("id") != null) {
-                    dto=warehouseOutputProWS.getByID(map.get("id").toString());
-                    saveRow = false;
-                }else{
-                    dto = new WarehouseOutputProDTO();
-                    saveRow = true;
-                }
-                dto.setParentIdFK(map.get("parentIdFK").toString());
-                dto.setProductId(map.get("productId").toString());
-                if(map.get("quantity") != null && !Strings.isNullOrEmpty(map.get("quantity").toString())) {
-                    dto.setQuantity(Double.valueOf(map.get("quantity").toString()));
-                }else{
-                    dto.setQuantity(Double.valueOf(0));
-                }
-                if(map.get("note") != null) {
-                    dto.setNote(map.get("note").toString());
-                }else{
-                    dto.setNote("");
-                }
-
+                WarehouseOutputProDTO dto = fillOutputProDTO(map);
                 //保存
-                if(saveRow){
+                if(map.get("id") == null){
                     warehouseOutputProWS.save(dto);
                     //同时更新库存中的数据
                     warehouseWS.changeQuantity(dto.getProductId(),dto.getQuantity() * -1,null);
@@ -231,57 +215,64 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         for(int i=0;i<listAppli.size();i++){
             LinkedTreeMap map = listAppli.get(i);
             //判断货品是否已存在
-            WarehouseProductQuery productQuery = new WarehouseProductQuery();
-            productQuery.setRows(1);
-            productQuery.setSort("id");
-            productQuery.setOrder("asc");
-            productQuery.setNameQuery(map.get("productName").toString());
-            productQuery.setModelNumberQuery(map.get("productModelNumber").toString());
-            productQuery.setSpecificationsQuery(map.get("productSpecifications").toString());
-            productQuery.setBrandQuery(map.get("productBrand").toString());
-            PageBeanEasyUI list = warehouseProductWS.getPageBeanByQueryBean(productQuery);
-
             //如果相同货品不存在，则在货品库中添加该货品
-            if(list.getRows() == null){
-                WarehouseProductDTO productDTO = new WarehouseProductDTO();
-                productDTO.setName(map.get("productName").toString());
-                productDTO.setProductType(warehouseOutput.getOutputType());
-                productDTO.setModelNumber(map.get("productModelNumber").toString());
-                productDTO.setSpecifications(map.get("productSpecifications").toString());
-                productDTO.setBrand(map.get("productBrand").toString());
-                productDTO.setUnit(map.get("productUnit").toString());
-                productDTO.setProductDesc("自动添加");
-                productDTO = warehouseProductWS.save(productDTO);
-                productId = productDTO.getId();
-                //同时更新库存数据
-                warehouseWS.addProduct(productId);
-            }else{
-                WarehouseProductDTO outputProDTO = (WarehouseProductDTO)(list.getRows().get(0));
-                productId = outputProDTO.getId();
-            }
+            //返回货品ID
+            productId = warehouseProductWS.isProductExist(map);
 
             //保存货品信息
-            WarehouseOutputProDTO dto = new WarehouseOutputProDTO();
-            dto.setParentIdFK(warehouseOutput.getId());
-            dto.setProductId(productId);
-            if(map.get("quantity") != null && !Strings.isNullOrEmpty(map.get("quantity").toString())) {
-                dto.setQuantity(Double.valueOf(map.get("quantity").toString()));
-            }else{
-                dto.setQuantity(Double.valueOf(0));
-            }
-            if(map.get("note") != null) {
-                dto.setNote(map.get("note").toString());
-            }else{
-                dto.setNote("");
-            }
-            warehouseOutputProWS.save(dto);
+            WarehouseOutputProDTO dto = fillOutputProDTO(map,productId);
+            dto = warehouseOutputProWS.save(dto);
 
             //同时更新库存中的数据
             warehouseWS.changeQuantity(dto.getProductId(),dto.getQuantity() * -1,null);
 
             //将申请单中该物品置为已完成
-            warehouseApplicationProWS.setProductFinished(map.get("id").toString(),true);
+            dto = warehouseOutputProWS.getByID(dto.getId());
+            dto.getWarehouseApplicationPro().setFinished(true);
+            warehouseOutputProWS.update(dto);
         }
+    }
+
+    public WarehouseOutputProDTO fillOutputProDTO(LinkedTreeMap map){
+        WarehouseOutputProDTO dto = new WarehouseOutputProDTO();
+        if(map.get("id") != null) {
+            dto=warehouseOutputProWS.getByID(map.get("id").toString());
+        }else{
+            dto = new WarehouseOutputProDTO();
+        }
+        dto.setParentIdFK(map.get("parentIdFK").toString());
+        dto.setProductId(map.get("productId").toString());
+        if(map.get("quantity") != null && !Strings.isNullOrEmpty(map.get("quantity").toString())) {
+            dto.setQuantity(Double.valueOf(map.get("quantity").toString()));
+        }else{
+            dto.setQuantity(Double.valueOf(0));
+        }
+        if(map.get("note") != null) {
+            dto.setNote(map.get("note").toString());
+        }else{
+            dto.setNote("");
+        }
+        return dto;
+    }
+
+    public WarehouseOutputProDTO fillOutputProDTO(LinkedTreeMap map,String productId) {
+        WarehouseOutputProDTO dto = new WarehouseOutputProDTO();
+        dto.setParentIdFK(warehouseOutput.getId());
+        dto.setProductId(productId);
+        if(map.get("quantity") != null && !Strings.isNullOrEmpty(map.get("quantity").toString())) {
+            dto.setQuantity(Double.valueOf(map.get("quantity").toString()));
+        }else{
+            dto.setQuantity(Double.valueOf(0));
+        }
+        if(map.get("note") != null) {
+            dto.setNote(map.get("note").toString());
+        }else{
+            dto.setNote("");
+        }
+        WarehouseApplicationProDTO applyPro = new WarehouseApplicationProDTO();
+        applyPro.setId(map.get("id").toString());
+        dto.setWarehouseApplicationPro(applyPro);
+        return dto;
     }
 
     public void getUserList(){

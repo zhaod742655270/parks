@@ -1,6 +1,7 @@
 package com.hbyd.parks.officesys.wsImpl;
 
 import com.google.common.base.Strings;
+import com.google.gson.internal.LinkedTreeMap;
 import com.hbyd.parks.common.base.BaseWSImpl;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.WarehouseProductQuery;
@@ -66,5 +67,34 @@ public class WarehouseProductWSImpl extends BaseWSImpl<WarehouseProductDTO,Wareh
         ValHelper.notNull(target,"更新的目标不存在!");
         dozerMapper.map(dto,target);
         warehouseProductDao.update(target);
+    }
+
+    //判断货品是否已经存在(通过名称、型号、封装、版本),如果不存在则新增该货品,返回货品ID
+    public String isProductExist(LinkedTreeMap map){
+        WarehouseProductQuery productQuery = new WarehouseProductQuery();
+        productQuery.setRows(1);
+        productQuery.setSort("id");
+        productQuery.setOrder("asc");
+        productQuery.setNameQuery(map.get("productName").toString());
+        productQuery.setModelNumberQuery(map.get("productModelNumber").toString());
+        productQuery.setSpecificationsQuery(map.get("productSpecifications").toString());
+        productQuery.setBrandQuery(map.get("productBrand").toString());
+        PageBeanEasyUI list = getPageBeanByQueryBean(productQuery);
+
+        if(list.getRows() == null){
+            WarehouseProductDTO productDTO = new WarehouseProductDTO();
+            productDTO.setName(map.get("productName").toString());
+            productDTO.setProductType(map.get("productType").toString());
+            productDTO.setModelNumber(map.get("productModelNumber").toString());
+            productDTO.setSpecifications(map.get("productSpecifications").toString());
+            productDTO.setBrand(map.get("productBrand").toString());
+            productDTO.setUnit(map.get("productUnit").toString());
+            productDTO.setProductDesc("自动添加");
+            productDTO = save(productDTO);
+            return productDTO.getId();
+        }else{
+            WarehouseProductDTO productDTO = (WarehouseProductDTO)(list.getRows().get(0));
+            return productDTO.getId();
+        }
     }
 }

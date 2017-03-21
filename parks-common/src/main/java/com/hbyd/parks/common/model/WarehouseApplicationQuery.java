@@ -10,6 +10,8 @@ public class WarehouseApplicationQuery extends QueryBeanEasyUI {
     private String recordDateEndQuery;
     private String typeQuery;
 
+    private Boolean isFinishedQuery;
+
     public String getNameQuery() {
         return nameQuery;
     }
@@ -40,5 +42,13 @@ public class WarehouseApplicationQuery extends QueryBeanEasyUI {
 
     public void setTypeQuery(String typeQuery) {
         this.typeQuery = typeQuery;
+    }
+
+    public Boolean getFinishedQuery() {
+        return isFinishedQuery;
+    }
+
+    public void setFinishedQuery(Boolean finishedQuery) {
+        isFinishedQuery = finishedQuery;
     }
 }
