@@ -29,8 +29,9 @@ $(function(){
             {field:'registerDate',title:'登记日期',sortable:true},
             {field:'hopeEndDate',title:'要求完成日期',sortable:true},
             {field:'assignPersonName',title:'指定处理人员'},
-            {field:'approvePersonName',title:'批准人'},
-            {field:'approveDate',title:'批准日期',sortable:true},
+            {field:'approvePersonName',title:'审批人'},
+            {field:'approveDate',title:'审批日期',sortable:true},
+            {field:'approveNote',title:'审批备注',width:100},
             {field:'quantity',title:'数量'},
             {field:'testBasis',title:'测试依据'},
             {field:'testType',title:'测试类别'},
@@ -77,6 +78,19 @@ $(function(){
         onDblClickRow:editProductTest
     });
 
+    //获得登录人ID及昵称
+    $.ajax({
+        url: '../managesys/user/getCurrentUser',
+        type: 'get',
+        dataType: 'json',
+        success: function (result) {
+            if (result) {
+                userID = result.id;
+                userNickname = result.nickname;
+            }
+        }
+    });
+
     $('#registerPerson').combotree({
         required:true,
         url: 'productTest/getRegPerson',
@@ -112,6 +126,9 @@ $(function(){
     });
 });
 
+var userID = "";
+var userNickname = "";
+
 //列表查询
 function productTestQuery(){
     var params={
@@ -135,17 +152,8 @@ function addProductTest(){
     $('#addProductTest').form('clear');
     var today=new Date();
     $('#registerDate').datebox('setValue',today.toLocaleDateString());   //登录日期
-    $.ajax({
-        url: '../managesys/user/getCurrentUser',
-        type: 'get',
-        dataType: 'json',
-        success: function (result) {
-            if (result) {
-                $('#registerPerson').combobox('setValue',result.id);        //登录人
-                $('#registerPerson').combobox('setText',result.nickname);
-            }
-        }
-    });
+    $('#registerPerson').combobox('setValue',userID);        //登录人
+    $('#registerPerson').combobox('setText',userNickname);
     $.ajax({
         url:'productTest/getNewNumber',
         dataType:'json',
@@ -235,17 +243,8 @@ function begHandle(){
             $('#testPerson').combobox('setValue',row.testPersonID);
             $('#testPerson').combobox('setText',row.testPersonName);
         }else{
-            $.ajax({
-                url: '../managesys/user/getCurrentUser',
-                type: 'get',
-                dataType: 'json',
-                success: function (result) {
-                    if (result) {
-                        $('#testPerson').combobox('setValue',result.id);
-                        $('#testPerson').combobox('setText',result.nickname);
-                    }
-                }
-            });
+            $('#testPerson').combobox('setValue',userID);
+            $('#testPerson').combobox('setText',userNickname);
         }
         $('#planBegDate').datebox('setValue',row.planBegDate);
         $('#planEndDate').datebox('setValue',row.planEndDate);
@@ -293,17 +292,8 @@ function addApprove(){
             $('#approvePerson').combobox('setValue',row.approvePersonID);
             $('#approvePerson').combobox('setText',row.approvePersonName);
         }else{
-            $.ajax({
-                url: '../managesys/user/getCurrentUser',
-                type: 'get',
-                dataType: 'json',
-                success: function (result) {
-                    if (result) {
-                        $('#approvePerson').combobox('setValue',result.id);
-                        $('#approvePerson').combobox('setText',result.nickname);
-                    }
-                }
-            });
+            $('#approvePerson').combobox('setValue',userID);
+            $('#approvePerson').combobox('setText',userNickname);
         }
         if(row.approveDate) {            //审批日期
             $('#approveDate').datebox('setValue', row.approveDate);
@@ -311,6 +301,7 @@ function addApprove(){
             var today = new Date();
             $('#approveDate').datebox('setValue',today.toLocaleDateString());
         }
+        $('#approveNote').textbox('setValue',row.approveNote);      //审批备注
         $('#approveDlg').dialog('open').dialog('setTitle', '审批');
     }else{
         $.messager.alert('提示', '需要选择一条维修记录，才能进行审批。', 'info');

@@ -32,6 +32,7 @@ public class HandMaintenance extends RecoverableEntity {
     @NotAudited
     private User approvePerson;       //批准人
     private String approveDate;         //批准日期
+    private String approveNote;         //审批备注
     private String faultContent;        //故障上报现象\测试内容
     @ManyToOne
     @JoinColumn(name="reportPersonFK")
@@ -302,5 +303,13 @@ public class HandMaintenance extends RecoverableEntity {
 
     public void setAssignPerson(User assignPerson) {
         this.assignPerson = assignPerson;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

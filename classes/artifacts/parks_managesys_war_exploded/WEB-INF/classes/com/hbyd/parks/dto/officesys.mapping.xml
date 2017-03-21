@@ -210,6 +210,14 @@
             <a>assignPerson.nickname</a>
             <b>assignPersonName</b>
         </field>
+        <field>
+            <a>approvePerson.id</a>
+            <b>approvePersonID</b>
+        </field>
+        <field>
+            <a>approvePerson.nickname</a>
+            <b>approvePersonName</b>
+        </field>
     </mapping>
 
     <mapping map-null="false">

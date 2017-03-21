@@ -84,6 +84,9 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
         if(!Strings.isNullOrEmpty(dto.getResultPersonID())) {
             target.setResultPerson(null);
         }
+        if(!Strings.isNullOrEmpty(dto.getApprovePersonID())) {
+            target.setApprovePerson(null);
+        }
         if(!Strings.isNullOrEmpty(dto.getAssignPersonId())) {
             target.setAssignPerson(null);
         }

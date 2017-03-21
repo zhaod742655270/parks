@@ -13,6 +13,10 @@ public class SoftMaintenanceDTO extends BaseDTO {
     private String regPersonName;
     private String regDate;           //登记日期
     private String hopeEndDate;      //要求完成日期
+    private String approvePersonID;       //批准人
+    private String approvePersonName;
+    private String approveDate;         //批准日期
+    private String approveNote;         //审批备注
     private String contractsID;         //项目联系人
     private String contractsName;
     private String phoneNo;             //联系方式
@@ -161,5 +165,37 @@ public class SoftMaintenanceDTO extends BaseDTO {
 
     public void setAssignPersonName(String assignPersonName) {
         this.assignPersonName = assignPersonName;
+    }
+
+    public String getApprovePersonID() {
+        return approvePersonID;
+    }
+
+    public void setApprovePersonID(String approvePersonID) {
+        this.approvePersonID = approvePersonID;
+    }
+
+    public String getApprovePersonName() {
+        return approvePersonName;
+    }
+
+    public void setApprovePersonName(String approvePersonName) {
+        this.approvePersonName = approvePersonName;
+    }
+
+    public String getApproveDate() {
+        return approveDate;
+    }
+
+    public void setApproveDate(String approveDate) {
+        this.approveDate = approveDate;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

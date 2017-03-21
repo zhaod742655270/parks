@@ -218,6 +218,40 @@
        onclick="javascript:$('#handleDlg').dialog('close')">取消</a>
 </div>
 
+<!--审批界面-->
+<div id="approveDlg" class="easyui-dialog" style="padding: 10px" modal="true" closed="true" buttons="#approveDlg-button">
+    <form id="addApprove">
+        <table>
+            <tr>
+                <td style="height: 5px;"><input type="hidden" id="approveId" name="maintenance.id"/></td>
+            </tr>
+
+            <tr>
+                <td class="tdLeft"><label>审批人：</label></td>
+                <td class="tdRight"><input id="approvePerson" class="easyui-combobox" name="maintenance.approvePersonID"></td>
+
+                <td class="tdLeft"><label>审批日期：</label></td>
+                <td class="tdRight"><input id="approveDate" class="easyui-datebox" name="maintenance.approveDate"></td>
+            </tr>
+
+            <tr>
+                <td class="tdLeft"><label>审批备注</label></td>
+                <td class="tdRight" rowspan="2" colspan="3">
+                    <input id="approveNote" class="easyui-textbox" name="maintenance.approveNote"
+                           data-options="multiline:true" style="width: 100%;height: 50px">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--审批界面按钮-->
+<div id="approveDlg-button">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveApprove()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+       onclick="javascript:$('#approveDlg').dialog('close')">取消</a>
+</div>
+
 <!--最终结论界面-->
 <div id="resultDlg" class="easyui-dialog" style="padding: 10px" modal="true" closed="true" buttons="#resultDlg-button">
     <form id="addResult">

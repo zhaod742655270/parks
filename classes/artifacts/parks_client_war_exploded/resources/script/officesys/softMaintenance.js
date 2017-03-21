@@ -27,6 +27,9 @@ $(function(){
             {field:'regPersonName',title:'登记人'},
             {field:'regDate',title:'登记日期',sortable:true},
             {field:'hopeEndDate',title:'要求完成日期',sortable:true},
+            {field:'approvePersonName',title:'审批人'},
+            {field:'approveDate',title:'审批日期',sortable:true},
+            {field:'approveNote',title:'审批备注',width:100},
             {field:'contractsName',title:'项目联系人'},
             {field:'phoneNo',title:'联系方式'},
             {field:'assignPersonName',title:'指定处理人员'},
@@ -45,6 +48,9 @@ $(function(){
                 }
                 if(data.rows[i].resultDate == "1900-01-01"){
                     data.rows[i].resultDate = "";
+                }
+                if(data.rows[i].approveDate == "1900-01-01"){
+                    data.rows[i].approveDate = "";
                 }
             }
             return data;
@@ -84,6 +90,19 @@ $(function(){
                 }
             }
             return data;
+        }
+    });
+
+    //获得登录人ID及昵称
+    $.ajax({
+        url: '../managesys/user/getCurrentUser',
+        type: 'get',
+        dataType: 'json',
+        success: function (result) {
+            if (result) {
+                userID = result.id;
+                userNickname = result.nickname;
+            }
         }
     });
 
@@ -140,7 +159,18 @@ $(function(){
         valueField: 'id',
         textField: 'text'
     });
+
+    //获取审批人列表
+    $('#approvePerson').combotree({
+        required:true,
+        url: 'softMaintenance/getRegPerson',
+        valueField: 'id',
+        textField: 'text'
+    });
 });
+
+var userID = "";
+var userNickname = "";
 
 //列表查询
 function maintenanceQuery(){
@@ -165,17 +195,8 @@ function addMaintenance(){
     $('#addMaintenance').form('clear');
     var today=new Date();
     $('#regDate').datebox('setValue',today.toLocaleDateString());   //登录日期
-    $.ajax({
-        url: '../managesys/user/getCurrentUser',
-        type: 'get',
-        dataType: 'json',
-        success: function (result) {
-            if (result) {
-                $('#regPerson').combobox('setValue',result.id);        //登录人
-                $('#regPerson').combobox('setText',result.nickname);
-            }
-        }
-    });
+    $('#regPerson').combobox('setValue',userID);        //登录人
+    $('#regPerson').combobox('setText',userNickname);
     $.ajax({
         url:'softMaintenance/getNewNumber',
         dataType:'json',
@@ -291,17 +312,8 @@ function addHandle(){
     var row = $('#maintenance-dg').datagrid('getSelected');
     $('#handleDlg').form('clear');
     $('#parentIdFK').val(row.id);
-    $.ajax({
-        url: '../managesys/user/getCurrentUser',
-        type: 'get',
-        dataType: 'json',
-        success: function (result) {
-            if (result) {
-                $('#handlePerson').combobox('setValue',result.id);        //承担人
-                $('#handlePerson').combobox('setText',result.nickname);
-            }
-        }
-    });
+    $('#handlePerson').combobox('setValue',userID);        //承担人
+    $('#handlePerson').combobox('setText',userNickname);
     $('#handleDlg').dialog('open').dialog('setTitle', '新增处理过程');
 }
 
@@ -363,6 +375,51 @@ function saveHandle(){
             if (data.success) {
                 $('#handleDlg').dialog('close');
                 $('#handle-dg').datagrid('reload');
+            }else {
+                $.messager.alert('操作失败', data.message, 'error');
+            }
+        }
+    });
+}
+
+//打开审批界面
+function addApprove(){
+    var row = $('#maintenance-dg').datagrid('getSelected');
+    if(row){
+        $('#addApprove').form('clear');
+        $('#approveId').val(row.id);
+        if(row.approvePersonName) {          //审批人
+            $('#approvePerson').combobox('setValue',row.approvePersonID);
+            $('#approvePerson').combobox('setText',row.approvePersonName);
+        }else {
+            $('#approvePerson').combobox('setValue', userID);
+            $('#approvePerson').combobox('setText', userNickname);
+        }
+        if(row.approveDate) {            //审批日期
+            $('#approveDate').datebox('setValue', row.approveDate);
+        }else{
+            var today = new Date();
+            $('#approveDate').datebox('setValue',today.toLocaleDateString());
+        }
+        $('#approveNote').textbox('setValue',row.approveNote);
+        $('#approveDlg').dialog('open').dialog('setTitle', '审批');
+    }else{
+        $.messager.alert('提示', '需要选择一条售后维护记录，才能进行审批。', 'info');
+    }
+}
+
+//保存审批记录
+function saveApprove(){
+    $('#addApprove').form('submit', {
+        url: 'softMaintenance/editMaintenance',
+        onSubmit: function () {
+            return $(this).form('validate');
+        },
+        success: function (result) {
+            var data = jQuery.parseJSON(result);
+            if (data.success) {
+                $('#approveDlg').dialog('close');
+                $('#maintenance-dg').datagrid('reload');
             }else {
                 $.messager.alert('操作失败', data.message, 'error');
             }

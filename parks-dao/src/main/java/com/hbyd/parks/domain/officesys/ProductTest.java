@@ -31,6 +31,7 @@ public class ProductTest  extends RecoverableEntity{
     @NotAudited
     private User approvePerson;       //批准人
     private String approveDate;         //批准日期
+    private String approveNote;         //审批备注
     private Double quantity;            //数量
     private String testBasis;            //测试依据
     private String testType;            //测试类别
@@ -245,5 +246,13 @@ public class ProductTest  extends RecoverableEntity{
 
     public void setAssignPerson(User assignPerson) {
         this.assignPerson = assignPerson;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

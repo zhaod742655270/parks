@@ -16,6 +16,7 @@ public class ProductTestDTO extends BaseDTO {
     private String approvePersonID;       //批准人
     private String approvePersonName;
     private String approveDate;         //批准日期
+    private String approveNote;         //审批日期
     private Double quantity;            //数量
     private String testBasis;            //测试依据
     private String testType;            //测试类别
@@ -259,5 +260,13 @@ public class ProductTestDTO extends BaseDTO {
 
     public void setAssignPersonName(String assignPersonName) {
         this.assignPersonName = assignPersonName;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

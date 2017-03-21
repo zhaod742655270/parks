@@ -221,11 +221,18 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>批准人：</label></td>
+                <td class="tdLeft"><label>审批人：</label></td>
                 <td class="tdRight"><input id="approvePerson" class="easyui-combobox" name="productTest.approvePersonID"></td>
 
-                <td class="tdLeft"><label>批准日期：</label></td>
+                <td class="tdLeft"><label>审批日期：</label></td>
                 <td class="tdRight"><input id="approveDate" class="easyui-datebox" name="productTest.approveDate"></td>
+            </tr>
+            <tr>
+                <td class="tdLeft"><label>审批备注：</label></td>
+                <td class="tdRight" rowspan="2" colspan="3">
+                    <input id="approveNote" class="easyui-textbox" name="productTest.approveNote"
+                           data-options="multiline:true" style="width: 100%;height: 50px">
+                </td>
             </tr>
         </table>
     </form>

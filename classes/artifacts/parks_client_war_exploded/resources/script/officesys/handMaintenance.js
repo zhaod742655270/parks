@@ -30,9 +30,10 @@ $(function(){
             {field:'registerDate',title:'登记日期',sortable:true},
             {field:'hopeEndDate',title:'要求完成日期',sortable:true},
             {field:'assignPersonName',title:'指定处理人员'},
-            {field:'approvePersonName',title:'批准人'},
+            {field:'approvePersonName',title:'审批人'},
             
-            {field:'approveDate',title:'批准日期',sortable:true},
+            {field:'approveDate',title:'审批日期',sortable:true},
+            {field:'approveNote',title:'审批备注',width:100},
             {field:'faultContent',title:'故障上报现象\\测试内容',width:120},
             {field:'reportPersonName',title:'上报人'},
             {field:'productNo',title:'产品编号'},
@@ -360,6 +361,7 @@ function addApprove(){
             var today = new Date();
             $('#approveDate').datebox('setValue',today.toLocaleDateString());
         }
+        $('#approveNote').textbox('setValue',row.approveNote);      //审批备注
         $('#approveDlg').dialog('open').dialog('setTitle', '审批');
     }else{
         $.messager.alert('提示', '需要选择一条维修记录，才能进行审批。', 'info');

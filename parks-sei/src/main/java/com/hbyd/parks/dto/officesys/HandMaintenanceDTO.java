@@ -17,6 +17,7 @@ public class HandMaintenanceDTO extends BaseDTO {
     private String approvePersonID;       //批准人
     private String approvePersonName;
     private String approveDate;         //批准日期
+    private String approveNote;         //审批日期
     private String faultContent;        //故障上报现象\测试内容
     private String reportPersonID;      //上报人
     private String reportPersonName;
@@ -339,5 +340,13 @@ public class HandMaintenanceDTO extends BaseDTO {
 
     public void setAssignPersonName(String assignPersonName) {
         this.assignPersonName = assignPersonName;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

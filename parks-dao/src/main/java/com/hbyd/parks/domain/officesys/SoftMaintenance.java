@@ -25,6 +25,12 @@ public class SoftMaintenance extends RecoverableEntity {
     private String regDate;           //登记日期
     private String hopeEndDate;      //要求完成日期
     @ManyToOne
+    @JoinColumn(name="approvePersonFK")
+    @NotAudited
+    private User approvePerson;       //批准人
+    private String approveDate;         //批准日期
+    private String approveNote;         //审批备注
+    @ManyToOne
     @JoinColumn(name = "contractsFK")
     @NotAudited
     private User contracts;        //项目联系人
@@ -157,5 +163,29 @@ public class SoftMaintenance extends RecoverableEntity {
 
     public void setAssignPerson(User assignPerson) {
         this.assignPerson = assignPerson;
+    }
+
+    public User getApprovePerson() {
+        return approvePerson;
+    }
+
+    public void setApprovePerson(User approvePerson) {
+        this.approvePerson = approvePerson;
+    }
+
+    public String getApproveDate() {
+        return approveDate;
+    }
+
+    public void setApproveDate(String approveDate) {
+        this.approveDate = approveDate;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }
