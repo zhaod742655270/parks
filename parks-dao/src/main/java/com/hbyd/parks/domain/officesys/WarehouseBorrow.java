@@ -34,6 +34,11 @@ public class WarehouseBorrow extends RecoverableEntity{
     private Double quantity;             //数量
     private String note;                //备注
 
+    @ManyToOne
+    @JoinColumn(name="warehouseFK")
+    @NotAudited
+    private Warehouse warehouse;        //关联的库存货品
+
     public String getNumber() {
         return number;
     }
@@ -96,5 +101,13 @@ public class WarehouseBorrow extends RecoverableEntity{
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

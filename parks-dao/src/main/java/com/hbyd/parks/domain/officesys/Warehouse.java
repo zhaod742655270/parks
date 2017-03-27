@@ -33,6 +33,10 @@ public class Warehouse extends RecoverableEntity {
     @NotAudited
     private Set<WarehouseOutputPro> warehouseOutputPros;
 
+    @OneToMany(mappedBy = "warehouse")
+    @NotAudited
+    private Set<WarehouseBorrow> warehouseBorrows;
+
     public WarehouseProduct getWarehouseProduct() {
         return warehouseProduct;
     }
@@ -87,5 +91,13 @@ public class Warehouse extends RecoverableEntity {
 
     public void setWarehouseOutputPros(Set<WarehouseOutputPro> warehouseOutputPros) {
         this.warehouseOutputPros = warehouseOutputPros;
+    }
+
+    public Set<WarehouseBorrow> getWarehouseBorrows() {
+        return warehouseBorrows;
+    }
+
+    public void setWarehouseBorrows(Set<WarehouseBorrow> warehouseBorrows) {
+        this.warehouseBorrows = warehouseBorrows;
     }
 }

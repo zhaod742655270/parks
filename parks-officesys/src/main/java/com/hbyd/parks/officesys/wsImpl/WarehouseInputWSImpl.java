@@ -25,6 +25,8 @@ public class WarehouseInputWSImpl extends BaseWSImpl<WarehouseInputDTO,Warehouse
     @Resource
     private WarehouseInputDao warehouseInputDao;
 
+    private WarehouseInputProWSImpl warehouseInputProWS = new WarehouseInputProWSImpl();
+
     @Override
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseInputQuery query){
         DetachedCriteria criteria = DetachedCriteria.forClass(WarehouseInput.class);

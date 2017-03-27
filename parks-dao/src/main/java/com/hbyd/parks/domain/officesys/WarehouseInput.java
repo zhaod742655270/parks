@@ -6,7 +6,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 入库管理
@@ -52,7 +52,7 @@ public class WarehouseInput extends RecoverableEntity {
 
     @OneToMany(mappedBy = "warehouseInput")
     @NotAudited
-    private List<WarehouseInputPro> warehouseInputPro;        //入库货品
+    private Set<WarehouseInputPro> warehouseInputPro;        //入库货品
 
     public String getNumber() {
         return number;
@@ -94,11 +94,11 @@ public class WarehouseInput extends RecoverableEntity {
         this.note = note;
     }
 
-    public List<WarehouseInputPro> getWarehouseInputPro() {
+    public Set<WarehouseInputPro> getWarehouseInputPro() {
         return warehouseInputPro;
     }
 
-    public void setWarehouseInputPro(List<WarehouseInputPro> warehouseInputPro) {
+    public void setWarehouseInputPro(Set<WarehouseInputPro> warehouseInputPro) {
         this.warehouseInputPro = warehouseInputPro;
     }
 

@@ -133,8 +133,6 @@ $(function(){
         fit:true,
         selectOnCheck:true,
         url: 'warehouseApplication/applicationProListUnfinished',
-        onSelect:onSelect,
-        onUnselect:onUnselect,
         frozenColumns: [[
             {field: 'id', title: 'ID', align: 'left', hidden: true},
             {field: 'parentIdFK', hidden: true},
@@ -160,7 +158,12 @@ $(function(){
                 editor :{
                     type:'textbox'
                 }}
-        ]]
+        ]],
+        onSelect:onSelect,
+        onUnselect:onUnselect
+        //运行速度太慢，取消全选时的编辑模式
+        //onSelectAll:onSelectAll,
+        //onUnselectAll:onUnselectAll
     });
 
     $('#inputType').combobox({
@@ -221,6 +224,16 @@ $(function(){
     }
     function onUnselect(rowIndex,rowData){
         $('#application-dg').datagrid('cancelEdit', rowIndex);
+    }
+    function onSelectAll(rows){
+        for(var i in rows){
+            $('#application-dg').datagrid('beginEdit', i);
+        }
+    }
+    function onUnselectAll(rows){
+        for(var i in rows){
+            $('#application-dg').datagrid('cancelEdit', i);
+        }
     }
     var editIndex = undefined;
     function onClickRow(index){

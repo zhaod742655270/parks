@@ -21,6 +21,8 @@ public class WarehouseBorrowDTO extends BaseDTO {
     private Double quantity;             //数量
     private String note;                //备注
 
+    private WarehouseDTO warehouseDTO;      //关联库存货品
+
     public String getNumber() {
         return number;
     }
@@ -123,5 +125,13 @@ public class WarehouseBorrowDTO extends BaseDTO {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public WarehouseDTO getWarehouseDTO() {
+        return warehouseDTO;
+    }
+
+    public void setWarehouseDTO(WarehouseDTO warehouseDTO) {
+        this.warehouseDTO = warehouseDTO;
     }
 }

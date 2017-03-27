@@ -25,4 +25,8 @@ public interface WarehouseWS extends BaseWS<WarehouseDTO>,RecoverableWS {
     public void changeQuantity(String productId,Double quantity,Double newCost);
 
     public void changeQuantityByBorrow(String productId,Double quantity);
+
+    public Double getStatisticsForInputOutput(String warehouseId);
+
+    public Double getStatisticsForBorrow(String warehouseId);
 }

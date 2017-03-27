@@ -27,6 +27,8 @@ public class WarehouseInputProWSImpl extends BaseWSImpl<WarehouseInputProDTO,War
     @Resource
     private WarehouseInputProDao warehouseInputProDao;
 
+    private WarehouseWSImpl warehouseWS = new WarehouseWSImpl();
+
     @Override
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseInputQuery query,String parentId){
         DetachedCriteria criteria = DetachedCriteria.forClass(WarehouseInputPro.class);
@@ -83,7 +85,7 @@ public class WarehouseInputProWSImpl extends BaseWSImpl<WarehouseInputProDTO,War
             target.getWarehouseApplicationPro().setFinished(false);     //申请表对应货品完成情况置为false
         }
 
-        baseDao.update(target);
+        warehouseInputProDao.update(target);
     }
 
     public Double getQuantityById(String id){

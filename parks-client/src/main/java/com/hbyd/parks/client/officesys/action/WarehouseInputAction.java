@@ -54,9 +54,6 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
     @Resource
     private WarehouseProductWS warehouseProductWS;
 
-    @Resource
-    private WarehouseApplicationProWS warehouseApplicationProWS;
-
     private WarehouseInputQuery query = new WarehouseInputQuery();
     private WarehouseInputDTO warehouseInput = new WarehouseInputDTO();
     private WarehouseInputProDTO warehouseInputPro = new WarehouseInputProDTO();
@@ -85,7 +82,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             }
             warehouseInput = warehouseInputWS.save(warehouseInput);
 
-            //同时更新库存信息
+            //根据入库单添加货品
             if(!Strings.isNullOrEmpty(warehouseInput.getApplicationID())) {
                 addProductByApplication();
             }
@@ -128,11 +125,10 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             if(list != null) {
                 for (int i = 0; i < list.getTotal(); i++) {
                     WarehouseInputProDTO dto = (WarehouseInputProDTO) list.getRows().get(i);
-                    Double quantity = dto.getQuantity() * -1;
-                    warehouseWS.changeQuantity(dto.getProductId(), quantity, dto.getPrice());
-
                     //同时伪删除入库单下货品信息
                     warehouseInputProWS.delFake(dto.getId());
+                    //更新库存信息
+                    updateWarehouse(dto.getWarehouse().getId());
                 }
             }
         }catch(Exception e){
@@ -168,15 +164,13 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
                 WarehouseInputProDTO dto = fillInputProDTO(map);
                 //保存
                 if(map.get("id") == null){
-                    warehouseInputProWS.save(dto);
-                    //同时更新库存中的数据
-                    warehouseWS.changeQuantity(dto.getProductId(),dto.getQuantity(),dto.getPrice());
+                    dto = warehouseInputProWS.save(dto);
+                    //更新库存信息
+                    updateWarehouse(dto.getWarehouse().getId());
                 }else{
-                    Double oldQuantity = warehouseInputProWS.getQuantityById(dto.getId());
                     warehouseInputProWS.update(dto);
-                    //同时更新库存中的数据
-                    Double quantity = dto.getQuantity() - oldQuantity;
-                    warehouseWS.changeQuantity(dto.getProductId(),quantity,dto.getPrice());
+                    //更新库存信息
+                    updateWarehouse(dto.getWarehouse().getId());
                 }
             }
         } catch (Exception e) {
@@ -192,12 +186,11 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
     public void deleteWarehouseInputPro(){
         AjaxMessage massage = new AjaxMessage();
         try{
-            WarehouseInputProDTO dto=warehouseInputProWS.getByID(id);
+            WarehouseInputProDTO dto = warehouseInputProWS.getByID(id);
             warehouseInputProWS.delFake(id);
 
-            //同时更新库存中的数据
-            Double quantity = dto.getQuantity() * -1;
-            warehouseWS.changeQuantity(dto.getProductId(),quantity,dto.getPrice());
+            //更新库存信息
+            updateWarehouse(dto.getWarehouse().getId());
         }catch(Exception e){
             massage.setSuccess(false);
             massage.setMessage(e.getMessage());
@@ -218,7 +211,7 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             //判断货品是否已存在
             //如果相同货品不存在，则在货品库中添加该货品
             //返回货品ID
-            productId = warehouseProductWS.isProductExist(map);
+            productId = isProductExist(map,warehouseInput.getInputType());
 
             //填充DTO
             WarehouseInputProDTO dto = fillInputProDTO(map,productId);
@@ -226,12 +219,51 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             dto = warehouseInputProWS.save(dto);
 
             //同时更新库存中的数据
-            warehouseWS.changeQuantity(dto.getProductId(),dto.getQuantity(),dto.getPrice());
+            updateWarehouse(dto.getWarehouse().getId());
 
             //将申请单中该物品置为已完成
             dto = warehouseInputProWS.getByID(dto.getId());
             dto.getWarehouseApplicationPro().setFinished(true);
             warehouseInputProWS.update(dto);
+        }
+    }
+
+    public void updateWarehouse(String warehouseId){
+        Double quantity = warehouseWS.getStatisticsForInputOutput(warehouseId);
+        WarehouseDTO warehouseDTO = warehouseWS.getByID(warehouseId);
+        warehouseDTO.setQuantity(quantity);
+        warehouseDTO.setQuantityUse(quantity - warehouseDTO.getQuantityBorrow());
+        warehouseWS.update(warehouseDTO);
+    }
+
+    //判断货品是否已经存在(通过名称、型号、封装、版本),如果不存在则新增该货品,返回货品ID
+    public String isProductExist(LinkedTreeMap map,String productType){
+        WarehouseProductQuery productQuery = new WarehouseProductQuery();
+        productQuery.setRows(1);
+        productQuery.setSort("id");
+        productQuery.setOrder("asc");
+        productQuery.setNameQuery(map.get("productName").toString());
+        productQuery.setModelNumberQuery(map.get("productModelNumber").toString());
+        productQuery.setSpecificationsQuery(map.get("productSpecifications").toString());
+        productQuery.setBrandQuery(map.get("productBrand").toString());
+        PageBeanEasyUI list = warehouseProductWS.getPageBeanByQueryBean(productQuery);
+
+        if(list.getTotal() == 0){
+            WarehouseProductDTO productDTO = new WarehouseProductDTO();
+            productDTO.setName(map.get("productName").toString());
+            productDTO.setProductType(productType);
+            productDTO.setModelNumber(map.get("productModelNumber").toString());
+            productDTO.setSpecifications(map.get("productSpecifications").toString());
+            productDTO.setBrand(map.get("productBrand").toString());
+            productDTO.setUnit(map.get("productUnit").toString());
+            productDTO.setProductDesc("自动添加");
+            productDTO = warehouseProductWS.save(productDTO);
+            //同时更新库存信息
+            warehouseWS.addProduct(productDTO.getId());
+            return productDTO.getId();
+        }else{
+            WarehouseProductDTO productDTO = (WarehouseProductDTO)(list.getRows().get(0));
+            return productDTO.getId();
         }
     }
 
@@ -254,17 +286,22 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }else{
             dto.setPrice(Double.valueOf(0));
         }
-        if(map.get("valence") != null && !Strings.isNullOrEmpty(map.get("valence").toString())) {
-            dto.setValence(Double.valueOf(map.get("valence").toString()));
+        dto.setValence(Double.valueOf(0));
+        if(map.get("productNum") != null) {
+            dto.setProductNum(map.get("productNum").toString());
         }else{
-            dto.setValence(Double.valueOf(0));
+            dto.setProductNum("");
         }
-        dto.setProductNum(map.get("productNum").toString());
         if(map.get("note") != null) {
             dto.setNote(map.get("note").toString());
         }else{
             dto.setNote("");
         }
+        //关联库存
+        WarehouseDTO warehouseDTO = new WarehouseDTO();
+        warehouseDTO.setId(warehouseProductWS.getWarehouseByProdutId(dto.getProductId()));
+        dto.setWarehouse(warehouseDTO);
+
         return dto;
     }
 
@@ -282,13 +319,23 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
         }else{
             dto.setPrice(Double.valueOf(0));
         }
-        dto.setValence(dto.getPrice() * dto.getQuantity());
-        dto.setProductNum(map.get("productNum").toString());
+        dto.setValence(Double.valueOf(0));
+        if(map.get("productNum") != null) {
+            dto.setProductNum(map.get("productNum").toString());
+        }else{
+            dto.setProductNum("");
+        }
         if(map.get("note") != null) {
             dto.setNote(map.get("note").toString());
         }else{
             dto.setNote("");
         }
+        //关联库存
+        WarehouseDTO warehouseDTO = new WarehouseDTO();
+        String warehouseID = warehouseProductWS.getWarehouseByProdutId(dto.getProductId());
+        warehouseDTO.setId(warehouseID);
+        dto.setWarehouse(warehouseDTO);
+        //关联入库单货品
         WarehouseApplicationProDTO applyPro = new WarehouseApplicationProDTO();
         applyPro.setId(map.get("id").toString());
         dto.setWarehouseApplicationPro(applyPro);

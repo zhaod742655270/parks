@@ -2,8 +2,6 @@ package com.hbyd.parks.dto.officesys;
 
 import com.hbyd.parks.common.base.BaseDTO;
 
-import java.util.Set;
-
 /**
  * Created by Zhao_d on 2017/2/9.
  */
@@ -20,9 +18,6 @@ public class WarehouseDTO extends BaseDTO {
     private Double quantityUse;     //可用数量
     private Double quantityBorrow;  //借用数量
     private Double quantity;        //库存总量
-
-    private Set<WarehouseInputProDTO> warehouseInputProDTOs;
-    private Set<WarehouseOutputProDTO> warehouseOutputProDTOs;
 
     public String getProductId() {
         return productId;
@@ -110,21 +105,5 @@ public class WarehouseDTO extends BaseDTO {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Set<WarehouseInputProDTO> getWarehouseInputProDTOs() {
-        return warehouseInputProDTOs;
-    }
-
-    public void setWarehouseInputProDTOs(Set<WarehouseInputProDTO> warehouseInputProDTOs) {
-        this.warehouseInputProDTOs = warehouseInputProDTOs;
-    }
-
-    public Set<WarehouseOutputProDTO> getWarehouseOutputProDTOs() {
-        return warehouseOutputProDTOs;
-    }
-
-    public void setWarehouseOutputProDTOs(Set<WarehouseOutputProDTO> warehouseOutputProDTOs) {
-        this.warehouseOutputProDTOs = warehouseOutputProDTOs;
     }
 }

@@ -82,7 +82,7 @@ public class WarehouseOutputProWSImpl extends BaseWSImpl<WarehouseOutputProDTO,W
             target.getWarehouseApplicationPro().setFinished(false);     //申请表对应货品完成情况置为false
         }
 
-        baseDao.update(target);
+        warehouseOutputProDao.update(target);
     }
 
     public Double getQuantityById(String id){

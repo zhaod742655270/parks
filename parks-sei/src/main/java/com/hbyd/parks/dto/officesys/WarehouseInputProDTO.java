@@ -19,6 +19,7 @@ public class WarehouseInputProDTO extends BaseDTO {
     private String note;                //备注
 
     private WarehouseApplicationProDTO warehouseApplicationPro;  //申请单对应货品
+    private WarehouseDTO warehouse;        //对应库存货品
 
     public String getParentIdFK() {
         return parentIdFK;
@@ -114,5 +115,13 @@ public class WarehouseInputProDTO extends BaseDTO {
 
     public void setWarehouseApplicationPro(WarehouseApplicationProDTO warehouseApplicationPro) {
         this.warehouseApplicationPro = warehouseApplicationPro;
+    }
+
+    public WarehouseDTO getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseDTO warehouse) {
+        this.warehouse = warehouse;
     }
 }

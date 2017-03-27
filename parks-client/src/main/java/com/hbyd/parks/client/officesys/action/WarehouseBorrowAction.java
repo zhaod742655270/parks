@@ -11,6 +11,7 @@ import com.hbyd.parks.dto.officesys.WarehouseBorrowDTO;
 import com.hbyd.parks.dto.officesys.WarehouseDTO;
 import com.hbyd.parks.ws.managesys.UserWS;
 import com.hbyd.parks.ws.officesys.WarehouseBorrowWS;
+import com.hbyd.parks.ws.officesys.WarehouseProductWS;
 import com.hbyd.parks.ws.officesys.WarehouseWS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -38,6 +39,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
     @Resource
     private WarehouseWS warehouseWS;
 
+    @Resource
+    private WarehouseProductWS warehouseProductWS;
+
     private WarehouseBorrowQuery query = new WarehouseBorrowQuery();
     private WarehouseBorrowDTO warehouseBorrow = new WarehouseBorrowDTO();
     private Gson gson = new Gson();
@@ -57,9 +61,14 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         AjaxMessage massage = new AjaxMessage();
         try{
             warehouseBorrow.setState("未归还");
+            //关联库存
+            WarehouseDTO warehouseDTO = new WarehouseDTO();
+            String warehouseID = warehouseProductWS.getWarehouseByProdutId(warehouseBorrow.getProductId());
+            warehouseDTO.setId(warehouseID);
+            warehouseBorrow.setWarehouseDTO(warehouseDTO);
             warehouseBorrow = warehouseBorrowWS.save(warehouseBorrow);
             //同时更新库存信息
-            warehouseWS.changeQuantityByBorrow(warehouseBorrow.getProductId(),warehouseBorrow.getQuantity());
+            updateWarehouse(warehouseBorrow.getWarehouseDTO().getId());
         }catch(Exception e){
             massage.setSuccess(false);
             massage.setMessage(e.getMessage());
@@ -73,12 +82,10 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         AjaxMessage massage = new AjaxMessage();
         try{
             WarehouseBorrowDTO dto = warehouseBorrowWS.getByID(warehouseBorrow.getId());
-            Double oldQuantity = dto.getQuantity();
             warehouseBorrowWS.update(warehouseBorrow);
-            //同时更新库存信息
+            //同时更新库存信息(已归还的不在处理)
             if(dto.getState().equals("未归还")){
-                Double quantity = warehouseBorrow.getQuantity() - oldQuantity;
-                warehouseWS.changeQuantityByBorrow(warehouseBorrow.getProductId(),quantity);
+                updateWarehouse(dto.getWarehouseDTO().getId());
             }
         }catch(Exception e){
             massage.setSuccess(false);
@@ -94,9 +101,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         try{
             WarehouseBorrowDTO dto = warehouseBorrowWS.getByID(id);
             warehouseBorrowWS.delFake(id);
-            //同时更新库存数据
+            //同时更新库存数据(已归还的不在处理)
             if(dto.getState().equals("未归还")){
-                warehouseWS.changeQuantityByBorrow(dto.getProductId(),dto.getQuantity() * -1);
+                updateWarehouse(dto.getWarehouseDTO().getId());
             }
         }catch(Exception e){
             massage.setSuccess(false);
@@ -117,7 +124,7 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
                 dto.setBackDate(DateTime.now().toString("yyyy-MM-dd"));
                 warehouseBorrowWS.update(dto);
                 //同时更新库存信息
-                warehouseWS.changeQuantityByBorrow(dto.getProductId(),dto.getQuantity() * -1);
+                updateWarehouse(dto.getWarehouseDTO().getId());
             }
         }catch(Exception e){
             massage.setSuccess(false);
@@ -126,6 +133,14 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
             String result = gson.toJson(massage);
             JsonHelper.writeJson(result);
         }
+    }
+
+    public void updateWarehouse(String warehouseId){
+        Double borrow = warehouseWS.getStatisticsForBorrow(warehouseId);
+        WarehouseDTO warehouseDTO = warehouseWS.getByID(warehouseId);
+        warehouseDTO.setQuantityBorrow(borrow);
+        warehouseDTO.setQuantityUse(warehouseDTO.getQuantity() - borrow);
+        warehouseWS.update(warehouseDTO);
     }
 
     public void getUserList(){

@@ -2,8 +2,10 @@ package com.hbyd.parks.domain.officesys;
 
 import com.hbyd.parks.common.base.RecoverableEntity;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +23,10 @@ public class WarehouseProduct extends RecoverableEntity {
     private String brand;           //品牌
     private String unit;            //单位
     private String productDesc;     //描述
+
+    @OneToOne(mappedBy = "warehouseProduct")
+    @NotAudited
+    private Warehouse warehouse;      //库存
 
     public String getName() {
         return name;
@@ -76,5 +82,13 @@ public class WarehouseProduct extends RecoverableEntity {
 
     public void setProductDesc(String productDesc) {
         this.productDesc = productDesc;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }

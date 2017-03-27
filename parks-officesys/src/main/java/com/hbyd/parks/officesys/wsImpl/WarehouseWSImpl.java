@@ -7,14 +7,19 @@ import com.hbyd.parks.common.model.WarehouseQuery;
 import com.hbyd.parks.common.util.ValHelper;
 import com.hbyd.parks.dao.officesys.WarehouseDao;
 import com.hbyd.parks.domain.officesys.Warehouse;
+import com.hbyd.parks.domain.officesys.WarehouseBorrow;
+import com.hbyd.parks.domain.officesys.WarehouseInputPro;
+import com.hbyd.parks.domain.officesys.WarehouseOutputPro;
 import com.hbyd.parks.dto.officesys.WarehouseDTO;
 import com.hbyd.parks.ws.officesys.WarehouseWS;
 import org.hibernate.criterion.DetachedCriteria;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
-import static org.hibernate.criterion.Restrictions.*;
+import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.like;
 
 /**
  * Created by Zhao_d on 2017/2/9.
@@ -77,6 +82,44 @@ public class WarehouseWSImpl extends BaseWSImpl<WarehouseDTO,Warehouse> implemen
         dto.setQuantityBorrow(0d);
         dto.setQuantityUse(0d);
         save(dto);
+    }
+
+    //统计出入库数据
+    public Double getStatisticsForInputOutput(String warehouseId){
+        Warehouse warehouse = warehouseDao.getById(warehouseId);
+        Double quantity = 0d;
+        Set<WarehouseInputPro> warehouseInputPros = warehouse.getWarehouseInputPros();
+        Set<WarehouseOutputPro> warehouseOutputPros = warehouse.getWarehouseOutputPros();
+        if(warehouseInputPros != null) {
+            for (WarehouseInputPro warehouseInputPro : warehouseInputPros){
+                if(warehouseInputPro.isValid() && warehouseInputPro.getWarehouseInput().isValid()) {
+                    quantity += warehouseInputPro.getQuantity();
+                }
+            }
+        }
+        if(warehouseOutputPros != null) {
+            for (WarehouseOutputPro warehouseOutputPro : warehouseOutputPros){
+                if(warehouseOutputPro.isValid() && warehouseOutputPro.getWarehouseOutput().isValid()) {
+                    quantity -= warehouseOutputPro.getQuantity();
+                }
+            }
+        }
+        return quantity;
+    }
+
+    //统计借用数据
+    public Double getStatisticsForBorrow(String warehouseId) {
+        Warehouse warehouse = warehouseDao.getById(warehouseId);
+        Double borrow = 0d;
+        Set<WarehouseBorrow> warehouseBorrows = warehouse.getWarehouseBorrows();
+        if(warehouseBorrows != null) {
+            for (WarehouseBorrow warehouseBorrow : warehouseBorrows){
+                if(warehouseBorrow.isValid() && warehouseBorrow.getState().equals("未归还")) {
+                    borrow += warehouseBorrow.getQuantity();
+                }
+            }
+        }
+        return borrow;
     }
 
     //修改库存数量
