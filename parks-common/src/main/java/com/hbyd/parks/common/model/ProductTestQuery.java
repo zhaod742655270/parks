@@ -13,6 +13,8 @@ public class ProductTestQuery extends QueryBeanEasyUI{
     private String regDateEndQuery;         //登记日期起
     private String assignPersonQuery;       //指定处理人员
 
+    private String checkPersonQuery;            //查询人，用于查询时的权限限制
+
     public String getIdQuery() {
         return idQuery;
     }
@@ -75,5 +77,13 @@ public class ProductTestQuery extends QueryBeanEasyUI{
 
     public void setAssignPersonQuery(String assignPersonQuery) {
         this.assignPersonQuery = assignPersonQuery;
+    }
+
+    public String getCheckPersonQuery() {
+        return checkPersonQuery;
+    }
+
+    public void setCheckPersonQuery(String checkPersonQuery) {
+        this.checkPersonQuery = checkPersonQuery;
     }
 }

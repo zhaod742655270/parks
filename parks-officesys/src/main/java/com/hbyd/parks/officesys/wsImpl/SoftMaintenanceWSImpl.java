@@ -10,6 +10,8 @@ import com.hbyd.parks.domain.officesys.SoftMaintenance;
 import com.hbyd.parks.dto.officesys.SoftMaintenanceDTO;
 import com.hbyd.parks.ws.officesys.SoftMaintenanceWS;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
 import javax.annotation.Resource;
@@ -51,9 +53,12 @@ public class SoftMaintenanceWSImpl extends BaseWSImpl<SoftMaintenanceDTO,SoftMai
         if(!Strings.isNullOrEmpty(query.getIdQuery())){
             criteria.add(eq("id",query.getIdQuery()));
         }
-        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery())){
-            criteria.createAlias("assignPerson","assignPerson")
-                    .add(eq("assignPerson.id",query.getAssignPersonQuery()));
+        //指派人与提交人，用于权限限制
+        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery()) || !Strings.isNullOrEmpty(query.getCheckPersonQuery())){
+            Disjunction dis = Restrictions.disjunction();
+            dis.add(eq("assignPerson.id",query.getAssignPersonQuery()));
+            dis.add(eq("regPerson.id",query.getCheckPersonQuery()));
+            criteria.add(dis);
         }
         PageBeanEasyUI pageBeanEasyUI = softMaintenanceDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());

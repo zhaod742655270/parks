@@ -28,6 +28,8 @@ public class SoftMaintenanceQuery extends QueryBeanEasyUI {
 
     private String assignPersonQuery;           //指派处理人
 
+    private String checkPersonQuery;            //查询人，用于查询时的权限限制
+
     public String getProjectNameQuery() {
         return projectNameQuery;
     }
@@ -122,5 +124,13 @@ public class SoftMaintenanceQuery extends QueryBeanEasyUI {
 
     public void setAssignPersonQuery(String assignPersonQuery) {
         this.assignPersonQuery = assignPersonQuery;
+    }
+
+    public String getCheckPersonQuery() {
+        return checkPersonQuery;
+    }
+
+    public void setCheckPersonQuery(String checkPersonQuery) {
+        this.checkPersonQuery = checkPersonQuery;
     }
 }

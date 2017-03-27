@@ -104,10 +104,10 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>登录人：</label></td>
+                <td class="tdLeft"><label>登记人：</label></td>
                 <td class="tdRight"><input id="regPerson" class="easyui-combobox" name="maintenance.regPersonID">&nbsp;</td>
 
-                <td class="tdLeft"><label>登录日期：</label></td>
+                <td class="tdLeft"><label>登记日期：</label></td>
                 <td class="tdRight"><input id="regDate" class="easyui-datebox" name="maintenance.regDate">&nbsp;</td>
 
                 <td class="tdLeft"><label>要求完成日期：</label></td>

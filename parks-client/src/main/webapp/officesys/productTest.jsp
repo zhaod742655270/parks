@@ -101,10 +101,10 @@
             </tr>
 
             <tr>
-                <td class="tdLeft"><label>登录人：</label></td>
+                <td class="tdLeft"><label>登记人：</label></td>
                 <td class="tdRight"><input id="registerPerson" class="easyui-combobox" name="productTest.registerPersonID"></td>
 
-                <td class="tdLeft"><label>登录日期：</label></td>
+                <td class="tdLeft"><label>登记日期：</label></td>
                 <td class="tdRight"><input id="registerDate" class="easyui-datebox" name="productTest.registerDate"></td>
 
                 <td class="tdLeft"><label>要求完成日期：</label></td>
@@ -118,14 +118,14 @@
             </tr>
             <tr>
                 <td class="tdLeft"><label>测试依据：</label></td>
-                <td style="width:400px">
+                <td style="width:400px" colspan="5">
                     <input id="testBasis" name="productTest.testBasis" style="width:280px">&nbsp;&nbsp;
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="selectBasis()">选择依据</a>
                 </td>
             </tr>
             <tr>
                 <td class="tdLeft"><label>测试类别：</label></td>
-                <td style="width:400px">
+                <td style="width:400px" colspan="5">
                     <input id="testType" name="productTest.testType" style="width:280px">&nbsp;&nbsp;
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="selectType()">选择类别</a>
                 </td>

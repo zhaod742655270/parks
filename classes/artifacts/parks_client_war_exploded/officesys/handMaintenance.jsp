@@ -100,10 +100,10 @@
                                            data-options="required:true,precision:0"></td>
             </tr>
             <tr>
-                <td class="tdLeft"><label>登录人：</label></td>
+                <td class="tdLeft"><label>登记人：</label></td>
                 <td class="tdRight"><input id="registerPerson" class="easyui-combobox" name="maintenance.registerPersonID"></td>
 
-                <td class="tdLeft"><label>登录日期：</label></td>
+                <td class="tdLeft"><label>登记日期：</label></td>
                 <td class="tdRight"><input id="registerDate" class="easyui-datebox" name="maintenance.registerDate"></td>
 
                 <td class="tdLeft"><label>数量：</label></td>

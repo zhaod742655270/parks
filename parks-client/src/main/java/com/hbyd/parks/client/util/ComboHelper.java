@@ -54,9 +54,11 @@ public class ComboHelper {
     public static List<Combobox> getNicknameCombobox(List<UserDTO> list) {
         ArrayList<Combobox> nodes = new ArrayList<>();
         Combobox nodeNull = new Combobox();
+        //添加空白的选项
         nodeNull.setId(null);
         nodeNull.setText("");
         nodes.add(nodeNull);
+
         for (int i = 0; i < list.size(); i++) {
             Combobox node = new Combobox();
             UserDTO dto = list.get(i);

@@ -10,6 +10,8 @@ import com.hbyd.parks.domain.officesys.ProductTest;
 import com.hbyd.parks.dto.officesys.ProductTestDTO;
 import com.hbyd.parks.ws.officesys.ProductTestWS;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
 import javax.annotation.Resource;
@@ -52,9 +54,12 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
         if (!Strings.isNullOrEmpty(query.getRegDateEndQuery())) {
             criteria.add(le("registerDate", query.getRegDateEndQuery()));
         }
-        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery())){
-            criteria.createAlias("assignPerson","assignPerson")
-                    .add(eq("assignPerson.id",query.getAssignPersonQuery()));
+        //指派人与提交人，用于权限限制
+        if(!Strings.isNullOrEmpty(query.getAssignPersonQuery()) || !Strings.isNullOrEmpty(query.getCheckPersonQuery())){
+            Disjunction dis = Restrictions.disjunction();
+            dis.add(eq("assignPerson.id",query.getAssignPersonQuery()));
+            dis.add(eq("registerPerson.id",query.getCheckPersonQuery()));
+            criteria.add(dis);
         }
         PageBeanEasyUI pageBeanEasyUI = productTestDao.getPageBean(query,criteria);
         List list = getDTOList(pageBeanEasyUI.getRows());

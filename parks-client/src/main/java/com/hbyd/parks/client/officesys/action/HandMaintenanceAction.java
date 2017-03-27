@@ -8,10 +8,7 @@ import com.hbyd.parks.client.util.ExportWordHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.log.Operation;
-import com.hbyd.parks.common.model.AjaxMessage;
-import com.hbyd.parks.common.model.Combobox;
-import com.hbyd.parks.common.model.HandMaintenanceQuery;
-import com.hbyd.parks.common.model.PageBeanEasyUI;
+import com.hbyd.parks.common.model.*;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.HandMaintenanceDTO;
 import com.hbyd.parks.ws.managesys.PriviledgeWS;
@@ -65,7 +62,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     }
 
     public PageBeanEasyUI getPageBean(){
-        PageBeanEasyUI list;
+        PageBeanEasyUI list = new PageBeanEasyUI();
         //获得当前登录的用户
         UserDTO user = (UserDTO) ServletActionContext.getRequest().getSession().getAttribute("user");
         //判断该用户是否有查询被指派记录的权限
@@ -75,68 +72,18 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         //判断该用户是否有查询自己添加的记录的权限
         boolean hasPriReg = priviledgeWS.validatePriviledge(user.getId(), regPath);
         if(hasPriAll){
-            list = getMaintenanceList();
-        }else if(hasPriAssign){
-            list = getMaintenanceListForAssign(user.getId());
-        }else if(hasPriReg){
-            list = getMaintenanceListForReg(user.getId());
-        }else{
-            list = getMaintenanceListNull();
-        }
-        return list;
-    }
-
-    //查询所有数据
-    public PageBeanEasyUI getMaintenanceList(){
-        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
-        return list;
-    }
-
-    //查询被指派的数据
-    public PageBeanEasyUI getMaintenanceListForAssign(String userId) {
-        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
-        if(list.getRows() == null){
-            list.setRows(new ArrayList());
-        }else{
-            for(int i=0;i<list.getRows().size();i++){
-                HandMaintenanceDTO dto = (HandMaintenanceDTO)list.getRows().get(i);
-                if(dto.getAssignPersonId() == null){
-                    dto.setAssignPersonId("");
-                }
-                //查询被指派的数据及本人记录的数据(非此类数据去掉)
-                if(!dto.getAssignPersonId().equals(userId) && !dto.getRegisterPersonID().equals(userId)){
-                    list.getRows().remove(i);
-                    i--;
-                }
+            list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        }else if(hasPriAssign || hasPriReg){
+            if(hasPriAssign) {
+                query.setAssignPersonQuery(user.getId());
             }
-        }
-
-        return list;
-    }
-
-    //只能查询自己添加的数据
-    public PageBeanEasyUI getMaintenanceListForReg(String userId){
-        PageBeanEasyUI list = handMaintenanceWS.getPageBeanByQueryBean(query);
-        if(list.getRows() == null){
-            list.setRows(new ArrayList());
-        }else{
-            for(int i=0;i<list.getRows().size();i++){
-                HandMaintenanceDTO dto = (HandMaintenanceDTO)list.getRows().get(i);
-                //查询本人记录的数据(非此类数据去掉)
-                if(!dto.getRegisterPersonID().equals(userId)){
-                    list.getRows().remove(i);
-                    i--;
-                }
+            if(hasPriReg) {
+                query.setCheckPersonQuery(user.getId());
             }
+            list = handMaintenanceWS.getPageBeanByQueryBean(query);
+        }else{
+            list.setRows(new ArrayList());
         }
-
-        return list;
-    }
-
-    //没有查询权限，返回空数据
-    public PageBeanEasyUI getMaintenanceListNull(){
-        PageBeanEasyUI list = new PageBeanEasyUI();
-        list.setRows(new ArrayList());
         return list;
     }
 
@@ -193,9 +140,11 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     }
 
     public void getRegPerson(){
-        List<UserDTO> lists = userWS.getUserByDeptName("工程部");
-        List<UserDTO> resLists = userWS.getUserByDeptName("研发部");
-        lists.addAll(resLists);
+        //按名称顺序排序
+        //排除管理员与超级管理员
+        QueryBeanEasyUI query = new QueryBeanEasyUI(1, 1000, "nickname", "asc");
+        String hql_where = "WHERE isValid=true AND userName!='super' AND userName!='admin'";
+        List<UserDTO> lists = userWS.getPageBean(query, hql_where).getRows();
         if(lists==null){
             lists=new ArrayList<>();
         }
@@ -205,7 +154,7 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
     }
 
     public void getHandlePerson(){
-        List<UserDTO> lists = userWS.getUserByDeptName("研发部");
+        List<UserDTO> lists = userWS.findAllValid();
         if(lists==null){
             lists=new ArrayList<>();
         }

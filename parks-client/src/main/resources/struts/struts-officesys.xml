@@ -244,6 +244,7 @@
         </action>
 
         <action name="editMaintenance" class="softMaintenanceAction" method="editMaintenance">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="deleteMaintenance" class="softMaintenanceAction" method="deleteMaintenance">
@@ -283,6 +284,7 @@
         </action>
 
         <action name="editMaintenance" class="handMaintenanceAction" method="editMaintenance">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="deleteMaintenance" class="handMaintenanceAction" method="deleteMaintenance">
@@ -313,6 +315,7 @@
         </action>
 
         <action name="editProductTest" class="productTestAction" method="editProductTest">
+            <interceptor-ref name="mystack"/>
         </action>
 
         <action name="deleteProductTest" class="productTestAction" method="deleteProductTest">
