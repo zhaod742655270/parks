@@ -166,7 +166,7 @@ public class PaymentWSImpl extends BaseWSImpl<PaymentDTO, Payment> implements Pa
             criteria.add(eq("contractNO", queryBean.getContractNO()));
 
         if (!Strings.isNullOrEmpty(queryBean.getContractName()))
-            criteria.add(eq("contractName", queryBean.getContractName()));
+            criteria.add(like("contractName", "%" + queryBean.getContractName() + "%"));
 
         if (!Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery()))
             criteria.createAlias("contractGatherings","contractGatherings")
