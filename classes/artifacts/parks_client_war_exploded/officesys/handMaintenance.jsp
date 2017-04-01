@@ -166,9 +166,11 @@
 
 <!--新增修改界面按钮-->
 <div id="maintenanceDlg-button">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveMaintenance()">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+    <a href="javascript:void(0)" id="btn-ok" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveMaintenance()">保存</a>
+    <a href="javascript:void(0)" id="btn-cancel" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#maintenanceDlg').dialog('close')">取消</a>
+    <a href="javascript:void(0)" id="btn-close" class="easyui-linkbutton"
+       onclick="javascript:$('#maintenanceDlg').dialog('close')">确定</a>
 </div>
 
 <!--选择维修\测试依据界面-->

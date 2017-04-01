@@ -75,7 +75,7 @@ $(function(){
             }
             return data;
         },
-        onDblClickRow:editProductTest
+        onDblClickRow:openProductTest
     });
 
     //获得登录人ID及昵称
@@ -184,9 +184,40 @@ function editProductTest(){
         $('#testType').val(row.testType);
         $('#testDesc').textbox('setValue',row.testDesc);
 
+        document.getElementById("btn-ok").style.display = "";
+        document.getElementById("btn-cancel").style.display = "";
+        document.getElementById("btn-close").style.display = "none";
+
         $('#productTestDlg').dialog('open').dialog('setTitle', '修改测试记录');
     }else {
         $.messager.alert('提示', '需要选择一条测试记录，才能进行编辑操作。', 'info');
+    }
+}
+
+//查看记录
+function openProductTest(){
+    var row = $('#productTest-dg').datagrid('getSelected');
+    if(row){
+        $('#addProductTest').form('clear');
+
+        $('#id').val(row.id);
+        $('#productName').val(row.productName);
+        $('#number').textbox('setValue',row.number);
+        $('#extractPosition').textbox('setValue',row.extractPosition);
+        $('#registerPerson').combobox('setValue',row.registerPersonID);
+        $('#registerPerson').combobox('setText',row.registerPersonName);
+        $('#registerDate').datebox('setValue',row.registerDate);
+        $('#hopeEndDate').datebox('setValue',row.hopeEndDate);
+        $('#quantity').textbox('setValue',row.quantity);
+        $('#testBasis').val(row.testBasis);
+        $('#testType').val(row.testType);
+        $('#testDesc').textbox('setValue',row.testDesc);
+
+        document.getElementById("btn-ok").style.display = "none";
+        document.getElementById("btn-cancel").style.display = "none";
+        document.getElementById("btn-close").style.display = "";
+
+        $('#productTestDlg').dialog('open').dialog('setTitle', '测试登记记录');
     }
 }
 

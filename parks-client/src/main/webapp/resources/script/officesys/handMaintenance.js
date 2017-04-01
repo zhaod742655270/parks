@@ -71,7 +71,7 @@ $(function(){
             }
             return data;
         },
-        onDblClickRow:editMaintenance
+        onDblClickRow:openMaintenance
     });
     
     //获得登录人ID及昵称
@@ -220,9 +220,45 @@ function editMaintenance(){
         $('#reportPerson').combobox('setText',row.reportPersonName);
         $('#faultContent').textbox('setValue',row.faultContent);
 
+        document.getElementById("btn-ok").style.display = "";
+        document.getElementById("btn-cancel").style.display = "";
+        document.getElementById("btn-close").style.display = "none";
+
         $('#maintenanceDlg').dialog('open').dialog('setTitle', '修改维修记录');
     }else {
         $.messager.alert('提示', '需要选择一条产品维修记录，才能进行编辑操作。', 'info');
+    }
+}
+
+//查看记录
+function openMaintenance(){
+    var row = $('#maintenance-dg').datagrid('getSelected');
+    if(row){
+        $('#addMaintenance').form('clear');
+
+        $('#id').val(row.id);
+        $('#projectName').val(row.projectName);
+        $('#productName').val(row.productName);
+        $('#number').textbox('setValue',row.number);
+        $('#quantity').textbox('setValue',row.quantity);
+        $('#registerPerson').combobox('setValue',row.registerPersonID);
+        $('#registerPerson').combobox('setText',row.registerPersonName);
+        $('#registerDate').datebox('setValue',row.registerDate);
+        $('#hopeEndDate').datebox('setValue',row.hopeEndDate);
+        $('#productNo').val(row.productNo);
+        $('#firmwareVersion').val(row.firmwareVersion);
+        $('#handwareVersion').val(row.handwareVersion);
+        $('#repairBasis').val(row.repairBasis);
+        $('#repairType').val(row.repairType);
+        $('#reportPerson').combobox('setValue',row.reportPersonID);
+        $('#reportPerson').combobox('setText',row.reportPersonName);
+        $('#faultContent').textbox('setValue',row.faultContent);
+
+        document.getElementById("btn-ok").style.display = "none";
+        document.getElementById("btn-cancel").style.display = "none";
+        document.getElementById("btn-close").style.display = "";
+
+        $('#maintenanceDlg').dialog('open').dialog('setTitle', '产品维修记录');
     }
 }
 

@@ -143,9 +143,11 @@
 
 <!--新增修改界面按钮-->
 <div id="productTestDlg-button">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveProductTest()">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+    <a href="javascript:void(0)" id="btn-ok" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveProductTest()">保存</a>
+    <a href="javascript:void(0)" id="btn-cancel" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#productTestDlg').dialog('close')">取消</a>
+    <a href="javascript:void(0)" id="btn-close" class="easyui-linkbutton"
+       onclick="javascript:$('#productTestDlg').dialog('close')">确定</a>
 </div>
 
 <!--测试结果界面-->

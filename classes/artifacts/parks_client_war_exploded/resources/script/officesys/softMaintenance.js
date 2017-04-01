@@ -55,7 +55,7 @@ $(function(){
             }
             return data;
         },
-        onDblClickRow:editMaintenance
+        onDblClickRow:openMaintenance
     });
 
     $('#handle-dg').datagrid({
@@ -226,10 +226,41 @@ function editMaintenance(){
         $('#projectContracts').combobox('setText',row.contractsName);
         $('#phoneNo').textbox('setValue',row.phoneNo);
         $('#faultDesc').textbox('setValue',row.faultDesc);
+        
+        document.getElementById("btn-ok").style.display = "";
+        document.getElementById("btn-cancel").style.display = "";
+        document.getElementById("btn-close").style.display = "none";
 
         $('#maintenanceDlg').dialog('open').dialog('setTitle', '修改售后维护记录');
     }else {
         $.messager.alert('提示', '需要选择一条售后维护记录，才能进行编辑操作。', 'info');
+    }
+}
+
+//双击查看记录
+function openMaintenance(){
+    var row = $('#maintenance-dg').datagrid('getSelected');
+    if(row){
+        $('#addMaintenance').form('clear');
+
+        $('#id').val(row.id);
+        $('#projectName').val(row.projectName);
+        $('#productName').val(row.productName);
+        $('#number').textbox('setValue',row.number);
+        $('#regPerson').combobox('setValue',row.regPersonID);
+        $('#regPerson').combobox('setText',row.regPersonName);
+        $('#regDate').datebox('setValue', row.regDate);
+        $('#hopeEndDate').datebox('setValue', row.hopeEndDate);
+        $('#projectContracts').combobox('setValue',row.contractsID);
+        $('#projectContracts').combobox('setText',row.contractsName);
+        $('#phoneNo').textbox('setValue',row.phoneNo);
+        $('#faultDesc').textbox('setValue',row.faultDesc);
+        
+        document.getElementById("btn-ok").style.display = "none";
+        document.getElementById("btn-cancel").style.display = "none";
+        document.getElementById("btn-close").style.display = "";
+
+        $('#maintenanceDlg').dialog('open').dialog('setTitle', '售后维护记录');
     }
 }
 

@@ -82,8 +82,7 @@
 </div>
 
 <!--新增修改记录界面-->
-<div id="maintenanceDlg" class="easyui-dialog" style="padding: 10px" modal="true"
-     closed="true" buttons="#maintenanceDlg-button">
+<div id="maintenanceDlg" class="easyui-dialog" style="padding: 10px" modal="true" closed="true" buttons="#maintenanceDlg-button">
     <form id="addMaintenance" method="post">
         <table>
             <tr>
@@ -134,9 +133,11 @@
 
 <!--新增修改记录界面按钮-->
 <div id="maintenanceDlg-button">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveMaintenance()">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+    <a href="javascript:void(0)" id="btn-ok" class="easyui-linkbutton" iconcls="icon-ok" onclick="saveMaintenance()">保存</a>
+    <a href="javascript:void(0)" id="btn-cancel" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#maintenanceDlg').dialog('close')">取消</a>
+    <a href="javascript:void(0)" id="btn-close" class="easyui-linkbutton"
+       onclick="javascript:$('#maintenanceDlg').dialog('close')">确定</a>
 </div>
 
 <!--处理过程列表-->
