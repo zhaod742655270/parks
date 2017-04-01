@@ -22,6 +22,15 @@
             <a-hint>com.hbyd.parks.domain.officesys.ContractGatheringPostil</a-hint>
             <b-hint>com.hbyd.parks.dto.officesys.ContractGatheringPostilDTO</b-hint>
         </field>
+
+        <field>
+            <a>contractGathering.id</a>
+            <b>linkContractId</b>
+        </field>
+        <field>
+            <a>contractGathering.contractName</a>
+            <b>linkContractName</b>
+        </field>
     </mapping>
 
     <mapping map-null="false">

@@ -161,9 +161,14 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
 
     @Override
     public List<ContractGatheringDTO> getContractNameBySheetAndType(String sheetName,String contractType) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(ContractGathering.class)
-                .add(eq("sheetName", sheetName))
-                .add(eq("projectType", contractType));
+        DetachedCriteria criteria = DetachedCriteria.forClass(ContractGathering.class);
+        if(!Strings.isNullOrEmpty(sheetName)){
+            criteria.add(eq("sheetName", sheetName));
+        }
+        if(!Strings.isNullOrEmpty(contractType)){
+            criteria.add(eq("projectType", contractType));
+        }
+
         List<ContractGathering> list = criteria.getExecutableCriteria(baseDao.getCurrSession()).list();
         return getDTOList(list);
     }
@@ -226,6 +231,10 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
 
         if (queryBean.getIsCompletedQuery() != null)
             criteria.add(eq("isCompleted", queryBean.getIsCompletedQuery()));
+
+        if(!Strings.isNullOrEmpty(queryBean.getLinkContract())){
+            criteria.createAlias("contractGathering","contractGathering").add(eq("contractGathering.id",queryBean.getLinkContract()));
+        }
 
         return criteria;
     }

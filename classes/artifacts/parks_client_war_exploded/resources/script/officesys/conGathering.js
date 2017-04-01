@@ -93,6 +93,7 @@ $(function () {
             {field:'stampName',title:'盖章情况'},
             {field:'isCompletedName',title:'项目进展'},
             {field:'acceptanceDate',title:'验收日期'},
+            {field:'linkContractName',title:'所属原项目'},
             {field:'note',title:'备注'}
         ]],
 
@@ -329,6 +330,97 @@ $(function () {
         }
     });
 
+    $('#linkContract-table').datagrid({
+        striped: true,
+        sortName:'projectSn',
+        sortOrder:'desc',
+        fitColums: true,
+        fit: true,
+        singleSelect: true,
+        pagination: true,
+        url: 'conGathering/conGatheringList',
+
+        columns:[[
+            {field:'sheetName',title:'年度'},
+            {field:'projectType',title:'合同类型'},
+            {field:'contractNoYD',title:'远东合同号'},
+            {field:'contractNo',title:'合同号',sortable:true},
+            {field:'contractName',title:'合同名称',
+                styler: function(value,row,index){
+                    if(row.contractGatheringPostil) {
+                        if ( row.contractGatheringPostil.contractNamePostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'companyFirst',title:'甲方签约单位'},
+            {field:'companySecond',title:'乙方签约单位'},
+            {field:'signDate',title:'签订日期'},
+            {field:'amount',title:'合同金额',
+                styler: function(value,row,index){
+                    if(row.contractGatheringPostil){
+                        if ( row.contractGatheringPostil.amountPostil){
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'received',title:'已收款金额',
+                styler: function(value,row,index) {
+                    if (row.contractGatheringPostil) {
+                        if ( row.contractGatheringPostil.receivedPostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'receiveNo',title:'未收款金额',
+                styler: function(value,row,index) {
+                    if (row.contractGatheringPostil) {
+                        if ( row.contractGatheringPostil.receiveNoPostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'oncredit',title:'挂账金额',
+                styler: function(value,row,index) {
+                    if (row.contractGatheringPostil) {
+                        if (row.contractGatheringPostil.oncreditPostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'remain',title:'剩余金额',
+                styler: function(value,row,index) {
+                    if (row.contractGatheringPostil) {
+                        if (row.contractGatheringPostil.remainPostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'gross',title:'毛利',
+                styler: function(value,row,index) {
+                    if (row.contractGatheringPostil) {
+                        if (row.contractGatheringPostil.grossPostil) {
+                            return 'color:red;';
+                        }
+                    }
+                }
+            },
+            {field:'projectManager',title:'市场负责人'},
+            {field:'projectDirector',title:'工程负责人'},
+            {field:'stampName',title:'盖章情况'},
+            {field:'isCompletedName',title:'项目进展'},
+            {field:'acceptanceDate',title:'验收日期'},
+            {field:'linkContractName',title:'所属原项目'},
+            {field:'note',title:'备注'}
+        ]]
+    });
+
     $('#sheetNameQuery').combobox({
         data: [{"value": "2019", "text": "2019"}, {"value": "2018", "text": "2018"}, {"value": "2017", "text": "2017"}, {"value": "2016", "text": "2016"},
             {"value": "2015", "text": "2015"}, {"value": "2014", "text": "2014"}, {"value": "2013", "text": "2013"}, {"value": "2012", "text": "2012"},{"value": "2011", "text": "2011"}, {"value": "2010", "text": "2010"}
@@ -345,13 +437,13 @@ $(function () {
 
     $('#projectType').combobox({
         data: [{"value": "贸易项目", "text": "贸易项目"}, {"value": "零星项目", "text": "零星项目"}, {
-            "value": "弱电项目", "text": "弱电项目"}, {"value": "其它项目", "text": "其它项目"}],
+            "value": "弱电项目", "text": "弱电项目"},{"value":"洽商项目","text":"洽商项目"}, {"value": "其它项目", "text": "其它项目"}],
         valueField: 'value',
         textField: 'text'
     });
     $('#projectTypeQuery').combobox({
         data: [{"value": "贸易项目", "text": "贸易项目"}, {"value": "零星项目", "text": "零星项目"}, {
-            "value": "弱电项目", "text": "弱电项目"}, {"value": "其它项目", "text": "其它项目"}],
+            "value": "弱电项目", "text": "弱电项目"},{"value":"洽商项目","text":"洽商项目"}, {"value": "其它项目", "text": "其它项目"}],
         valueField: 'value',
         textField: 'text'
     });
@@ -429,7 +521,17 @@ $(function () {
         }
     });
 
-})
+   $('#linkContract').combobox({
+       url:'conGathering/getContractList',
+       valueField: 'id',
+       textField: 'text',
+       filter: function(q, row){
+           var opts = $(this).combobox('options');
+           return row[opts.textField].indexOf(q) >= 0;
+       }
+   });
+
+});
 
 // 定义窗口的提交地址
 var formUrl = 'conGathering/addConGathering';
@@ -470,7 +572,9 @@ function editContract() {
         $('#projectDirector').val(row.projectDirector);
         $('#stamp').combobox("setValue",row.stamp);
         $('#isCompleted').combobox("setValue",row.isCompleted);
-        $('#note').val(row.note);
+        $('#linkContract').combobox("setValue",row.linkContractId);
+        $('#linkContract').combobox("setText",row.linkContractName);
+        $('#note').textbox("setValue",row.note);
     } else {
         $.messager.alert('提示', '需要选择一个合同，才能进行编辑操作。', 'info');
     }
@@ -1180,4 +1284,21 @@ function onSelectProjectType(record){
     if(record.text == "贸易项目"){
         $('#contractName').textbox('setValue',"产品购销合同");
     }
+}
+
+//查看附加合同
+function viewLinkContract(){
+
+    var row = $('#conGathering-dg').datagrid('getSelected');
+    if (row) {
+        $('#linkContract-dlg').dialog('open').dialog('setTitle', '查看附加合同');
+        $('#linkContract-table').datagrid({
+            queryParams: {
+                linkContract:row.id
+            }
+        });
+    }else{
+        $.messager.alert('提示', '需要选择一个合同，才能进行查看附加合同的操作。', 'info');
+    }
+
 }

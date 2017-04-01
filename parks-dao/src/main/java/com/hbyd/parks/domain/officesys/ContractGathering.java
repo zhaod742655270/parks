@@ -76,6 +76,11 @@ public class ContractGathering extends RecoverableEntity {
     @NotAudited
     private List<Payment> payments;
 
+    @ManyToOne
+    @JoinColumn(name="contractFK")
+    @NotAudited
+    private ContractGathering contractGathering;
+
     public int getProjectSn() {
         return projectSn;
     }
@@ -275,5 +280,13 @@ public class ContractGathering extends RecoverableEntity {
 
     public void setAcceptanceDate(String acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
+    }
+
+    public ContractGathering getContractGathering() {
+        return contractGathering;
+    }
+
+    public void setContractGathering(ContractGathering contractGathering) {
+        this.contractGathering = contractGathering;
     }
 }

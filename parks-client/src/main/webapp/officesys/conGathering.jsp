@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../resources/script/officesys/conGathering.js"></script>
     <style type="text/css">
         #add-form td {
-            height: 35px;
+            height: 25px;
         }
         #addPostil-form td {
             height: 48px;
@@ -103,12 +103,12 @@
 </div>
 
 <!-- 增加合同窗口-->
-<div id="conGathering-dlg" class="easyui-dialog" style="width: 600px; height: 500px; padding: 10px" modal="true"
+<div id="conGathering-dlg" class="easyui-dialog" style="padding: 10px" modal="true"
      closed="true" buttons="#con-dlg-buttons">
     <form id="add-form" method="post">
         <table>
             <tr>
-                <td colspan="1" style="height: 5px;"><input id="id"
+                <td colspan="1" style="height: 1px;"><input id="id"
                                                             type="hidden" name="con.id"/></td>
             </tr>
             <tr>
@@ -178,13 +178,9 @@
 
                 <td>&nbsp;&nbsp;<label>工程负责人：</label></td>
                 <td><input id="projectDirector" name="con.projectDirector" style="width: 130px;"/></td>
-
-
-
             </tr>
 
             <tr>
-
                 <td>&nbsp;&nbsp;<label>项目进展：</label></td>
                 <td><input id="isCompleted" name="con.isCompleted" style="width: 135px;"/></td>
 
@@ -198,10 +194,14 @@
                 <td>&nbsp;&nbsp;<label>验收日期：</label></td>
                 <td><input class="easyui-datebox" id="acceptanceDate" name="con.acceptanceDate" style="width: 135px;"/></td>
 
+                <td>&nbsp;&nbsp;<label>对应原项目：</label></td>
+                <td><input id="linkContract" class="easyui-combobox" name="con.linkContractId" style="width: 135px;"></td>
+            </tr>
 
+            <tr>
                 <td>&nbsp;&nbsp;<label>备注：</label></td>
-                <td><input id="note" name="con.note" style="width: 130px;"/></td>
-
+                <td colspan="3" rowspan="2"><input id="note" name="con.note" class="easyui-textbox"  style="width: 100%;height: 50px"
+                                                   data-options="multiline:true"/></td>
             </tr>
 
         </table>
@@ -804,6 +804,13 @@
 </div>
 
 
+<!---------------------------------------------------------------------->
+<!-- 附加合同窗口-->
+<div id="linkContract-dlg" class="easyui-dialog"
+     style="width: 950px; height: 480px; padding: 10px" modal="true"
+     closed="true">
+    <table id="linkContract-table"></table>
+</div>
 
 <input id="menuId" type="hidden" value="${param.menuId}"/>
 </body>

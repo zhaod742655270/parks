@@ -45,6 +45,8 @@ public class ConQueryBean extends QueryBeanEasyUI{
 
     private Integer isCompletedQuery;
 
+    private String linkContract;
+
     public String getConNameQuery() {
         return conNameQuery;
     }
@@ -197,5 +199,13 @@ public class ConQueryBean extends QueryBeanEasyUI{
 
     public void setAcceptanceDateQuery(String acceptanceDateQuery) {
         this.acceptanceDateQuery = acceptanceDateQuery;
+    }
+
+    public String getLinkContract() {
+        return linkContract;
+    }
+
+    public void setLinkContract(String linkContract) {
+        this.linkContract = linkContract;
     }
 }

@@ -512,7 +512,8 @@ $(function () {
     });
 
     $('#projectTypeQuery').combobox({
-        data: [{"id": "零星项目", "text": "零星项目"}, {"id": "弱电项目", "text": "弱电项目"}, {"id": "贸易项目", "text": "贸易项目"}],
+        data: [{"id": "零星项目", "text": "零星项目"}, {"id": "弱电项目", "text": "弱电项目"},
+            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}],
         valueField: 'id',
         textField: 'text'
     });

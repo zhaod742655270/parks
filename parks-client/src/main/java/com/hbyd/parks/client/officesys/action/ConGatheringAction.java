@@ -2,15 +2,13 @@ package com.hbyd.parks.client.officesys.action;
 
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
+import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.hql.HqlQuery;
 import com.hbyd.parks.common.log.Module;
 import com.hbyd.parks.common.log.Operation;
-import com.hbyd.parks.common.model.AjaxMessage;
-import com.hbyd.parks.common.model.ConQueryBean;
-import com.hbyd.parks.common.model.PageBeanEasyUI;
-import com.hbyd.parks.common.model.QueryBeanEasyUI;
+import com.hbyd.parks.common.model.*;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringLogDTO;
@@ -536,6 +534,27 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
         }
 
         return hql;
+    }
+
+    public void getContractList(){
+        List<ContractGatheringDTO> lists = new ArrayList<>();
+        List<ContractGatheringDTO> listsL = contractGatheringWS.getContractNameBySheetAndType("","零星项目");
+        List<ContractGatheringDTO> listsR = contractGatheringWS.getContractNameBySheetAndType("","弱电项目");
+        List<ContractGatheringDTO> listsQ = contractGatheringWS.getContractNameBySheetAndType("","其他项目");
+
+        if(listsL != null){
+            lists.addAll(listsL);
+        }
+        if(listsR != null){
+            lists.addAll(listsR);
+        }
+        if(listsQ != null){
+            lists.addAll(listsQ);
+        }
+
+        List<Combobox> project = ComboHelper.getContractNameCombobox(lists);
+        String result = gson.toJson(project);
+        JsonHelper.writeJson(result);
     }
 
     public String getId() {

@@ -316,11 +316,12 @@ $(function () {
 
 
     $('#contractTypeQuery').combobox({
-        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, {"id": "贸易项目", "text": "贸易项目"}, {"id": "其它项目", "text": "其它项目"}],
+        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, 
+            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue)  {
-            var sheetName = $('#sheetNameQuery').combobox('getValue')
+            var sheetName = $('#sheetNameQuery').combobox('getValue');
             if (sheetName) {
                 var type = newValue;
                 if(type=="弱电项目"){
@@ -358,7 +359,7 @@ $(function () {
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue) {
-            var type= $('#belongType').combobox('getValue')
+            var type= $('#belongType').combobox('getValue');
             if(type=="弱电项目"){
                 contractType=1;
             }else if(type=="贸易项目"){
@@ -383,7 +384,8 @@ $(function () {
     });
 
     $('#belongType').combobox({
-        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, {"id": "贸易项目", "text": "贸易项目"}, {"id": "其它项目", "text": "其它项目"}],
+        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"},
+            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue)  {
