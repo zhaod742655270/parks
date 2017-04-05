@@ -72,6 +72,7 @@
                     <td><label>测试人</label><input class="text"  id="testPeronQuery"   style="width: 110px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productTestQuery()"
                                              iconcls="icon-search" plain="false">查询</a></td>
+
                 </tr>
             </table>
         </form>
