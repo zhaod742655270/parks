@@ -100,6 +100,7 @@ $(function () {
                 if (data.rows[i].paymentNo)
                     data.rows[i].paymentNo = Math.round(data.rows[i].paymentNo*100)/100;
 
+                //合成'关联的收款合同'字段
                 if (data.rows[i].contractGatherings.length > 0) {
                     var names = "";
                     var ids = [];
@@ -297,6 +298,8 @@ $(function () {
                 contractType=2
             }else if(type=="其它项目"){
                 contractType=3;
+            }else if(type=="洽商项目"){
+                contractType=4;
             }else{
                 contractType=0;
             }
@@ -330,6 +333,8 @@ $(function () {
                     contractType=2
                 }else if(type=="其它项目"){
                     contractType=3;
+                }else if(type=="洽商项目"){
+                    contractType=4;
                 }else{
                     contractType=0;
                 }
@@ -360,26 +365,31 @@ $(function () {
         textField: 'text',
         onChange: function (newValue, oldValue) {
             var type= $('#belongType').combobox('getValue');
-            if(type=="弱电项目"){
-                contractType=1;
-            }else if(type=="贸易项目"){
-                contractType=2
-            }else if(type=="其它项目"){
-                contractType=3;
-            }else{
-                contractType=0;
+            //由于其它项目需要将关联合同固定为"其它"，所以不需要再添加"所属项目"字段的筛选
+            //由于有可能在触发该事件时项目为空，导致"所属项目"的筛选出错，因此限制必须项目不为空时该事件才有效
+            if(type != '' && type != '其它项目') {
+                if (type == "弱电项目") {
+                    contractType = 1;
+                } else if (type == "贸易项目") {
+                    contractType = 2
+                } else if (type == "其它项目") {
+                    contractType = 3;
+                } else if (type == "洽商项目") {
+                    contractType = 4;
+                } else {
+                    contractType = 0;
+                }
+                var sheetName = newValue;
+                $('#belongContractNames').combobox({
+                    valueField: 'id',
+                    textField: 'text',
+                    filter: function (q, row) {
+                        var opts = $(this).combobox('options');
+                        return row[opts.textField].indexOf(q) >= 0;
+                    },
+                    url: 'payment/getContractName?sheetName=' + sheetName + '&contractType=' + contractType
+                })
             }
-            var sheetName=newValue;
-            $('#belongContractNames').combobox({
-                valueField: 'id',
-                textField: 'text',
-                filter: function(q, row){
-                    var opts = $(this).combobox('options');
-                    return row[opts.textField].indexOf(q) >= 0;
-                },
-                url:'payment/getContractName?sheetName='+sheetName+'&contractType='+contractType
-            })
-
         }
     });
 
@@ -390,28 +400,40 @@ $(function () {
         textField: 'text',
         onChange: function (newValue, oldValue)  {
             var sheetName = $('#sheetName').combobox('getValue');
-            if (sheetName) {
-                var type = newValue;
-                if(type=="弱电项目"){
-                    contractType=1;
-                }else if(type=="贸易项目"){
-                    contractType=2
-                }else if(type=="其它项目"){
-                    contractType=3;
-                }else{
-                    contractType=0;
-                }
+            //由于其它项目需要将关联合同固定为"其它"，所以不需要再添加"所属项目"字段的筛选,改为在下面单独设置
+            //由于有可能在触发该事件时项目为空，导致"所属项目"的筛选出错，因此限制必须项目不为空时该事件才有效
+            if(sheetName != ''&& newValue != '其它项目') {
+                if (sheetName) {
+                    var type = newValue;
+                    if (type == "弱电项目") {
+                        contractType = 1;
+                    } else if (type == "贸易项目") {
+                        contractType = 2
+                    } else if (type == "其它项目") {
+                        contractType = 3;
+                    } else if (type == "洽商项目") {
+                        contractType = 4;
+                    } else {
+                        contractType = 0;
+                    }
                     $('#belongContractNames').combobox({
                         valueField: 'id',
                         textField: 'text',
-                        filter: function(q, row){
+                        filter: function (q, row) {
                             var opts = $(this).combobox('options');
                             return row[opts.textField].indexOf(q) >= 0;
                         },
-                        url:'payment/getContractName?sheetName=' + sheetName + '&contractType=' + contractType
+                        url: 'payment/getContractName?sheetName=' + sheetName + '&contractType=' + contractType
                     })
 
-
+                }
+                //其它项目单独设置,将"所属项目"固定为"其它"
+            }else if(newValue == '其它项目'){
+                $('#sheetName').combobox('disable');
+                $('#belongType').combobox('disable');
+                $('#belongContractNames').combobox('disable');
+                $('#belongContractNames').combobox("setValue","others");
+                $('#belongContractNames').combobox("setText","其它");
             }
         }
     });
@@ -439,7 +461,7 @@ $(function () {
         textField: 'text'
     });
 
-})
+});
 
 // 定义窗口的提交地址
 var formUrl = 'payment/addPayment';
@@ -448,7 +470,7 @@ var contractType;
 function paymentQuery(){
     var params = {
         contractType:$('#contractTypeQuery').combobox('getValue'),
-        contractName: $('#contractNameQuery').combobox('getText'),
+        contractName: $('#contractNameQuery').combobox('getText').split('#')[0],
         sheetNameQuery: $('#sheetNameQuery').combobox('getValue'),
         companySecondQuery:$('#companySecondQuery').val(),
         personQuery: $('#personQuery').val(),
@@ -467,42 +489,43 @@ function addPayment(){
     var sheetName=$('#sheetNameQuery').combobox('getValue');
     var contractType =$('#contractTypeQuery').combobox('getValue');
     var name=$('#contractNameQuery').combobox('getValue');
-    if(contractType=="贸易项目" ||contractType=="其它项目"){
-        $("#paymentDlg").dialog("open").dialog('setTitle', '新建付款合同');
-        $('#addPayment').form('clear');
-        if(contractType=="其它项目"){
-            $('#sheetName').combobox('disable');
-            $('#belongType').combobox('disable');
-            $('#belongContractNames').combobox('disable');
-            $('#belongContractNames').combobox("setValue","others");
-            $('#belongContractNames').combobox("setText","其它");
-        }else{
-            $('#sheetName').combobox('enable');
-            $('#belongType').combobox('enable');
-            $('#belongContractNames').combobox('enable');
-        }
-        formUrl = 'payment/addPayment';
-    }else {
+    if(contractType=="弱电项目" ||contractType=="零星项目") {
         if (name == "" || name == null) {
             $.messager.alert('提示', '弱电项目、零星项目请依次选择合同类型、年度、合同名称。', 'info');
         } else {
             $("#paymentDlg").dialog("open").dialog('setTitle', '新建付款合同');
             $('#addPayment').form('clear');
-            $('#sheetName').combobox("setValue",sheetName);
-            $('#belongType').combobox("setValue",contractType);
+            $('#sheetName').combobox("setValue", sheetName);
+            $('#belongType').combobox("setValue", contractType);
             $('#belongContractNames').combobox({
                 valueField: 'id',
                 textField: 'text'
             })
-            $('#belongContractNames').combobox("setValue",name);
-            $('#belongContractNames').combobox("setText",$('#contractNameQuery').combobox('getText'));
+            $('#belongContractNames').combobox("setValue", name);
+            $('#belongContractNames').combobox("setText", $('#contractNameQuery').combobox('getText'));
             $('#sheetName').combobox('enable');
             $('#belongType').combobox('enable');
             $('#belongContractNames').combobox('enable');
             formUrl = 'payment/addPayment';
         }
+    }else {
+        $("#paymentDlg").dialog("open").dialog('setTitle', '新建付款合同');
+        $('#addPayment').form('clear');
+        if (contractType == "其它项目") {
+            $('#sheetName').combobox('disable');
+            $('#belongType').combobox('disable');
+            $('#sheetName').combobox("setValue",sheetName);
+            $('#belongType').combobox("setValue", contractType);
+            $('#belongContractNames').combobox('disable');
+            $('#belongContractNames').combobox("setValue","others");
+            $('#belongContractNames').combobox("setText","其它");
+        } else {
+            $('#sheetName').combobox('enable');
+            $('#belongType').combobox('enable');
+            $('#belongContractNames').combobox('enable');
+        }
+        formUrl = 'payment/addPayment';
     }
-
 }
 
 // 打开编辑付款合同的窗口
@@ -515,7 +538,9 @@ function editPayment() {
         $('#addPayment').form('load', row);
         if(row.contractType=="其它项目"){
             $('#sheetName').combobox('disable');
+            $('#sheetName').combobox("setValue",row.sheetName);
             $('#belongType').combobox('disable');
+            $('#belongType').combobox("setValue",row.contractType);
             $('#belongContractNames').combobox('disable');
             $('#belongContractNames').combobox("setValue","others");
             $('#belongContractNames').combobox("setText","其它");
@@ -580,9 +605,14 @@ function savePayment(){
     }else{
         $('#contractType').val("");
     }*/
-    $('#contractName').val($('#belongContractNames').combobox('getText'));
+
     $('#sheet').val($('#sheetName').combobox('getText'));
     $('#contractType').val($('#belongType').combobox('getText'));
+    if($('#contractType').val() == "其它项目"){         //其它项目的为年度+项目类型+'类'
+        $('#contractName').val($('#sheet').val() + $('#contractType').val() + "类");
+    }else {
+        $('#contractName').val($('#belongContractNames').combobox('getText'));
+    }
     $('#addPayment').form('submit', {
         url: formUrl,
         onSubmit: function () {

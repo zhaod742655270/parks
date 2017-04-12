@@ -67,7 +67,7 @@
     <div style="height:30px;">
         <div id="conGathering-btns">
             <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
-                   onclick="exportExcel()"
+                   onclick="$('#conGathering-dg').datagrid('reload');"
                    iconcls="icon-reload">刷新</a>
                    <!--onclick="$('#conGathering-dg').datagrid('reload');"-->
             </td>

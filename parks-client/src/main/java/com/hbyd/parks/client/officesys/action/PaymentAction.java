@@ -93,6 +93,8 @@ public class PaymentAction extends ActionSupport implements ModelDriven<PaymentQ
             type="贸易项目";
         }else if(contractType.indexOf("3")>=0) {
             type="其它项目";
+        }else if(contractType.indexOf("4")>=0) {
+            type="洽商项目";
         }else {
             type="零星项目";
         }
