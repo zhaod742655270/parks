@@ -21,9 +21,11 @@ $(function(){
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
             {field:'number',title:'编号',sortable:true},
-            {field:'productName',title:'产品名称型号',sortable:true}
+            {field:'projectName',title:'项目名称',sortable:true},
+            {field:'productName',title:'产品名称',sortable:true}
         ]],
         columns:[[
+            {field:'version',title:'型号'},
             {field:'extractPosition',title:'产品提取位置',width:180},
             {field:'registerPersonName',title:'登记人'},
             {field:'registerDate',title:'登记日期',sortable:true},
@@ -132,6 +134,7 @@ var userNickname = "";
 //列表查询
 function productTestQuery(){
     var params={
+        projectNameQuery:$('#projectNameQuery').val(),
         productNameQuery:$('#productNameQuery').val(),
         numberQuery:$('#numberQuery').val(),
         registerPersonQuery:$('#registerPersonQuery').combobox('getValue'),
@@ -161,6 +164,12 @@ function addProductTest(){
             $('#number').textbox('setValue',number);        //自动添加编号
         }
     });
+
+    //使用保存/取消按钮，将确定按钮隐藏
+    document.getElementById("btn-ok").style.display = "";
+    document.getElementById("btn-cancel").style.display = "";
+    document.getElementById("btn-close").style.display = "none";
+
     $('#productTestDlg').dialog('open').dialog('setTitle', '新增测试记录');
 }
 
@@ -172,7 +181,9 @@ function editProductTest(){
         $('#addProductTest').form('clear');
 
         $('#id').val(row.id);
+        $('#rpojectName').val(row.projectName);
         $('#productName').val(row.productName);
+        $('#version').textbox('setValue',row.version);
         $('#number').textbox('setValue',row.number);
         $('#extractPosition').textbox('setValue',row.extractPosition);
         $('#registerPerson').combobox('setValue',row.registerPersonID);
@@ -184,6 +195,7 @@ function editProductTest(){
         $('#testType').val(row.testType);
         $('#testDesc').textbox('setValue',row.testDesc);
 
+        //使用保存/取消按钮，将确定按钮隐藏
         document.getElementById("btn-ok").style.display = "";
         document.getElementById("btn-cancel").style.display = "";
         document.getElementById("btn-close").style.display = "none";
@@ -201,7 +213,9 @@ function openProductTest(){
         $('#addProductTest').form('clear');
 
         $('#id').val(row.id);
+        $('#rpojectName').val(row.projectName);
         $('#productName').val(row.productName);
+        $('#version').textbox('setValue',row.version);
         $('#number').textbox('setValue',row.number);
         $('#extractPosition').textbox('setValue',row.extractPosition);
         $('#registerPerson').combobox('setValue',row.registerPersonID);
@@ -213,6 +227,7 @@ function openProductTest(){
         $('#testType').val(row.testType);
         $('#testDesc').textbox('setValue',row.testDesc);
 
+        //使用确定按钮，将保存/取消按钮隐藏
         document.getElementById("btn-ok").style.display = "none";
         document.getElementById("btn-cancel").style.display = "none";
         document.getElementById("btn-close").style.display = "";
@@ -422,6 +437,7 @@ function exportExcel(){
        if(r){
            $('#query-form').form({
                queryParams:{
+                   projectNameQuery:$('#projectNameQuery').val(),
                    productNameQuery:$('#productNameQuery').val(),
                    numberQuery:$('#numberQuery').val(),
                    registerPersonQuery:$('#registerPersonQuery').val(),

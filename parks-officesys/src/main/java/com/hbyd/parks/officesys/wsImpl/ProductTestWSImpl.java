@@ -35,6 +35,9 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
         if(!Strings.isNullOrEmpty(query.getIdQuery())){
             criteria.add(eq("id",query.getIdQuery()));
         }
+        if(!Strings.isNullOrEmpty(query.getProjectNameQuery())){
+            criteria.add(like("projectName",query.getProjectNameQuery()));
+        }
         if(!Strings.isNullOrEmpty(query.getProductNameQuery())){
             criteria.add(like("productName",query.getProductNameQuery()));
         }
@@ -42,9 +45,9 @@ public class ProductTestWSImpl extends BaseWSImpl<ProductTestDTO,ProductTest> im
             criteria.createAlias("registerPerson","registerPerson")
                     .add(eq("registerPerson.id",query.getRegisterPersonQuery()));
         }
-        if(!Strings.isNullOrEmpty(query.getTestPersonQuery())){
+        /*if(!Strings.isNullOrEmpty(query.getTestPersonQuery())){
             criteria.add(like("testPerson",query.getTestPersonQuery()));
-        }
+        }*/
         if(!Strings.isNullOrEmpty(query.getNumberQuery())){
             criteria.add(like("number",query.getNumberQuery()));
         }

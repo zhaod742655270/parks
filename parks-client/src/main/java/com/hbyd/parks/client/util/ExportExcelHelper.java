@@ -1034,28 +1034,30 @@ public class ExportExcelHelper {
         Row handerRow = sheet.createRow(1);
         handerRow.setHeight((short)(1.4f*256));
         createCell(handerRow,1,"编号",commonStyleHander);
-        createCell(handerRow,2,"产品名称型号",commonStyleHander);
-        createCell(handerRow,3,"产品提取位置",commonStyleHander);
-        createCell(handerRow,4,"登记人",commonStyleHander);
-        createCell(handerRow,5,"登记日期",commonStyleHander);
-        createCell(handerRow,6,"要求完成日期",commonStyleHander);
-        createCell(handerRow,7,"批准人",commonStyleHander);
-        createCell(handerRow,8,"批准日期",commonStyleHander);
-        createCell(handerRow,9,"数量",commonStyleHander);
-        createCell(handerRow,10,"测试依据",commonStyleHander);
-        createCell(handerRow,11,"测试类别",commonStyleHander);
-        createCell(handerRow,12,"测试功能项描述",commonStyleHander);
-        createCell(handerRow,13,"测试人",commonStyleHander);
-        createCell(handerRow,14,"计划开始时间",commonStyleHander);
-        createCell(handerRow,15,"计划结束时间",commonStyleHander);
-        createCell(handerRow,16,"实际开始时间",commonStyleHander);
-        createCell(handerRow,17,"实际结束时间",commonStyleHander);
-        createCell(handerRow,18,"已解决BUG编号",commonStyleHander);
-        createCell(handerRow,19,"未解决BUG编号",commonStyleHander);
-        createCell(handerRow,20,"最终型号名称",commonStyleHander);
-        createCell(handerRow,21,"最终提取位置",commonStyleHander);
-        createCell(handerRow,22,"总结",commonStyleHander);
-        createCell(handerRow,23,"备注",commonStyleHander);
+        createCell(handerRow,2,"项目名称",commonStyleHander);
+        createCell(handerRow,3,"产品名称",commonStyleHander);
+        createCell(handerRow,4,"型号",commonStyleHander);
+        createCell(handerRow,5,"产品提取位置",commonStyleHander);
+        createCell(handerRow,6,"登记人",commonStyleHander);
+        createCell(handerRow,7,"登记日期",commonStyleHander);
+        createCell(handerRow,8,"要求完成日期",commonStyleHander);
+        createCell(handerRow,9,"批准人",commonStyleHander);
+        createCell(handerRow,10,"批准日期",commonStyleHander);
+        createCell(handerRow,11,"数量",commonStyleHander);
+        createCell(handerRow,12,"测试依据",commonStyleHander);
+        createCell(handerRow,13,"测试类别",commonStyleHander);
+        createCell(handerRow,14,"测试功能项描述",commonStyleHander);
+        createCell(handerRow,15,"测试人",commonStyleHander);
+        createCell(handerRow,16,"计划开始时间",commonStyleHander);
+        createCell(handerRow,17,"计划结束时间",commonStyleHander);
+        createCell(handerRow,18,"实际开始时间",commonStyleHander);
+        createCell(handerRow,19,"实际结束时间",commonStyleHander);
+        createCell(handerRow,20,"已解决BUG编号",commonStyleHander);
+        createCell(handerRow,21,"未解决BUG编号",commonStyleHander);
+        createCell(handerRow,22,"最终型号名称",commonStyleHander);
+        createCell(handerRow,23,"最终提取位置",commonStyleHander);
+        createCell(handerRow,24,"总结",commonStyleHander);
+        createCell(handerRow,25,"备注",commonStyleHander);
 
         //填充数据
         if(list != null && list.size() > 0) {
@@ -1064,43 +1066,47 @@ public class ExportExcelHelper {
                 row.setHeight((short)(1.4f*256));
                 ProductTestDTO productTest = list.get(i);
                 createCell(row, 1, productTest.getNumber(), commonStyle);
-                createCell(row, 2, productTest.getProductName(), commonStyle);
-                createCell(row, 3, productTest.getExtractPosition(), commonStyle);
-                createCell(row, 4, productTest.getRegisterPersonName(), commonStyle);
-                createCell(row, 5, productTest.getRegisterDate(), commonStyle);
-                createCell(row, 6, productTest.getHopeEndDate(), commonStyle);
-                createCell(row, 7, productTest.getApprovePersonName(), commonStyle);
-                createCell(row, 8, productTest.getApproveDate(), commonStyle);
-                createCell(row, 9, String.valueOf(productTest.getQuantity()), commonStyle);
-                createCell(row, 10, productTest.getTestBasis(), commonStyle);
-                createCell(row, 11, productTest.getTestType(), commonStyle);
-                createCell(row, 12, productTest.getTestDesc(), commonStyle);
-                createCell(row, 13, productTest.getTestPersonName(), commonStyle);
-                createCell(row, 14, productTest.getPlanBegDate(), commonStyle);
-                createCell(row, 15, productTest.getPlanEndDate(), commonStyle);
-                createCell(row, 16, productTest.getBegDate(), commonStyle);
-                createCell(row, 17, productTest.getEndDate(), commonStyle);
-                createCell(row, 18, productTest.getFinishedBug(), commonStyle);
-                createCell(row, 19, productTest.getUnfinishedBug(), commonStyle);
-                createCell(row, 20, productTest.getFinallyName(), commonStyle);
-                createCell(row, 21, productTest.getFinallyPosition(), commonStyle);
-                createCell(row, 22, productTest.getSummany(), commonStyle);
-                createCell(row, 23, productTest.getNote(), commonStyle);
-                createCell(row, 24, "", null);
+                createCell(row, 2, productTest.getProjectName(), commonStyle);
+                createCell(row, 3, productTest.getProductName(), commonStyle);
+                createCell(row, 4, productTest.getVersion(), commonStyle);
+                createCell(row, 5, productTest.getExtractPosition(), commonStyle);
+                createCell(row, 6, productTest.getRegisterPersonName(), commonStyle);
+                createCell(row, 7, productTest.getRegisterDate(), commonStyle);
+                createCell(row, 8, productTest.getHopeEndDate(), commonStyle);
+                createCell(row, 9, productTest.getApprovePersonName(), commonStyle);
+                createCell(row, 10, productTest.getApproveDate(), commonStyle);
+                createCell(row, 11, String.valueOf(productTest.getQuantity()), commonStyle);
+                createCell(row, 12, productTest.getTestBasis(), commonStyle);
+                createCell(row, 13, productTest.getTestType(), commonStyle);
+                createCell(row, 14, productTest.getTestDesc(), commonStyle);
+                createCell(row, 15, productTest.getTestPersonName(), commonStyle);
+                createCell(row, 16, productTest.getPlanBegDate(), commonStyle);
+                createCell(row, 17, productTest.getPlanEndDate(), commonStyle);
+                createCell(row, 18, productTest.getBegDate(), commonStyle);
+                createCell(row, 19, productTest.getEndDate(), commonStyle);
+                createCell(row, 20, productTest.getFinishedBug(), commonStyle);
+                createCell(row, 21, productTest.getUnfinishedBug(), commonStyle);
+                createCell(row, 22, productTest.getFinallyName(), commonStyle);
+                createCell(row, 23, productTest.getFinallyPosition(), commonStyle);
+                createCell(row, 24, productTest.getSummany(), commonStyle);
+                createCell(row, 25, productTest.getNote(), commonStyle);
+                createCell(row, 26, "", null);
             }
         }
         //调整列宽（适应中文）
-        for(int i=0;i<24;i++) {
+        for(int i=0;i<26;i++) {
             sheet.autoSizeColumn(i);
             sheet.setColumnWidth(i,(int)(sheet.getColumnWidth(i)*1.25));
         }
-        sheet.setColumnWidth(10,25*256);        //测试依据
-        sheet.setColumnWidth(11,25*256);        //测试类别
-        sheet.setColumnWidth(12,25*256);        //测试项描述
-        sheet.setColumnWidth(18,25*256);        //已解决BUG编号
-        sheet.setColumnWidth(19,25*256);        //未解决BUG编号
-        sheet.setColumnWidth(22,25*256);        //最后结论
-        sheet.setColumnWidth(23,25*256);        //备注
+        sheet.setColumnWidth(5,25*256);        //产品提取位置
+        sheet.setColumnWidth(12,25*256);        //测试依据
+        sheet.setColumnWidth(13,25*256);        //测试类别
+        sheet.setColumnWidth(14,25*256);        //测试项描述
+        sheet.setColumnWidth(20,25*256);        //已解决BUG编号
+        sheet.setColumnWidth(21,25*256);        //未解决BUG编号
+        sheet.setColumnWidth(23,25*256);        //最终产品提取位置
+        sheet.setColumnWidth(24,25*256);        //最后结论
+        sheet.setColumnWidth(25,25*256);        //备注
 
         //以流的形式将文件提交至前台
         resp.setContentType("application/x-download");

@@ -322,40 +322,6 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
         }
     }
 
-    /**
-     * 根据查询条件获得hql
-     * @return hql
-     */
-    private String getOutputHql()
-    {
-        String hql = "from ProductTest where isValid=true ";
-
-        if(!Strings.isNullOrEmpty(query.getProductNameQuery())){
-            hql += " and productName like '%" + query.getProductNameQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegisterPersonQuery())){
-            hql += " and registerPerson.userName like '%" + query.getRegisterPersonQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getNumberQuery())){
-            hql += " and number like '%" + query.getNumberQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegDateBegQuery())){
-            hql += " and registerDate >= '" + query.getRegDateBegQuery() + "'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegDateEndQuery())){
-            hql += " and registerDate =< '" + query.getRegDateEndQuery() + "'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getTestPersonQuery())){
-            hql += " and testPerson like '%" + query.getTestPersonQuery() + "%'";
-        }
-        return hql;
-    }
-
 
     @Override
     public ProductTestQuery getModel() {

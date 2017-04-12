@@ -6,7 +6,9 @@ import com.hbyd.parks.common.base.BaseDTO;
  * Created by Zhao_d on 2016/12/28.
  */
 public class ProductTestDTO extends BaseDTO {
-    private String productName;         //产品型号名称
+    private String projectName;         //项目名称
+    private String productName;         //产品名称
+    private String version;             //型号
     private String number;              //编号
     private String extractPosition;     //产品提取位置
     private String registerPersonID;      //登记人
@@ -268,5 +270,21 @@ public class ProductTestDTO extends BaseDTO {
 
     public void setApproveNote(String approveNote) {
         this.approveNote = approveNote;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
