@@ -530,6 +530,71 @@ $(function () {
            return row[opts.textField].indexOf(q) >= 0;
        }
    });
+    
+    // 转移对应付款合同界面的年度与项目类型
+    $('#tran-sheetName').combobox({
+        data: [{"id": "2019", "text": "2019"}, {"id": "2018", "text": "2018"}, {"id": "2017", "text": "2017"}, 
+            {"id": "2016", "text": "2016"}, {"id": "2015", "text": "2015"}],
+        valueField: 'id',
+        textField: 'text',
+        onChange: function (newValue, oldValue) {
+            var type= $('#tran-conType').combobox('getValue')
+            if(type=="弱电项目"){
+                contractType=1;
+            }else if(type=="贸易项目"){
+                contractType=2
+            }else if(type=="其它项目"){
+                contractType=3;
+            }else if(type=="洽商项目"){
+                contractType=4;
+            }else{
+                contractType=0;
+            }
+            var sheetName=newValue;
+            $('#tran-conGathering').combobox({
+                valueField: 'id',
+                textField: 'text',
+                filter: function(q, row){
+                    var opts = $(this).combobox('options');
+                    return row[opts.textField].indexOf(q) >= 0;
+                },
+                url:'payment/getContractName?sheetName='+sheetName+'&contractType='+contractType
+            })
+        }
+    });
+    $('#tran-conType').combobox({
+        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"},
+            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
+        valueField: 'id',
+        textField: 'text',
+        onChange: function (newValue, oldValue)  {
+            var sheetName = $('#tran-sheetName').combobox('getValue');
+            if (sheetName) {
+                var type = newValue;
+                if(type=="弱电项目"){
+                    contractType=1;
+                }else if(type=="贸易项目"){
+                    contractType=2
+                }else if(type=="其它项目"){
+                    contractType=3;
+                }else if(type=="洽商项目"){
+                    contractType=4;
+                }else{
+                    contractType=0;
+                }
+
+                $('#tran-conGathering').combobox({
+                    valueField: 'id',
+                    textField: 'text',
+                    filter: function(q, row){
+                        var opts = $(this).combobox('options');
+                        return row[opts.textField].indexOf(q) >= 0;
+                    },
+                    url:'payment/getContractName?sheetName=' + sheetName + '&contractType=' + contractType
+                })
+            }
+        }
+    });
 
 });
 
@@ -1237,6 +1302,35 @@ function operationPaymentDisplay(){
             endDate:endDate,
             contractName:contractName,
             contractSn:contractSn
+        }
+    });
+}
+
+//增加付款合同窗口
+function openTransform(){
+    $("#transform-dlg").dialog("open").dialog('setTitle', ' 转移付款合同');
+    $('#transform-form').form('clear');
+}
+
+//转移付款合同
+function transformPayment(){
+    var row = $('#conGathering-dg').datagrid('getSelected');
+    $.ajax({
+        url:'conGathering/transformPayment',
+        type:'POST',
+        data:{
+            oldConId:row.id,
+            oldConName:row.contractName,
+            newConId:$('#tran-conGathering').combobox('getValue')
+        },
+        dataType: 'json',
+        success: function (result) {
+            if (result.success) {
+                $('#transform-dlg').dialog('close'); // close the dialog
+                $.messager.alert('操作成功','操作成功','info');
+            } else {
+                $.messager.alert('操作失败', result.message, 'error');
+            }
         }
     });
 }

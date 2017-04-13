@@ -812,6 +812,37 @@
     <table id="linkContract-table"></table>
 </div>
 
+
+<!---------------------------------------------------------------------->
+<!-- 转移对应付款合同界面-->
+<div id="transform-dlg" class="easyui-dialog" style="padding: 10px;"
+     modal="true" closed="true" buttons="#transform-dlg-buttons">
+    <form id="transform-form">
+    <h3>请选择要转移到的收款合同：</h3>
+    <table>
+        <tr>
+            <td><label>年度：</label></td>
+            <td><input id="tran-sheetName" class="easyui-combobox" style="width: 130px;"></td>
+
+            <td><label>项目类型：</label></td>
+            <td><input id="tran-conType" class="easyui-combobox" style="width: 130px;"></td>
+        </tr>
+        <tr>
+            <td><label>新收款合同：</label></td>
+            <td><input id="tran-conGathering" class="easyui-combobox" style="width: 130px;"></td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+<!-- 转移对应付款合同界面确定、取消功能按钮-->
+<div id="transform-dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="transformPayment()">确定</a>
+
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+       onclick="javascript:$('#transform-dlg').dialog('close')">取消</a>
+</div>
+
 <input id="menuId" type="hidden" value="${param.menuId}"/>
 </body>
 </html>

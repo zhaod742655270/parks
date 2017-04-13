@@ -347,6 +347,30 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
         return null;
     }
 
+    @Operation(type="清除该项目下所有验收清单")
+    public String deleteAcceptanceAll(){
+        AjaxMessage message = new AjaxMessage();
+        try {
+            page.setSort("SN");
+            page.setOrder("asc");
+            page.setRows(1000);
+            PageBeanEasyUI list= acceptanceWS.getPageBeanByContractID(id,page);
+            if(list.getRows() != null) {
+                List<AcceptanceDTO> acceptanceDTOs = list.getRows();
+                for(AcceptanceDTO dto : acceptanceDTOs){
+                    acceptanceWS.delFake(dto.getId());
+                }
+            }
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setMessage(e.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+        return null;
+    }
+
     @Operation(type="新增验收清单批注")
     public String addPostil() {
         AjaxMessage message = new AjaxMessage();

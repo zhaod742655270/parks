@@ -160,17 +160,20 @@ public class PaymentWSImpl extends BaseWSImpl<PaymentDTO, Payment> implements Pa
 
     private DetachedCriteria getCriteria(DetachedCriteria criteria, PaymentQuery queryBean) {
 
-            criteria.add(eq("isValid", true));
+        criteria.add(eq("isValid", true));
 
         if (!Strings.isNullOrEmpty(queryBean.getContractNO()))
             criteria.add(eq("contractNO", queryBean.getContractNO()));
 
+        if(!Strings.isNullOrEmpty(queryBean.getContractName()) || !Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery()))
+            criteria.createAlias("contractGatherings","contractGatherings");
+
         if (!Strings.isNullOrEmpty(queryBean.getContractName()))
-            criteria.add(like("contractName", "%" + queryBean.getContractName() + "%"));
+            criteria.add(Restrictions.eq("contractGatherings.contractName",queryBean.getContractName()));
+            //criteria.add(like("contractName", "%" + queryBean.getContractName() + "%"));
 
         if (!Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery()))
-            criteria.createAlias("contractGatherings","contractGatherings")
-                    .add(Restrictions.eq("contractGatherings.contractName",queryBean.getConGatheringNameQuery()));
+            criteria.add(Restrictions.eq("contractGatherings.contractName",queryBean.getConGatheringNameQuery()));
 
         if (!Strings.isNullOrEmpty(queryBean.getPersonQuery()))
             criteria.add(like("purchasePerson", "%" + queryBean.getPersonQuery() + "%"));

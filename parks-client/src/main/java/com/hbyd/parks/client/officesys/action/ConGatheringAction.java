@@ -13,10 +13,12 @@ import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringLogDTO;
 import com.hbyd.parks.dto.officesys.GatheringSumDTO;
+import com.hbyd.parks.dto.officesys.PaymentDTO;
 import com.hbyd.parks.ws.managesys.PriviledgeWS;
 import com.hbyd.parks.ws.officesys.ContractGatheringLogWS;
 import com.hbyd.parks.ws.officesys.ContractGatheringPostilWS;
 import com.hbyd.parks.ws.officesys.ContractGatheringWS;
+import com.hbyd.parks.ws.officesys.PaymentWS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.ServletActionContext;
@@ -62,8 +64,16 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
     @Resource
     private PriviledgeWS priviledgeWS;
 
+    @Resource
+    private PaymentWS paymentWS;
+
     //删除记录的操作
     private String id;
+
+    //用于将旧合同的付款记录转移到新合同
+    private String oldConId;
+    private String oldConName;
+    private String newConId;
 
     public String conGatheringList() throws Exception {
 
@@ -392,6 +402,35 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
 
     }
 
+    //复制付款合同到新的收款合同下
+    public String transformPayment(){
+        AjaxMessage message = new AjaxMessage();
+        try {
+            PaymentQuery paymentQuery = new PaymentQuery();
+            paymentQuery.setSort("contractSn");
+            paymentQuery.setOrder("desc");
+            paymentQuery.setRows(1000);
+            paymentQuery.setContractName(oldConName);
+            PageBeanEasyUI payment = paymentWS.getPageBeanByPaymentQuery(paymentQuery);
+            if(payment.getRows() != null) {
+                List<PaymentDTO> list = payment.getRows();
+                for (PaymentDTO paymentDTO : list) {
+                    ContractGatheringDTO conDTO = new ContractGatheringDTO();
+                    conDTO.setId(newConId);
+                    paymentDTO.getContractGatherings().add(conDTO);
+                    paymentWS.update(paymentDTO);
+                }
+            }
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setMessage(e.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+        return null;
+    }
+
     @Operation(type="导出Excel")
     public void exportExcel() throws Exception {
         AjaxMessage message = new AjaxMessage();
@@ -599,5 +638,29 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
 
     public void setqBean(QueryBeanEasyUI qBean) {
         this.qBean = qBean;
+    }
+
+    public String getOldConId() {
+        return oldConId;
+    }
+
+    public void setOldConId(String oldConId) {
+        this.oldConId = oldConId;
+    }
+
+    public String getNewConId() {
+        return newConId;
+    }
+
+    public void setNewConId(String newConId) {
+        this.newConId = newConId;
+    }
+
+    public String getOldConName() {
+        return oldConName;
+    }
+
+    public void setOldConName(String oldConName) {
+        this.oldConName = oldConName;
     }
 }

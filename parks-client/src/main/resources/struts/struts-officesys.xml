@@ -60,6 +60,10 @@
 
         <action name="getExamineList" class="acceptanceAction" method="getExamineList">
         </action>
+
+        <action name="deleteAcceptanceAll" class="acceptanceAction" method="deleteAcceptanceAll">
+            <interceptor-ref name="mystack"/>
+        </action>
     </package>
 
 
@@ -137,6 +141,9 @@
         </action>
 
         <action name="getContractList" class="conGatheringAction" method="getContractList">
+        </action>
+
+        <action name="transformPayment" class="conGatheringAction" method="transformPayment">
         </action>
     </package>
 
