@@ -415,9 +415,29 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
             if(payment.getRows() != null) {
                 List<PaymentDTO> list = payment.getRows();
                 for (PaymentDTO paymentDTO : list) {
-                    ContractGatheringDTO conDTO = new ContractGatheringDTO();
-                    conDTO.setId(newConId);
-                    paymentDTO.getContractGatherings().add(conDTO);
+                    ContractGatheringDTO conDTO = contractGatheringWS.getByID(newConId);
+                    //对于其它类型，情况特殊，下面单独设置
+                    if(!conDTO.getProjectType().equals("其它项目")) {
+                        //更新关联的收款合同
+                        paymentDTO.getContractGatherings().clear();
+                        paymentDTO.getContractGatherings().add(conDTO);
+                        //同时将项目类型与年度更新为新项目的数据
+                        paymentDTO.setContractName(conDTO.getContractName());
+                        paymentDTO.setContractType(conDTO.getProjectType());
+                        paymentDTO.setSheetName(conDTO.getSheetName());
+                    //其它项目的情况
+                    }else{
+                        //更新关联的收款合同,指定为"其它"
+                        ContractGatheringDTO otherDTO = new ContractGatheringDTO();
+                        otherDTO.setId("others");
+                        paymentDTO.getContractGatherings().clear();
+                        paymentDTO.getContractGatherings().add(otherDTO);
+                        //同时将项目类型与年度更新为新项目的数据，项目名称为年度+项目类型+类
+                        paymentDTO.setContractName(conDTO.getSheetName() + conDTO.getProjectType() + "类");
+                        paymentDTO.setContractType(conDTO.getProjectType());
+                        paymentDTO.setSheetName(conDTO.getSheetName());
+                    }
+                    //更新
                     paymentWS.update(paymentDTO);
                 }
             }

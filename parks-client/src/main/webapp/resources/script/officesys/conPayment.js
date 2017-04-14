@@ -427,7 +427,7 @@ $(function () {
                     })
 
                 }
-                //其它项目单独设置,将"所属项目"固定为"其它"
+            //其它项目单独设置,将"所属项目"固定为"其它"
             }else if(newValue == '其它项目'){
                 $('#sheetName').combobox('disable');
                 $('#belongType').combobox('disable');
