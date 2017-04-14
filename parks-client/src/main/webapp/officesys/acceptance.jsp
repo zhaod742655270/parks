@@ -138,7 +138,7 @@
             </td>
 
             <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
-                   onclick="deleteAcceptanceAll()" iconcls="icon-cut">清除所有清单</a>
+                   onclick="deleteAcceptanceAll()" iconcls="icon-box">清除所有清单</a>
             </td>
 
             <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
