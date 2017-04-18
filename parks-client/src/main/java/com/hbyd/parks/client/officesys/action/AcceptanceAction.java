@@ -564,6 +564,8 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
                     dto.setRequiredArrivalTime("");
                 } else if (requiredArrivalTimeCell.getCellType() != Cell.CELL_TYPE_NUMERIC) {
                     String requiredArrivalTimeCellValue = this.getCellValue(requiredArrivalTimeCell, true);
+                    requiredArrivalTimeCellValue = requiredArrivalTimeCellValue.replace("年","-")
+                            .replace("月","-").replace("日","");
                     dto.setRequiredArrivalTime(requiredArrivalTimeCellValue);
                 } else {
                     Date requiredDate = requiredArrivalTimeCell.getDateCellValue();
@@ -705,6 +707,8 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
                 dto.setRequiredArrivalTime("");
             } else if(requiredArrivalTimeCell.getCellType() != Cell.CELL_TYPE_NUMERIC){
                 String requiredArrivalTimeCellValue = this.getCellValue(requiredArrivalTimeCell, true);
+                requiredArrivalTimeCellValue = requiredArrivalTimeCellValue.replace("年","-")
+                        .replace("月","-").replace("日","");
                 dto.setRequiredArrivalTime(requiredArrivalTimeCellValue);
             }else {
                 Date requiredDate = requiredArrivalTimeCell.getDateCellValue();
