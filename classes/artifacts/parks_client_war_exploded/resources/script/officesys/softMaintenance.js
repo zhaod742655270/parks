@@ -204,6 +204,12 @@ function addMaintenance(){
             $('#number').textbox('setValue',number);        //自动添加编号
         }
     });
+
+    //使用保存/取消按钮，将确定按钮隐藏
+    document.getElementById("btn-ok").style.display = "";
+    document.getElementById("btn-cancel").style.display = "";
+    document.getElementById("btn-close").style.display = "none";
+
     $('#maintenanceDlg').dialog('open').dialog('setTitle', '新增售后维护记录');
 }
 
@@ -226,7 +232,8 @@ function editMaintenance(){
         $('#projectContracts').combobox('setText',row.contractsName);
         $('#phoneNo').textbox('setValue',row.phoneNo);
         $('#faultDesc').textbox('setValue',row.faultDesc);
-        
+
+        //使用保存/取消按钮，将确定按钮隐藏
         document.getElementById("btn-ok").style.display = "";
         document.getElementById("btn-cancel").style.display = "";
         document.getElementById("btn-close").style.display = "none";
@@ -255,7 +262,8 @@ function openMaintenance(){
         $('#projectContracts').combobox('setText',row.contractsName);
         $('#phoneNo').textbox('setValue',row.phoneNo);
         $('#faultDesc').textbox('setValue',row.faultDesc);
-        
+
+        //使用确定按钮，将保存/取消按钮隐藏
         document.getElementById("btn-ok").style.display = "none";
         document.getElementById("btn-cancel").style.display = "none";
         document.getElementById("btn-close").style.display = "";

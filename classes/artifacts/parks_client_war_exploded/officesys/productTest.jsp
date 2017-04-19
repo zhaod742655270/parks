@@ -64,12 +64,12 @@
         <form id="query-form">
             <table>
                 <tr>
+                    <td><label>项目名称</label><input class="text"  id="projectNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>产品名称型号</label><input class="text"  id="productNameQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>编号</label> <input class="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登记人</label><input class="easyui-combobox"  id="registerPersonQuery"   style="width: 110px"/>&nbsp;</td>
                     <td><label>登记日期</label><input class="easyui-datebox"  id="regDateBegQuery"   style="width: 100px"/>
                         <label>&nbsp;至&nbsp;</label><input class="easyui-datebox"  id="regDateEndQuery"   style="width: 100px"/>&nbsp;</td>
-                    <td><label>测试人</label><input class="text"  id="testPeronQuery"   style="width: 110px"/></td>
                     <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="productTestQuery()"
                                              iconcls="icon-search" plain="false">查询</a></td>
 
@@ -88,17 +88,29 @@
                 <td style="height: 5px;"><input type="hidden" id="id" name="productTest.id"/></td>
             </tr>
             <tr>
-                <td class="tdLeft"><label>产品名称型号：</label></td>
-                <td class="tdRight"><input id="productName" class="easyui-validatebox" name="productTest.productName"
-                                           data-options="required:true,validType:['length[0,50]']"></td>
-
                 <td class="tdLeft"><label>编号：</label></td>
                 <td class="tdRight"><input id="number" class="easyui-numberbox" name="productTest.number"
                                            data-options="required:true,precision:0"></td>
 
+                <td class="tdLeft"><label>项目名称：</label></td>
+                <td class="tdRight"><input id="projetName" class="easyui-validatebox" name="productTest.projetName"
+                                           data-options="required:true,validType:['length[0,50]']"></td>
+
+                <td class="tdLeft"><label>产品名称：</label></td>
+                <td class="tdRight"><input id="productName" class="easyui-validatebox" name="productTest.productName"
+                                           data-options="required:true,validType:['length[0,50]']"></td>
+            </tr>
+
+            <tr>
+                <td class="tdLeft"><label>型号：</label></td>
+                <td class="tdRight"><input id="version" class="easyui-textbox" name="productTest.version"></td>
+
                 <td class="tdLeft"><label>数量：</label></td>
                 <td class="tdRight"><input id="quantity" class="easyui-numberbox" name="productTest.quantity"
                                            data-options="precision:0"></td>
+
+                <td class="tdLeft"><label>要求完成日期：</label></td>
+                <td class="tdRight"><input id="hopeEndDate" class="easyui-datebox" name="productTest.hopeEndDate"></td>
             </tr>
 
             <tr>
@@ -107,9 +119,6 @@
 
                 <td class="tdLeft"><label>登记日期：</label></td>
                 <td class="tdRight"><input id="registerDate" class="easyui-datebox" name="productTest.registerDate"></td>
-
-                <td class="tdLeft"><label>要求完成日期：</label></td>
-                <td class="tdRight"><input id="hopeEndDate" class="easyui-datebox" name="productTest.hopeEndDate"></td>
             </tr>
 
             <tr>

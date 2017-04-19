@@ -836,14 +836,46 @@ function deleteAcceptance() {
                 }else{
                     $.messager.alert('错误', '您没有删除的权限', 'error');
                 }
-
             }
         });
-
     } else {
         $.messager.alert('提示', '需要选择一个验收清单，才能进行删除操作。', 'info');
     }
+}
 
+// 清除该项目下所有验收清单
+function deleteAcceptanceAll() {
+    var row = $('#contract-dg').datagrid('getSelected');
+    if (row) {
+        $.ajax({
+            url: 'acceptance/findPermission',
+            dataType: 'json',
+            success: function (result) {
+                if (result.message=="purchases") {
+                    $.messager.confirm('确认', '是否要清除该项目下所有验收清单？', function (r) {
+                        if (r) {
+                            $.post("acceptance/deleteAcceptanceAll", {
+                                id: row.id,
+                                equipmentName: $('#equipmentNameQuery').val(),
+                                specification: $('#specificationQuery').val()
+                            }, function (data) {
+                                if (data.success) {
+                                    // 成功后刷新表格
+                                    $('#acceptance-dg').datagrid('reload');
+                                } else {
+                                    $.messager.alert('操作失败', data.message, 'error');
+                                }
+                            }, "json");
+                        }
+                    });
+                }else{
+                    $.messager.alert('错误', '您没有删除的权限', 'error');
+                }
+            }
+        });
+    } else {
+        $.messager.alert('提示', '需要选择一个验收清单，才能进行删除操作。', 'info');
+    }
 }
 
 //验收清单的标签
