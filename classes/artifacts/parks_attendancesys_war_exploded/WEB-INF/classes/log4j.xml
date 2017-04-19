@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<!--specifies the console as the log target-->
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <!--RollingFileAppender 是 FileAppender 子类，支持 maxFileSize 和 maxBackupIndex-->
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="file" value="${user.home}/parks_attendancesys.log"/>
+        <param name="threshold" value="error"/>
+        <param name="immediateFlush" value="true"/>
+        <param name="append" value="true"/>
+
+        <!--日志最大指定的字符串不支持计算-->
+        <!--<param name="maxFileSize" value="1024*1024"/>-->
+
+        <!--日志最大1MB-->
+        <param name="maxFileSize" value="1048576"/>
+
+        <!--There is one backup file by default.-->
+        <param name="maxBackupIndex" value="2"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="conversionPattern" value="%m%n"/>
+        </layout>
+    </appender>
+
+    <!-- specify the logging level for loggers from other libraries -->
+    <logger name="com.opensymphony">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+    <logger name="org.apache.struts2">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+    <logger name="org.springframework">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+    <logger name="org.hibernate">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+    <logger name="org.logicalcobwebs.proxool">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+
+    <!-- 将 CXF 的日志级别降至 INFO， 方便观察拦截器的拦截日志 -->
+    <logger name="org.apache.cxf">
+        <level value="WARN"/>
+        <!--<level value="INFO"/>-->
+    </logger>
+
+    <!-- 将 dozer 的日志级别降至 INFO, 方便观察字段的转换情况 -->
+    <logger name="org.dozer">
+        <level value="WARN"/>
+        <!-- <level value="INFO"/>-->
+    </logger>
+
+    <!--测试考勤算法所使用到的日志-->
+    <logger name="com.hbyd.parks">
+        <!--<level value="DEBUG"/>-->
+        <level value="INFO"/>
+    </logger>
+
+    <!-- for all other loggers log only info and above log messages -->
+    <root>
+        <!--<priority value="WARN"/>-->
+        <priority value="INFO"/>
+        <!--<priority value="DEBUG"/>-->
+
+        <!--统一配置输出目标-->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</log4j:configuration> 
