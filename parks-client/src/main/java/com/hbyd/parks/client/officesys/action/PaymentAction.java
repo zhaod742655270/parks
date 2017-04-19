@@ -87,16 +87,20 @@ public class PaymentAction extends ActionSupport implements ModelDriven<PaymentQ
     }
 
     public String getContractName() throws Exception{
-        if(contractType.indexOf("1")>=0){
-            type="弱电项目";
-        }else if(contractType.indexOf("2")>=0) {
-            type="贸易项目";
-        }else if(contractType.indexOf("3")>=0) {
-            type="其它项目";
-        }else if(contractType.indexOf("4")>=0) {
-            type="洽商项目";
-        }else {
+        if(contractType.contains("1")){
             type="零星项目";
+        }else if(contractType.contains("2")){
+            type="弱电项目";
+        }else if(contractType.contains("3")) {
+            type="贸易项目";
+        }else if(contractType.contains("4")) {
+            type="其它项目";
+        }else if(contractType.contains("5")) {
+            type="洽商项目";
+        }else if(contractType.contains("6")) {
+            type="借测项目";
+        }else {
+            type="";
         }
         List<ContractGatheringDTO> payment=contractGatheringWS.getContractNameBySheetAndType(sheetName,type);
         if(payment==null){

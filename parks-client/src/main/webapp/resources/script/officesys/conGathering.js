@@ -539,14 +539,16 @@ $(function () {
         textField: 'text',
         onChange: function (newValue, oldValue) {
             var type= $('#tran-conType').combobox('getValue')
-            if(type=="弱电项目"){
+            if(type=="零星项目"){
                 contractType=1;
+            }else if(type=="弱电项目"){
+                contractType=2;
             }else if(type=="贸易项目"){
-                contractType=2
-            }else if(type=="其它项目"){
                 contractType=3;
-            }else if(type=="洽商项目"){
+            }else if(type=="其它项目"){
                 contractType=4;
+            }else if(type=="洽商项目"){
+                contractType=5;
             }else{
                 contractType=0;
             }
@@ -571,14 +573,16 @@ $(function () {
             var sheetName = $('#tran-sheetName').combobox('getValue');
             if (sheetName) {
                 var type = newValue;
-                if(type=="弱电项目"){
+                if(type=="零星项目"){
                     contractType=1;
+                }else if(type=="弱电项目"){
+                    contractType=2;
                 }else if(type=="贸易项目"){
-                    contractType=2
-                }else if(type=="其它项目"){
                     contractType=3;
-                }else if(type=="洽商项目"){
+                }else if(type=="其它项目"){
                     contractType=4;
+                }else if(type=="洽商项目"){
+                    contractType=5;
                 }else{
                     contractType=0;
                 }

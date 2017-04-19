@@ -291,15 +291,19 @@ $(function () {
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue) {
-            var type= $('#contractTypeQuery').combobox('getValue')
-            if(type=="弱电项目"){
+            var type= $('#contractTypeQuery').combobox('getValue');
+            if(type=="零星项目"){
                 contractType=1;
+            }else if(type=="弱电项目"){
+                contractType=2;
             }else if(type=="贸易项目"){
-                contractType=2
-            }else if(type=="其它项目"){
                 contractType=3;
-            }else if(type=="洽商项目"){
+            }else if(type=="其它项目"){
                 contractType=4;
+            }else if(type=="洽商项目"){
+                contractType=5;
+            }else if(type=="借测项目"){
+                contractType=6;
             }else{
                 contractType=0;
             }
@@ -319,22 +323,26 @@ $(function () {
 
 
     $('#contractTypeQuery').combobox({
-        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, 
-            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
+        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, {"id": "贸易项目", "text": "贸易项目"},
+            {"id":"洽商项目","text":"洽商项目"},{"id":"借测项目","text":"借测项目"}, {"id": "其它项目", "text": "其它项目"}],
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue)  {
             var sheetName = $('#sheetNameQuery').combobox('getValue');
             if (sheetName) {
                 var type = newValue;
-                if(type=="弱电项目"){
+                if(type=="零星项目"){
                     contractType=1;
+                }else if(type=="弱电项目"){
+                    contractType=2;
                 }else if(type=="贸易项目"){
-                    contractType=2
-                }else if(type=="其它项目"){
                     contractType=3;
-                }else if(type=="洽商项目"){
+                }else if(type=="其它项目"){
                     contractType=4;
+                }else if(type=="洽商项目"){
+                    contractType=5;
+                }else if(type=="借测项目"){
+                    contractType=6;
                 }else{
                     contractType=0;
                 }
@@ -368,16 +376,20 @@ $(function () {
             //由于其它项目需要将关联合同固定为"其它"，所以不需要再添加"所属项目"字段的筛选
             //由于有可能在触发该事件时项目为空，导致"所属项目"的筛选出错，因此限制必须项目不为空时该事件才有效
             if(type != '' && type != '其它项目') {
-                if (type == "弱电项目") {
-                    contractType = 1;
-                } else if (type == "贸易项目") {
-                    contractType = 2
-                } else if (type == "其它项目") {
-                    contractType = 3;
-                } else if (type == "洽商项目") {
-                    contractType = 4;
-                } else {
-                    contractType = 0;
+                if(type=="零星项目"){
+                    contractType=1;
+                }else if(type=="弱电项目"){
+                    contractType=2;
+                }else if(type=="贸易项目"){
+                    contractType=3;
+                }else if(type=="其它项目"){
+                    contractType=4;
+                }else if(type=="洽商项目"){
+                    contractType=5;
+                }else if(type=="借测项目"){
+                    contractType=6;
+                }else{
+                    contractType=0;
                 }
                 var sheetName = newValue;
                 $('#belongContractNames').combobox({
@@ -394,8 +406,8 @@ $(function () {
     });
 
     $('#belongType').combobox({
-        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"},
-            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
+        data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"}, {"id": "贸易项目", "text": "贸易项目"},
+            {"id":"洽商项目","text":"洽商项目"}, {"id":"借测项目","text":"借测项目"}, {"id": "其它项目", "text": "其它项目"}],
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue)  {
@@ -405,16 +417,20 @@ $(function () {
             if(sheetName != ''&& newValue != '其它项目') {
                 if (sheetName) {
                     var type = newValue;
-                    if (type == "弱电项目") {
-                        contractType = 1;
-                    } else if (type == "贸易项目") {
-                        contractType = 2
-                    } else if (type == "其它项目") {
-                        contractType = 3;
-                    } else if (type == "洽商项目") {
-                        contractType = 4;
-                    } else {
-                        contractType = 0;
+                    if(type=="零星项目"){
+                        contractType=1;
+                    }else if(type=="弱电项目"){
+                        contractType=2;
+                    }else if(type=="贸易项目"){
+                        contractType=3;
+                    }else if(type=="其它项目"){
+                        contractType=4;
+                    }else if(type=="洽商项目"){
+                        contractType=5;
+                    }else if(type=="借测项目"){
+                        contractType=6;
+                    }else{
+                        contractType=0;
                     }
                     $('#belongContractNames').combobox({
                         valueField: 'id',
@@ -500,7 +516,7 @@ function addPayment(){
             $('#belongContractNames').combobox({
                 valueField: 'id',
                 textField: 'text'
-            })
+            });
             $('#belongContractNames').combobox("setValue", name);
             $('#belongContractNames').combobox("setText", $('#contractNameQuery').combobox('getText'));
             $('#sheetName').combobox('enable');
@@ -520,6 +536,8 @@ function addPayment(){
             $('#belongContractNames').combobox("setValue","others");
             $('#belongContractNames').combobox("setText","其它");
         } else {
+            $('#sheetName').combobox("setValue", sheetName);
+            $('#belongType').combobox("setValue", contractType);
             $('#sheetName').combobox('enable');
             $('#belongType').combobox('enable');
             $('#belongContractNames').combobox('enable');

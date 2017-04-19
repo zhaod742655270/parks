@@ -22,16 +22,13 @@ public class ComboHelper {
             ContractGatheringDTO dto = list.get(i);
                 Combobox node = new Combobox();
                 node.setId(dto.getId());
-            if("零星项目".equals(dto.getProjectType())){
+            if(dto.getProjectType().equals("零星项目")){
                 node.setText(dto.getContractName()+"#"+dto.getContractNo());
             }else {
                 node.setText(dto.getContractName());
             }
-
                 nodes.add(node);
-
         }
-
         return nodes;
     }
 
@@ -45,9 +42,7 @@ public class ComboHelper {
             node.setId(dto.getId());
             node.setText(dto.getUserName());
             nodes.add(node);
-
         }
-
         return nodes;
     }
 
