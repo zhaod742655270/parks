@@ -1357,6 +1357,7 @@ function transformPayment(){
     });
 }
 
+//当选择合同号时，同时自动填充合同名称
 function onChangeContractSn(){
     $.ajax({
         url:'conGathering/getConGatheringById',
@@ -1372,6 +1373,7 @@ function onChangeContractSn(){
     });
 }
 
+//当选择合同名称时，同时自动填上合同号
 function onChangeConGathering(){
     $.ajax({
         url:'conGathering/getConGatheringById',

@@ -86,6 +86,7 @@ public class PaymentAction extends ActionSupport implements ModelDriven<PaymentQ
         return null;
     }
 
+    //通过项目类型和年度获得合同名称列表
     public String getContractName() throws Exception{
         if(contractType.contains("1")){
             type="零星项目";
@@ -112,6 +113,7 @@ public class PaymentAction extends ActionSupport implements ModelDriven<PaymentQ
         return null;
     }
 
+    //通过项目类型和年度获得合同号列表
     public String getContractSn() throws Exception{
         if(contractType.contains("1")){
             type="零星项目";

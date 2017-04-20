@@ -202,6 +202,7 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    @Operation(type="通过申请单添加出库信息")
     public void addProductByApplication(){
         String appli = getJsonAllRows();
         String productId = "";
@@ -229,6 +230,11 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 同时更改库存中的数据
+     * 每次新增或修改一个出库货品时，都会重新统计该货品的当前数量，并更新到库存信息当中
+     * @param warehouseId 关联的库存货品ID
+     */
     public void updateWarehouse(String warehouseId){
         Double quantity = warehouseWS.getStatisticsForInputOutput(warehouseId);
         WarehouseDTO warehouseDTO = warehouseWS.getByID(warehouseId);
@@ -237,7 +243,9 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         warehouseWS.update(warehouseDTO);
     }
 
-    //判断货品是否已经存在(通过名称、型号、封装、版本),如果不存在则新增该货品,返回货品ID
+    /**
+     * 判断货品是否已经存在(通过名称、型号、封装、版本),如果不存在则新增该货品,返回货品ID
+     */
     public String isProductExist(LinkedTreeMap map,String productType){
         WarehouseProductQuery productQuery = new WarehouseProductQuery();
         productQuery.setRows(1);
@@ -322,6 +330,9 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         return dto;
     }
 
+    /**
+     * 获得人员列表
+     */
     public void getUserList(){
         List<UserDTO> lists = userWS.findAllValid();
         if(lists==null){

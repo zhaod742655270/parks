@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
+import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.AjaxMessage;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.WarehouseApplicationQuery;
@@ -68,11 +69,15 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 申请单中未完成的货品的列表
+     */
     public void applicationProListUnfinished(){
         query.setFinishedQuery(false);
         applicationProList();
     }
 
+    @Operation(type="修改申请单")
     public void editWarehouseApplication(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -86,6 +91,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         }
     }
 
+    @Operation(type="删除申请单")
     public void deleteWarehouseApplication(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -99,6 +105,9 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
         }
     }
 
+    /**
+     * 导出excel
+     */
     public void importExcel() throws Exception{
         AjaxMessage message = new AjaxMessage();
         try{

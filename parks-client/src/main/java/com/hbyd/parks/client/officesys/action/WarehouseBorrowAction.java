@@ -5,6 +5,7 @@ import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
+import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.*;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.WarehouseBorrowDTO;
@@ -57,6 +58,7 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    @Operation(type="添加借用记录")
     public void addWarehouseBorrow(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -78,6 +80,7 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    @Operation(type="修改借用记录")
     public void editWarehouseBorrow(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -96,6 +99,7 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    @Operation(type="删除借用记录")
     public void deleteWarehouseBorrow(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -114,6 +118,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 归还借用货品
+     */
     public void backProduct(){
         AjaxMessage massage = new AjaxMessage();
         try {
@@ -135,6 +142,11 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 归还借用获批同时更改库存信息
+     * 每次归还时都会重新统计改货品的借用信息，并更新到库存数据中
+     * @param warehouseId 对应的库存货品ID
+     */
     public void updateWarehouse(String warehouseId){
         Double borrow = warehouseWS.getStatisticsForBorrow(warehouseId);
         WarehouseDTO warehouseDTO = warehouseWS.getByID(warehouseId);
@@ -143,6 +155,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         warehouseWS.update(warehouseDTO);
     }
 
+    /**
+     * 人员列表
+     */
     public void getUserList(){
         List<UserDTO> lists = userWS.findAllValid();
         if(lists==null){
@@ -153,6 +168,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 货品列表
+     */
     public void getProductList(){
         List<WarehouseDTO> lists = warehouseWS.findAllValid();
         if(lists==null){
@@ -178,6 +196,9 @@ public class WarehouseBorrowAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 自动获得编号
+     */
     public void getNewNumber(){
         query.setSort("id");
         query.setOrder("asc");

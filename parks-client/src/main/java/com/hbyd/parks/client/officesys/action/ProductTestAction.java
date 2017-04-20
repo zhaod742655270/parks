@@ -128,6 +128,9 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
         }
     }
 
+    /**
+     * 获得编号
+     */
     public void getNewNumber(){
         query.setSort("id");
         query.setOrder("asc");
@@ -138,6 +141,9 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
         }
     }
 
+    /**
+     * 获得记录人员可选列表
+     */
     public void getRegPerson(){
         //按名称顺序排序
         //排除管理员与超级管理员
@@ -152,6 +158,9 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 获得操作人员可选列表
+     */
     public void getHandlePerson(){
         //按名称顺序排序
         //排除管理员与超级管理员
@@ -166,6 +175,9 @@ public class ProductTestAction extends ActionSupport implements ModelDriven<Prod
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 导出测试登记表
+     */
     public void exportWord(){
         AjaxMessage message = new AjaxMessage();
         try{

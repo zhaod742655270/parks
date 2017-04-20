@@ -129,6 +129,9 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 自动获得编号
+     */
     public void getNewNumber(){
         query.setSort("id");
         query.setOrder("asc");
@@ -139,6 +142,9 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 获得记录人员的可选列表
+     */
     public void getRegPerson(){
         //按名称顺序排序
         //排除管理员与超级管理员
@@ -153,6 +159,9 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 获得操作人员的可选列表
+     */
     public void getHandlePerson(){
         List<UserDTO> lists = userWS.findAllValid();
         if(lists==null){
@@ -172,6 +181,9 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 导出Word格式产品维修记录表
+     */
     public void exportWord(){
         AjaxMessage message = new AjaxMessage();
         try{
@@ -332,40 +344,6 @@ public class HandMaintenanceAction extends ActionSupport implements ModelDriven<
             }
         }
     }
-
-    /**
-     * 根据查询条件获得hql
-     * @return hql
-     */
-    private String getOutputHql()
-    {
-        String hql = "from HandMaintenance where isValid=true ";
-        if(!Strings.isNullOrEmpty(query.getProjectNameQuery())){
-            hql += " and projectName like '%" + query.getProjectNameQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getProductNameQuery())){
-            hql += " and productName like '%" + query.getProductNameQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegisterPersonQuery())){
-            hql += " and registerPerson.userName like '%" + query.getRegisterPersonQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getNumberQuery())){
-            hql += " and number like '%" + query.getNumberQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegDateBegQuery())){
-            hql += " and registerDate >= '" + query.getRegDateBegQuery() + "'";
-        }
-
-        if(!Strings.isNullOrEmpty(query.getRegDateEndQuery())){
-            hql += " and registerDate =< '" + query.getRegDateEndQuery() + "'";
-        }
-        return hql;
-    }
-
 
     @Override
     public HandMaintenanceQuery getModel() {

@@ -3,6 +3,7 @@ package com.hbyd.parks.client.officesys.action;
 import com.google.gson.Gson;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
+import com.hbyd.parks.common.log.Operation;
 import com.hbyd.parks.common.model.AjaxMessage;
 import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.common.model.WarehouseProductQuery;
@@ -45,7 +46,7 @@ public class WarehouseProductAction extends ActionSupport implements ModelDriven
         JsonHelper.writeJson(result);
     }
 
-
+    @Operation(type="新增货品信息")
     public void addWarehouseProduct(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -61,6 +62,7 @@ public class WarehouseProductAction extends ActionSupport implements ModelDriven
         }
     }
 
+    @Operation(type="修改货品信息")
     public void editWarehouseProduct(){
         AjaxMessage massage = new AjaxMessage();
         try{
@@ -74,6 +76,7 @@ public class WarehouseProductAction extends ActionSupport implements ModelDriven
         }
     }
 
+    @Operation(type="删除货品信息")
     public void deleteWarehouseProduct(){
         AjaxMessage massage = new AjaxMessage();
         try{

@@ -1,6 +1,5 @@
 package com.hbyd.parks.client.officesys.action;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.ExportExcelHelper;
@@ -189,6 +188,9 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 导出Word格式售后维护记录表
+     */
     public void exportWord(){
         AjaxMessage message = new AjaxMessage();
         try{
@@ -286,38 +288,8 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
     }
 
     /**
-     * 根据查询条件获得hql
-     * @return hql
+     * 获得编号
      */
-    private String getOutputHql()
-    {
-        String hql = "from SoftMaintenance where isValid=true ";
-        if(!Strings.isNullOrEmpty(page.getProjectNameQuery())){
-            hql += " and projectName like '%" + page.getProjectNameQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(page.getProductNameQuery())){
-            hql += " and productName like '%" + page.getProductNameQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(page.getRegPersonQuery())){
-            hql += " and regPerson.userName like '%" + page.getRegPersonQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(page.getNumberQuery())){
-            hql += " and number like '%" + page.getNumberQuery() + "%'";
-        }
-
-        if(!Strings.isNullOrEmpty(page.getRegDateBegQuery())){
-            hql += " and regDate >= '" + page.getRegDateBegQuery() + "'";
-        }
-
-        if(!Strings.isNullOrEmpty(page.getRegDateEndQuery())){
-            hql += " and regDate =< '" + page.getRegDateEndQuery() + "'";
-        }
-        return hql;
-    }
-
     public void getNewNumber(){
         page.setOrder("asc");
         page.setSort("id");
@@ -328,6 +300,9 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
         }
     }
 
+    /**
+     * 获得记录人员的可选列表
+     */
     public void getRegPerson() {
         //按名称顺序排序
         //排除管理员与超级管理员
@@ -342,6 +317,9 @@ public class SoftMaintenanceAction extends ActionSupport implements ModelDriven<
         JsonHelper.writeJson(result);
     }
 
+    /**
+     * 获得操作人员的可选列表
+     */
     public void getHandlePerson(){
         //按名称顺序排序
         //排除管理员与超级管理员
