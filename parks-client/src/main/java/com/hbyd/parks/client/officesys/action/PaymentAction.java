@@ -112,6 +112,38 @@ public class PaymentAction extends ActionSupport implements ModelDriven<PaymentQ
         return null;
     }
 
+    public String getContractSn() throws Exception{
+        if(contractType.contains("1")){
+            type="零星项目";
+        }else if(contractType.contains("2")){
+            type="弱电项目";
+        }else if(contractType.contains("3")) {
+            type="贸易项目";
+        }else if(contractType.contains("4")) {
+            type="其它项目";
+        }else if(contractType.contains("5")) {
+            type="洽商项目";
+        }else if(contractType.contains("6")) {
+            type="借测项目";
+        }else {
+            type="";
+        }
+        ConQueryBean conQueryBean = new ConQueryBean();
+        conQueryBean.setSort("contractNo");
+        conQueryBean.setOrder("asc");
+        conQueryBean.setRows(1000);
+        conQueryBean.setProjectTypeQuery(type);
+        conQueryBean.setSheetNameQuery(sheetName);
+        List<ContractGatheringDTO> payment=contractGatheringWS.getPageBeanByConQueryBean(conQueryBean).getRows();
+        if(payment==null){
+            payment=new ArrayList<>();
+        }
+        List<Combobox> contractSns = ComboHelper.getContractSnCombobox(payment);
+        String result = gson.toJson(contractSns);
+        JsonHelper.writeJson(result);
+        return null;
+    }
+
     @Operation(type="新增付款合同清单")
     public String addPayment() {
         AjaxMessage message = new AjaxMessage();

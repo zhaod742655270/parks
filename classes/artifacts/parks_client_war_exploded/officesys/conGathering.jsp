@@ -828,8 +828,11 @@
             <td><input id="tran-conType" class="easyui-combobox" style="width: 130px;"></td>
         </tr>
         <tr>
+            <td><label>合同号</label></td>
+            <td><input id="tran-contractSn" class="easyui-combobox" style="width: 130px;" data-options="onSelect:onChangeContractSn"></td>
+
             <td><label>新收款合同：</label></td>
-            <td><input id="tran-conGathering" class="easyui-combobox" style="width: 130px;"></td>
+            <td><input id="tran-conGathering" class="easyui-combobox" style="width: 130px;" data-options="onSelect:onChangeConGathering"></td>
         </tr>
     </table>
     </form>

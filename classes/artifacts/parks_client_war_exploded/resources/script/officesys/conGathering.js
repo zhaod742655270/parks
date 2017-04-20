@@ -561,12 +561,21 @@ $(function () {
                     return row[opts.textField].indexOf(q) >= 0;
                 },
                 url:'payment/getContractName?sheetName='+sheetName+'&contractType='+contractType
+            });
+            $('#tran-contractSn').combobox({
+                valueField: 'id',
+                textField: 'text',
+                filter: function(q, row){
+                    var opts = $(this).combobox('options');
+                    return row[opts.textField].indexOf(q) >= 0;
+                },
+                url:'payment/getContractSn?sheetName='+sheetName+'&contractType='+contractType
             })
         }
     });
     $('#tran-conType').combobox({
         data: [{"id": "弱电项目", "text": "弱电项目"}, {"id": "零星项目", "text": "零星项目"},
-            {"id": "贸易项目", "text": "贸易项目"},{"value":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
+            {"id": "贸易项目", "text": "贸易项目"},{"id":"洽商项目","text":"洽商项目"}, {"id": "其它项目", "text": "其它项目"}],
         valueField: 'id',
         textField: 'text',
         onChange: function (newValue, oldValue)  {
@@ -595,6 +604,15 @@ $(function () {
                         return row[opts.textField].indexOf(q) >= 0;
                     },
                     url:'payment/getContractName?sheetName=' + sheetName + '&contractType=' + contractType
+                });
+                $('#tran-contractSn').combobox({
+                    valueField: 'id',
+                    textField: 'text',
+                    filter: function(q, row){
+                        var opts = $(this).combobox('options');
+                        return row[opts.textField].indexOf(q) >= 0;
+                    },
+                    url:'payment/getContractSn?sheetName='+sheetName+'&contractType='+contractType
                 })
             }
         }
@@ -1310,7 +1328,7 @@ function operationPaymentDisplay(){
     });
 }
 
-//增加付款合同窗口
+//转移付款合同窗口
 function openTransform(){
     $("#transform-dlg").dialog("open").dialog('setTitle', ' 转移付款合同');
     $('#transform-form').form('clear');
@@ -1335,6 +1353,36 @@ function transformPayment(){
             } else {
                 $.messager.alert('操作失败', result.message, 'error');
             }
+        }
+    });
+}
+
+function onChangeContractSn(){
+    $.ajax({
+        url:'conGathering/getConGatheringById',
+        type:'POST',
+        data:{
+            id:$('#tran-contractSn').combobox('getValue')
+        },
+        dataType: 'json',
+        success: function (result) {
+            $('#tran-conGathering').combobox('setValue',result.id);
+            $('#tran-conGathering').combobox('setText',result.contractName)
+        }
+    });
+}
+
+function onChangeConGathering(){
+    $.ajax({
+        url:'conGathering/getConGatheringById',
+        type:'POST',
+        data:{
+            id:$('#tran-conGathering').combobox('getValue')
+        },
+        dataType:'json',
+        success:function(result){
+            $('#tran-contractSn').combobox('setValue',result.id);
+            $('#tran-contractSn').combobox('setText',result.contractNo)
         }
     });
 }

@@ -33,6 +33,19 @@ public class ComboHelper {
     }
 
 
+    public static List<Combobox> getContractSnCombobox(List<ContractGatheringDTO> list) {
+        ArrayList<Combobox> nodes = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            ContractGatheringDTO dto = list.get(i);
+            Combobox node = new Combobox();
+            node.setId(dto.getId());
+            node.setText(dto.getContractNo());
+            nodes.add(node);
+        }
+        return nodes;
+    }
+
+
 
     public static List<Combobox> getPurchaserNameCombobox(List<UserDTO> list) {
         ArrayList<Combobox> nodes = new ArrayList<>();

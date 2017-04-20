@@ -145,6 +145,9 @@
 
         <action name="transformPayment" class="conGatheringAction" method="transformPayment">
         </action>
+
+        <action name="getConGatheringById" class="conGatheringAction" method="getConGatheringById">
+        </action>
     </package>
 
 
@@ -165,6 +168,9 @@
         </action>
 
         <action name="getContractName" class="paymentAction" method="getContractName">
+        </action>
+
+        <action name="getContractSn" class="paymentAction" method="getContractSn">
         </action>
 
         <action name="addPayment" class="paymentAction" method="addPayment">
@@ -194,7 +200,6 @@
 
         <action name="paymentListByGathering" class="paymentAction" method="paymentListByGathering">
         </action>
-
     </package>
 
 

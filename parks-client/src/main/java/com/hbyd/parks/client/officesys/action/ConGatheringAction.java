@@ -451,6 +451,13 @@ public class ConGatheringAction extends ActionSupport implements ModelDriven<Con
         return null;
     }
 
+    public String getConGatheringById() throws Exception {
+        ContractGatheringDTO dto = contractGatheringWS.getByID(id);
+        String result = gson.toJson(dto);
+        JsonHelper.writeJson(result);
+        return null;
+    }
+
     @Operation(type="导出Excel")
     public void exportExcel() throws Exception {
         AjaxMessage message = new AjaxMessage();
