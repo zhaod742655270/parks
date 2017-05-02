@@ -23,7 +23,6 @@ public class WarehouseInputPro extends RecoverableEntity {
     @NotAudited
     private WarehouseProduct warehouseProduct;      //货品
 
-    private String productNum;          //生产任务单号
     private Double quantity;             //数量
     private Double price;                //单价
     private Double valence;              //合价
@@ -85,14 +84,6 @@ public class WarehouseInputPro extends RecoverableEntity {
 
     public void setWarehouseProduct(WarehouseProduct warehouseProduct) {
         this.warehouseProduct = warehouseProduct;
-    }
-
-    public String getProductNum() {
-        return productNum;
-    }
-
-    public void setProductNum(String productNum) {
-        this.productNum = productNum;
     }
 
     public WarehouseApplicationPro getWarehouseApplicationPro() {

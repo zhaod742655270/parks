@@ -18,7 +18,6 @@ import java.util.List;
 public class WarehouseOutput extends RecoverableEntity {
     private String number;              //出库单号
     private String outputDate;           //出库日期
-    private String outputType;           //出库类型
 
     @ManyToOne
     @JoinColumn(name="warehouseApplyFK")
@@ -68,14 +67,6 @@ public class WarehouseOutput extends RecoverableEntity {
 
     public void setOutputDate(String outputDate) {
         this.outputDate = outputDate;
-    }
-
-    public String getOutputType() {
-        return outputType;
-    }
-
-    public void setOutputType(String outputType) {
-        this.outputType = outputType;
     }
 
     public WarehouseInfo getWarehouse() {

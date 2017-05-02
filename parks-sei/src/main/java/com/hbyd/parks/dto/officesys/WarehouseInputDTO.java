@@ -9,7 +9,6 @@ import com.hbyd.parks.common.base.BaseDTO;
 public class WarehouseInputDTO extends BaseDTO{
     private String number;              //入库单号
     private String inputDate;           //入库日期
-    private String inputType;           //入库类型
     private String applicationID;       //申请单
     private String applicationName;
     private String warehouseID;           //仓库
@@ -22,6 +21,7 @@ public class WarehouseInputDTO extends BaseDTO{
     private String examineDate;         //审核日期
     private String companyId;           //供应商
     private String companyName;
+    private String productNum;          //生产任务单号
     private String note;                //备注
 
 
@@ -113,14 +113,6 @@ public class WarehouseInputDTO extends BaseDTO{
         this.companyName = companyName;
     }
 
-    public String getInputType() {
-        return inputType;
-    }
-
-    public void setInputType(String inputType) {
-        this.inputType = inputType;
-    }
-
     public String getWarehouseID() {
         return warehouseID;
     }
@@ -151,5 +143,13 @@ public class WarehouseInputDTO extends BaseDTO{
 
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
+    }
+
+    public String getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(String productNum) {
+        this.productNum = productNum;
     }
 }

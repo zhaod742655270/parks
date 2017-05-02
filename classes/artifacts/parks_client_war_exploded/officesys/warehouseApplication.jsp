@@ -64,14 +64,15 @@
                     <td class="tdLeft"><label>申请单名称：</label></td>
                     <td class="tdRight"><input id="name" class="easyui-textbox" name="warehouseApplication.name"
                                                data-options="required:true,precision:0"></td>
-
+                </tr>
+                <tr>
                     <td class="tdLeft"><label>类型：</label></td>
                     <td class="tdRight"><input id="type" class="easyui-combobox" name="warehouseApplication.type"
                                                data-options="editable:false"></td>
                 </tr>
                 <tr>
                     <td class="tdLeft"><label>备注：</label></td>
-                    <td rowspan="2" colspan="5"><input id="note" class="easyui-textbox" name="warehouseApplication.note"
+                    <td rowspan="2" colspan="3"><input id="note" class="easyui-textbox" name="warehouseApplication.note"
                                                        data-options="multiline:true" style="width:100%;height:40px"></td>
                 </tr>
             </table>

@@ -62,7 +62,6 @@ $(function() {
         columns: [[
             {field: 'productModelNumber', title: '型号'},
             {field: 'productSpecifications', title: '封装'},
-            {field: 'productNum', title: '生产任务单号', width: 100},
             {field:'productBrand',title:'品牌'},
             {field: 'quantity', title: '数量'},
             {field: 'productUnit', title: '单位'},

@@ -25,7 +25,6 @@ public class WarehouseApplicationPro extends RecoverableEntity {
     private String productSpecifications;   //货品封装
     private String productBrand;           //品牌
     private String productUnit;          //货品单位
-    private String productNum;          //生产任务单号
     private Double quantity;             //数量
     private Boolean isFinished;         //是否完成出入库操作
     private String note;                //备注
@@ -92,14 +91,6 @@ public class WarehouseApplicationPro extends RecoverableEntity {
 
     public void setProductUnit(String productUnit) {
         this.productUnit = productUnit;
-    }
-
-    public String getProductNum() {
-        return productNum;
-    }
-
-    public void setProductNum(String productNum) {
-        this.productNum = productNum;
     }
 
     public String getProductBrand() {

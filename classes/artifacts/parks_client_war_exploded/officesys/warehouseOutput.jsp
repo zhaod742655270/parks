@@ -66,7 +66,6 @@
                 <table>
                     <tr>
                         <td><label>出库单号</label> &nbsp;<input type="text"  id="numberQuery"   style="width: 110px"/>&nbsp;</td>
-                        <td><label>出库类型</label> &nbsp;<input class="easyui-combobox"  id="outputTypeQuery"   style="width: 110px"/>&nbsp;</td>
                         <td colspan="2"><label>出库日期</label> &nbsp;<input class="easyui-datebox"  id="outputDateBegQuery"   style="width: 110px"/>&nbsp;
                             <label>至</label> &nbsp;<input class="easyui-datebox"  id="outputDateEndQuery"   style="width: 110px"/>&nbsp;</td>
                         <td>&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="warehouseQuery()"
@@ -92,24 +91,20 @@
                     <td class="tdRight"><input id="number" class="easyui-numberbox" name="warehouseOutput.number"
                                                data-options="required:true,precision:0"></td>
 
-                    <td class="tdLeft"><label>出库类型：</label></td>
-                    <td class="tdRight"><input class="easyui-combobox" id="outputType" name="warehouseOutput.outputType"
-                                               data-options="editable:false"></td>
-
                     <td class="tdLeft"><label>出库日期：</label></td>
                     <td class="tdRight"><input id="outputDate" class="easyui-datebox" name="warehouseOutput.outputDate"></td>
-                </tr>
 
-                <tr>
                     <td class="tdLeft"><label>仓库：</label></td>
                     <td class="tdRight"><input id="warehouse" class="easyui-combobox" name="warehouseOutput.warehouseID"
                                                data-options="editable:false"/></td>
+                </tr>
 
+                <tr>
                     <td class="tdLeft"><label>客户：</label></td>
                     <td class="tdRight"><input id="company" class="easyui-combobox" name="warehouseOutput.companyId"></td>
 
                     <td class="tdLeft"><label>申请单：</label></td>
-                    <td class="tdRight"><input id="application" class="easyui-combobox" name="warehouseOutput.applicationID"></td>
+                    <td class="tdRight"><input id="application" class="easyui-combobox" name="warehouseOutput.applicationID" ></td>
                 </tr>
 
                 <tr>
@@ -123,7 +118,7 @@
 
                 <tr>
                     <td class="tdLeft"><label>备注：</label></td>
-                    <td rowspan="2" colspan="5"><input id="note" class="easyui-textbox" name="warehouseOutput.note"
+                    <td rowspan="2" colspan="3"><input id="note" class="easyui-textbox" name="warehouseOutput.note"
                                                        data-options="multiline:true" style="width:100%;height:40px"></td>
                 </tr>
             </table>

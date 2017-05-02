@@ -148,7 +148,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
 
         //读取数据
         int SN = 1;
-        for(int index=firstRowIndex+2;index<lastRowIndex;index++) {
+        for(int index=firstRowIndex+2;index<=lastRowIndex;index++) {
             WarehouseApplicationProDTO product = new WarehouseApplicationProDTO();
             XSSFRow row = readsheet.getRow(index);          // 获取当前行
 
@@ -201,7 +201,7 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
 
         //读取数据
         int SN = 1;
-        for(int index=firstRowIndex+2;index<lastRowIndex;index++) {
+        for(int index=firstRowIndex+2;index<=lastRowIndex;index++) {
             WarehouseApplicationProDTO product = new WarehouseApplicationProDTO();
             HSSFRow row = readsheet.getRow(index);          // 获取当前行
 

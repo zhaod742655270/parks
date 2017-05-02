@@ -20,7 +20,6 @@ $(function(){
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
             {field:'number',title:'出库单号'},
-            {field:'outputType',title:'出库类型'},
             {field:'outputDate',title:'出库日期'}
         ]],
         columns:[[
@@ -146,19 +145,6 @@ $(function(){
         ]]
     });
 
-
-    $('#outputType').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
-        valueField: 'id',
-        textField: 'text'
-    });
-
-    $('#outputTypeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
-        valueField: 'id',
-        textField: 'text'
-    });
-
     $('#recordPerson').combotree({
         required:true,
         url:'warehouseOutput/getUserList',
@@ -195,7 +181,8 @@ $(function(){
     });
 
     $('#productTypeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "元器件", "text": "元器件"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"},
+            {"id": "外壳", "text": "外壳"}, {"id": "辅材", "text": "辅材"}],
         valueField: 'id',
         textField: 'text'
     });
@@ -256,7 +243,6 @@ $(function(){
 function warehouseQuery(){
     var query = {
         numberQuery:$('#numberQuery').val(),
-        outputTypeQuery:$('#outputTypeQuery').combobox('getValue'),
         outputDateBegQuery:$('#outputDateBegQuery').datebox('getValue'),
         outputDateEndQuery:$('#outputDateEndQuery').datebox('getValue')
     };
@@ -315,7 +301,6 @@ function editWarehouseOutput(){
         
         $('#id').val(row.id);
         $('#number').textbox('setValue',row.number);
-        $('#outputType').combobox('setValue',row.outputType);
         $('#outputDate').datebox('setValue',row.outputDate);
         $('#warehouse').combobox('setValue',row.warehouseID);
         $('#warehouse').combobox('setText',row.warehouseName);
@@ -581,7 +566,6 @@ function exportExcel(){
             $('#query-form').form({
                 queryParams:{
                     numberQuery:$('#numberQuery').val(),
-                    outputTypeQuery:$('#outputTypeQuery').combobox('getValue'),
                     outputDateBegQuery:$('#outputDateBegQuery').datebox('getValue'),
                     outputDateEndQuery:$('#outputDateEndQuery').datebox('getValue')
                 }

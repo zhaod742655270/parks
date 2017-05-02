@@ -20,7 +20,6 @@ $(function(){
         frozenColumns:[[
             {field:'id',title:'ID',align:'left',hidden:true},
             {field:'number',title:'入库单号'},
-            {field:'inputType',title:'入库类型'},
             {field:'inputDate',title:'入库日期'}
         ]],
         columns:[[
@@ -31,6 +30,7 @@ $(function(){
             {field:'examinePersonName',title:'审核人',hidden:true},
             {field:'examineDate',title:'审核日期',hidden:true},
             {field:'companyName',title:'供应方'},
+            {field:'productNum',title:'生产任务单号'},
             {field:'note',title:'备注',width:80}
         ]],
         loadFilter:function(data){
@@ -73,10 +73,6 @@ $(function(){
         columns:[[
             {field:'productModelNumber',title:'型号'},
             {field:'productSpecifications',title:'封装'},
-            {field:'productNum',title:'生产任务单号', width:100,
-                editor:{
-                    type:'textbox'
-                }},
             {field:'quantity',title:'数量',
                 editor :{
                     type:'numberbox',
@@ -147,10 +143,6 @@ $(function(){
                     type:'numberbox',
                     options:{precision:2}
                 }},
-            {field: 'productNum', title: '生产任务单号', width: 120,
-                editor:{
-                    type:'textbox'
-                }},
             {field: 'productModelNumber', title: '型号', width: 100},
             {field: 'productSpecifications', title: '封装', width: 100},
             {field:'productBrand',title:'品牌', width: 100},
@@ -164,18 +156,6 @@ $(function(){
         //运行速度太慢，取消全选时的编辑模式
         //onSelectAll:onSelectAll,
         //onUnselectAll:onUnselectAll
-    });
-
-    $('#inputType').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
-        valueField: 'id',
-        textField: 'text'
-    });
-
-    $('#inputTypeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
-        valueField: 'id',
-        textField: 'text'
     });
 
     $('#recordPerson').combotree({
@@ -214,7 +194,8 @@ $(function(){
     });
 
     $('#productTypeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "元器件", "text": "元器件"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"},
+            {"id": "外壳", "text": "外壳"}, {"id": "辅材", "text": "辅材"}],
         valueField: 'id',
         textField: 'text'
     });
@@ -285,7 +266,6 @@ $(function(){
 function warehouseQuery(){
     var query = {
         numberQuery:$('#numberQuery').val(),
-        inputTypeQuery:$('#inputTypeQuery').combobox('getValue'),
         inputDateBegQuery:$('#inputDateBegQuery').datebox('getValue'),
         inputDateEndQuery:$('#inputDateEndQuery').datebox('getValue')
     };
@@ -340,7 +320,6 @@ function editWarehouseInput(){
         $('#addWarehouse').form('clear');
         $('#id').val(row.id);
         $('#number').textbox('setValue',row.number);
-        $('#inputType').combobox('setValue',row.inputType);
         $('#inputDate').datebox('setValue',row.inputDate);
         $('#warehouse').combobox('setValue',row.warehouseID);
         $('#warehouse').combobox('setText',row.warehouseName);
@@ -354,6 +333,7 @@ function editWarehouseInput(){
         $('#examineDate').datebox('setValue',row.examineDate);
         $('#company').combobox('setValue',row.companyId);
         $('#company').combobox('setText',row.companyName);
+        $('#productNum').textbox('setValue',row.productNum);
         $('#note').textbox('setValue',row.note);
         
         if(row.applicationID == null){
@@ -610,7 +590,6 @@ function exportExcel(){
             $('#query-form').form({
                 queryParams:{
                     numberQuery:$('#numberQuery').val(),
-                    inputTypeQuery:$('#inputTypeQuery').combobox('getValue'),
                     inputDateBegQuery:$('#inputDateBegQuery').datebox('getValue'),
                     inputDateEndQuery:$('#inputDateEndQuery').datebox('getValue')
                 }

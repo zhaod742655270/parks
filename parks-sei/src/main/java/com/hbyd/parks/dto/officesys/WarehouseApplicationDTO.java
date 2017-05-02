@@ -12,6 +12,7 @@ public class WarehouseApplicationDTO extends BaseDTO {
     private String recordPersonID;        //录入人
     private String recordPersonName;
     private String recordDate;          //录入日期
+    private String productNum;          //生产任务单号
     private String note;                //备注
 
     public String getNumber() {
@@ -68,5 +69,13 @@ public class WarehouseApplicationDTO extends BaseDTO {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(String productNum) {
+        this.productNum = productNum;
     }
 }

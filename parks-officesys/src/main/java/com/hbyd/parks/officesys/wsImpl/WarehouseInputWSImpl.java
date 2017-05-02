@@ -25,17 +25,12 @@ public class WarehouseInputWSImpl extends BaseWSImpl<WarehouseInputDTO,Warehouse
     @Resource
     private WarehouseInputDao warehouseInputDao;
 
-    private WarehouseInputProWSImpl warehouseInputProWS = new WarehouseInputProWSImpl();
-
     @Override
     public PageBeanEasyUI getPageBeanByQueryBean(WarehouseInputQuery query){
         DetachedCriteria criteria = DetachedCriteria.forClass(WarehouseInput.class);
         criteria.add(eq("isValid",true));
         if(!Strings.isNullOrEmpty(query.getNumberQuery())){
             criteria.add(like("number","%" + query.getNumberQuery() + "%"));
-        }
-        if(!Strings.isNullOrEmpty(query.getInputTypeQuery())){
-            criteria.add(eq("inputType",query.getInputTypeQuery()));
         }
         if(!Strings.isNullOrEmpty(query.getInputDateBegQuery())){
             criteria.add(ge("inputDate",query.getInputDateBegQuery()));

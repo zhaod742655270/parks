@@ -18,7 +18,6 @@ import java.util.Set;
 public class WarehouseInput extends RecoverableEntity {
     private String number;              //入库单号
     private String inputDate;           //入库日期
-    private String inputType;           //入库类型
 
     @ManyToOne
     @JoinColumn(name="warehouseApplyFK")
@@ -48,6 +47,8 @@ public class WarehouseInput extends RecoverableEntity {
     @JoinColumn(name="companyIdFK")
     @NotAudited
     private WarehouseCompanyIn company;        //供应商
+
+    private String productNum;          //生产任务单号
     private String note;                //备注
 
     @OneToMany(mappedBy = "warehouseInput")
@@ -134,19 +135,19 @@ public class WarehouseInput extends RecoverableEntity {
         this.warehouse = warehouse;
     }
 
-    public String getInputType() {
-        return inputType;
-    }
-
-    public void setInputType(String inputType) {
-        this.inputType = inputType;
-    }
-
     public WarehouseApplication getWarehouseApplication() {
         return warehouseApplication;
     }
 
     public void setWarehouseApplication(WarehouseApplication warehouseApplication) {
         this.warehouseApplication = warehouseApplication;
+    }
+
+    public String getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(String productNum) {
+        this.productNum = productNum;
     }
 }

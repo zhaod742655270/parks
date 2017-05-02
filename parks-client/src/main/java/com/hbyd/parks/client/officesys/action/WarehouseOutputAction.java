@@ -214,7 +214,8 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
             //判断货品是否已存在
             //如果相同货品不存在，则在货品库中添加该货品
             //返回货品ID
-            productId = isProductExist(map,warehouseOutput.getOutputType());
+            String warehouseName = warehouseInfoWS.getByID(warehouseOutput.getWarehouseID()).getName();
+            productId = isProductExist(map,warehouseName.replace("库",""));
 
             //保存货品信息
             WarehouseOutputProDTO dto = fillOutputProDTO(map,productId);
@@ -322,7 +323,7 @@ public class WarehouseOutputAction extends ActionSupport implements ModelDriven<
         String warehouseID = warehouseProductWS.getWarehouseByProdutId(dto.getProductId());
         warehouseDTO.setId(warehouseID);
         dto.setWarehouseDTO(warehouseDTO);
-        //关联入库单货品
+        //关联申请单货品
         WarehouseApplicationProDTO applyPro = new WarehouseApplicationProDTO();
         applyPro.setId(map.get("id").toString());
         dto.setWarehouseApplicationPro(applyPro);

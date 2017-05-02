@@ -6,7 +6,6 @@ package com.hbyd.parks.common.model;
 public class WarehouseInputQuery extends QueryBeanEasyUI {
 
     private String numberQuery;
-    private String inputTypeQuery;
     private String inputDateBegQuery;
     private String inputDateEndQuery;
 
@@ -20,14 +19,6 @@ public class WarehouseInputQuery extends QueryBeanEasyUI {
 
     public void setNumberQuery(String numberQuery) {
         this.numberQuery = numberQuery;
-    }
-
-    public String getInputTypeQuery() {
-        return inputTypeQuery;
-    }
-
-    public void setInputTypeQuery(String inputTypeQuery) {
-        this.inputTypeQuery = inputTypeQuery;
     }
 
     public String getInputDateBegQuery() {

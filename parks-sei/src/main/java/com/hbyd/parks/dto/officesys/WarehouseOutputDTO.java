@@ -9,7 +9,6 @@ import com.hbyd.parks.common.base.BaseDTO;
 public class WarehouseOutputDTO extends BaseDTO{
     private String number;              //出库单号
     private String outputDate;           //出库日期
-    private String outputType;           //入库类型
     private String applicationID;       //申请单
     private String applicationName;
     private String warehouseID;           //仓库
@@ -39,14 +38,6 @@ public class WarehouseOutputDTO extends BaseDTO{
 
     public void setOutputDate(String outputDate) {
         this.outputDate = outputDate;
-    }
-
-    public String getOutputType() {
-        return outputType;
-    }
-
-    public void setOutputType(String outputType) {
-        this.outputType = outputType;
     }
 
     public String getWarehouseID() {

@@ -1176,13 +1176,13 @@ public class ExportExcelHelper {
                 WarehouseInputDTO warehouse = list.get(i);
                 createCell(row, 1, String.valueOf(i+1), commonStyle);
                 createCell(row, 2, warehouse.getNumber(), commonStyle);
-                createCell(row, 3, warehouse.getInputType(), commonStyle);
-                createCell(row, 4, warehouse.getInputDate(), commonStyle);
-                createCell(row, 5, warehouse.getWarehouseName(), commonStyle);
-                createCell(row, 6, warehouse.getApplicationName(), commonStyle);
-                createCell(row, 7, warehouse.getRecordPersonName(), commonStyle);
-                createCell(row, 8, warehouse.getRecordDate(), commonStyle);
-                createCell(row, 9, warehouse.getCompanyName(), commonStyle);
+                createCell(row, 3, warehouse.getInputDate(), commonStyle);
+                createCell(row, 4, warehouse.getWarehouseName(), commonStyle);
+                createCell(row, 5, warehouse.getApplicationName(), commonStyle);
+                createCell(row, 6, warehouse.getRecordPersonName(), commonStyle);
+                createCell(row, 7, warehouse.getRecordDate(), commonStyle);
+                createCell(row, 8, warehouse.getCompanyName(), commonStyle);
+                createCell(row, 9, warehouse.getProductNum(), commonStyle);
                 createCell(row, 10, warehouse.getNote(), commonStyle);
                 createCell(row, 11, "", null);
             }
@@ -1262,23 +1262,22 @@ public class ExportExcelHelper {
                 WarehouseOutputDTO warehouse = list.get(i);
                 createCell(row, 1, String.valueOf(i+1), commonStyle);
                 createCell(row, 2, warehouse.getNumber(), commonStyle);
-                createCell(row, 3, warehouse.getOutputType(), commonStyle);
-                createCell(row, 4, warehouse.getOutputDate(), commonStyle);
-                createCell(row, 5, warehouse.getWarehouseName(), commonStyle);
-                createCell(row, 6, warehouse.getApplicationName(), commonStyle);
-                createCell(row, 7, warehouse.getRecordPersonName(), commonStyle);
-                createCell(row, 8, warehouse.getRecordDate(), commonStyle);
-                createCell(row, 9, warehouse.getCompanyName(), commonStyle);
-                createCell(row, 10, warehouse.getNote(), commonStyle);
-                createCell(row, 11, "", null);
+                createCell(row, 3, warehouse.getOutputDate(), commonStyle);
+                createCell(row, 4, warehouse.getWarehouseName(), commonStyle);
+                createCell(row, 5, warehouse.getApplicationName(), commonStyle);
+                createCell(row, 6, warehouse.getRecordPersonName(), commonStyle);
+                createCell(row, 7, warehouse.getRecordDate(), commonStyle);
+                createCell(row, 8, warehouse.getCompanyName(), commonStyle);
+                createCell(row, 9, warehouse.getNote(), commonStyle);
+                createCell(row, 10, "", null);
             }
         }
         //调整列宽（适应中文）
-        for(int i=0;i<11;i++) {
+        for(int i=0;i<10;i++) {
             sheet.autoSizeColumn(i);
             sheet.setColumnWidth(i,(int)(sheet.getColumnWidth(i)*1.25));
         }
-        sheet.setColumnWidth(10,25*256);        //备注
+        sheet.setColumnWidth(9,25*256);        //备注
 
         //以流的形式将文件提交至前台
         resp.setContentType("application/x-download");

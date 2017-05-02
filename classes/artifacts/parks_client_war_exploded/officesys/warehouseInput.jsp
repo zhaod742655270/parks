@@ -62,7 +62,6 @@
                 <table>
                     <tr>
                         <td><label>入库单号</label> &nbsp;<input type="text"  id="numberQuery"   style="width: 110px"/>&nbsp;&nbsp;</td>
-                        <td><label>入库类型</label> &nbsp;<input class="easyui-combobox"  id="inputTypeQuery"   style="width: 110px"/>&nbsp;&nbsp;</td>
                         <td colspan="2"><label>入库日期</label> &nbsp;<input class="easyui-datebox"  id="inputDateBegQuery"   style="width: 110px"/>
                             <label>至</label> <input class="easyui-datebox"  id="inputDateEndQuery"   style="width: 110px"/>&nbsp;&nbsp;</td>
                         <td rowspan="2">&nbsp;<a herf="javascript:void(0)" class="easyui-linkbutton" onclick="warehouseQuery()"
@@ -91,18 +90,17 @@
                     <td class="tdLeft"><label>入库日期：</label></td>
                     <td class="tdRight"><input id="inputDate" class="easyui-datebox" name="warehouseInput.inputDate"></td>
 
-                    <td class="tdLeft"><label>类型：</label></td>
-                    <td class="tdRight"><input id="inputType" class="easyui-combobox" name="warehouseInput.inputType"
+                    <td class="tdLeft"><label>仓库：</label></td>
+                    <td class="tdRight"><input id="warehouse" class="easyui-combobox" name="warehouseInput.warehouseID"
                                                data-options="editable:false"/></td>
                 </tr>
 
                 <tr>
-                    <td class="tdLeft"><label>仓库：</label></td>
-                    <td class="tdRight"><input id="warehouse" class="easyui-combobox" name="warehouseInput.warehouseID"
-                                               data-options="editable:false"/></td>
-
                     <td class="tdLeft"><label>供应方：</label></td>
                     <td class="tdRight"><input id="company" class="easyui-combobox" name="warehouseInput.companyId"></td>
+
+                    <td class="tdLeft"><label>生产任务单号：</label></td>
+                    <td class="tdRight"><input id="productNum" class="easyui-textbox" name="warehouseInput.productNum"></td>
 
                     <td class="tdLeft"><label>申请单：</label></td>
                     <td class="tdRight"><input id="application" class="easyui-combobox" name="warehouseInput.applicationID"></td>

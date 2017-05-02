@@ -12,7 +12,6 @@ public class WarehouseInputProDTO extends BaseDTO {
     private String productModelNumber;   //货品型号
     private String productSpecifications;   //货品封装
     private String productUnit;          //货品单位
-    private String productNum;          //生产任务单号
     private Double quantity;             //数量
     private Double price;                //单价
     private Double valence;              //合价
@@ -99,14 +98,6 @@ public class WarehouseInputProDTO extends BaseDTO {
 
     public void setProductUnit(String productUnit) {
         this.productUnit = productUnit;
-    }
-
-    public String getProductNum() {
-        return productNum;
-    }
-
-    public void setProductNum(String productNum) {
-        this.productNum = productNum;
     }
 
     public WarehouseApplicationProDTO getWarehouseApplicationPro() {

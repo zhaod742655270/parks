@@ -5,7 +5,6 @@ package com.hbyd.parks.common.model;
  */
 public class WarehouseOutputQuery extends QueryBeanEasyUI {
     private String numberQuery;
-    private String outputTypeQuery;
     private String outputDateBegQuery;
     private String outputDateEndQuery;
 
@@ -19,14 +18,6 @@ public class WarehouseOutputQuery extends QueryBeanEasyUI {
 
     public void setNumberQuery(String numberQuery) {
         this.numberQuery = numberQuery;
-    }
-
-    public String getOutputTypeQuery() {
-        return outputTypeQuery;
-    }
-
-    public void setOutputTypeQuery(String outputTypeQuery) {
-        this.outputTypeQuery = outputTypeQuery;
     }
 
     public String getOutputDateBegQuery() {

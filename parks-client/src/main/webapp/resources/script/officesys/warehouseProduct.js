@@ -32,13 +32,15 @@ $(function(){
     });
 
     $('#productTypeQuery').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "元器件", "text": "元器件"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"},
+            {"id": "外壳", "text": "外壳"}, {"id": "辅材", "text": "辅材"}],
         valueField: 'id',
         textField: 'text'
     });
 
     $('#productType').combobox({
-        data: [{"id": "原材料", "text": "原材料"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"}],
+        data: [{"id": "元器件", "text": "元器件"}, {"id": "成品", "text": "成品"}, {"id": "半成品", "text": "半成品"},
+            {"id": "外壳", "text": "外壳"}, {"id": "辅材", "text": "辅材"}],
         valueField: 'id',
         textField: 'text'
     });

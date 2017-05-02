@@ -212,7 +212,8 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             //判断货品是否已存在
             //如果相同货品不存在，则在货品库中添加该货品
             //返回货品ID
-            productId = isProductExist(map,warehouseInput.getInputType());
+            String warehouseName = warehouseInfoWS.getByID(warehouseInput.getWarehouseID()).getName();
+            productId = isProductExist(map,warehouseName.replace("库",""));
 
             //填充DTO
             WarehouseInputProDTO dto = fillInputProDTO(map,productId);
@@ -295,11 +296,6 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             dto.setPrice(Double.valueOf(0));
         }
         dto.setValence(Double.valueOf(0));
-        if(map.get("productNum") != null) {
-            dto.setProductNum(map.get("productNum").toString());
-        }else{
-            dto.setProductNum("");
-        }
         if(map.get("note") != null) {
             dto.setNote(map.get("note").toString());
         }else{
@@ -328,11 +324,6 @@ public class WarehouseInputAction extends ActionSupport implements ModelDriven<W
             dto.setPrice(Double.valueOf(0));
         }
         dto.setValence(Double.valueOf(0));
-        if(map.get("productNum") != null) {
-            dto.setProductNum(map.get("productNum").toString());
-        }else{
-            dto.setProductNum("");
-        }
         if(map.get("note") != null) {
             dto.setNote(map.get("note").toString());
         }else{
