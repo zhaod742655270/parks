@@ -20,8 +20,8 @@ $(function () {
         columns:[[
             {field:'sheetName',title:'年度'},
             {field:'projectType',title:'合同类型'},
-            {field:'contractNoYD',title:'远东合同号'},
-            {field:'contractNo',title:'合同号',sortable:true},
+            {field:'contractNoYD',title:'合同号'},
+            {field:'contractNo',title:'编号',sortable:true},
             {field:'contractName',title:'合同名称',
                 styler: function(value,row,index){
                     if(row.contractGatheringPostil) {
@@ -343,8 +343,8 @@ $(function () {
         columns:[[
             {field:'sheetName',title:'年度'},
             {field:'projectType',title:'合同类型'},
-            {field:'contractNoYD',title:'远东合同号'},
-            {field:'contractNo',title:'合同号',sortable:true},
+            {field:'contractNoYD',title:'合同号'},
+            {field:'contractNo',title:'编号',sortable:true},
             {field:'contractName',title:'合同名称',
                 styler: function(value,row,index){
                     if(row.contractGatheringPostil) {
@@ -1032,15 +1032,15 @@ function viewPayment(){
 
     var row = $('#conGathering-dg').datagrid('getSelected');
     if (row) {
-        var contractName=row.contractName;
-        if(contractName==""){
-            contractName=null;
+        var contractNo=row.contractNo;
+        if(contractNo==""){
+            contractNo=null;
         }
         $('#payment-dlg').dialog('open').dialog('setTitle', '查看付款合同');
         $('#payment-table').datagrid({
             url: 'payment/paymentList',
             queryParams: {
-                conGatheringNameQuery:contractName
+                conGatheringNoQuery:contractNo
             }
         });
     }else{

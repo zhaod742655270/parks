@@ -170,7 +170,7 @@
             <b>recordPersonId</b>
         </field>
         <field>
-            <a>recordPerson.userName</a>
+            <a>recordPerson.nickname</a>
             <b>recordPersonName</b>
         </field>
         <field>

@@ -65,7 +65,7 @@ $(function(){
     });
 
     $('#examinePerson').combobox({
-        data: [{"id": "韩小琴", "text": "韩小琴"},{"id": "李倩", "text": "李倩"}],
+        data: [{"id": "韩小琴", "text": "韩小琴"},{"id": "于宏伟", "text": "于宏伟"},{"id": "李倩", "text": "李倩"}],
         valueField: 'id',
         textField: 'text'
     });

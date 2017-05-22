@@ -165,7 +165,8 @@ public class PaymentWSImpl extends BaseWSImpl<PaymentDTO, Payment> implements Pa
         if (!Strings.isNullOrEmpty(queryBean.getContractNO()))
             criteria.add(eq("contractNO", queryBean.getContractNO()));
 
-        if(!Strings.isNullOrEmpty(queryBean.getContractName()) || !Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery()))
+        if(!Strings.isNullOrEmpty(queryBean.getContractName()) || !Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery())
+                || !Strings.isNullOrEmpty(queryBean.getConGatheringNoQuery()))
             criteria.createAlias("contractGatherings","contractGatherings");
 
         if (!Strings.isNullOrEmpty(queryBean.getContractName()))
@@ -174,6 +175,9 @@ public class PaymentWSImpl extends BaseWSImpl<PaymentDTO, Payment> implements Pa
 
         if (!Strings.isNullOrEmpty(queryBean.getConGatheringNameQuery()))
             criteria.add(Restrictions.eq("contractGatherings.contractName",queryBean.getConGatheringNameQuery()));
+
+        if (!Strings.isNullOrEmpty(queryBean.getConGatheringNoQuery()))
+            criteria.add(Restrictions.eq("contractGatherings.contractNo",queryBean.getConGatheringNoQuery()));
 
         if (!Strings.isNullOrEmpty(queryBean.getPersonQuery()))
             criteria.add(like("purchasePerson", "%" + queryBean.getPersonQuery() + "%"));

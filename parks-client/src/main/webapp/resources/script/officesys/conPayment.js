@@ -130,8 +130,8 @@ $(function () {
         columns:[[
             {field:'sheetName',title:'年度'},
             {field:'projectType',title:'合同类型'},
-            {field:'contractNoYD',title:'远东合同号'},
-            {field:'contractNo',title:'合同号'},
+            {field:'contractNoYD',title:'合同号'},
+            {field:'contractNo',title:'编号'},
             {field:'contractName',title:'合同名称',
                 styler: function(value,row,index){
                     if(row.contractGatheringPostil) {

@@ -122,10 +122,10 @@
             </tr>
 
             <tr>
-                <td>&nbsp;&nbsp;<label>远东合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>合同号：</label></td>
                 <td><input id="contractNoYD" name="con.contractNoYD" style="width: 130px;"/>
 
-                <td>&nbsp;&nbsp;<label>合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>编号：</label></td>
                 <td><input id="contractNo" name="con.contractNo" style="width: 130px;"/>
 
             </tr>
@@ -299,10 +299,10 @@
         <table>
 
             <tr>
-                <td>&nbsp;&nbsp;<label>远东合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>合同号：</label></td>
                 <td><input id="contractNoYDQuery" name="contractNoYDQuery" style="width: 130px;"/>&nbsp;&nbsp;&nbsp;</td>
 
-                <td>&nbsp;&nbsp;<label>合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>编号：</label></td>
                 <td><input id="contractNoQuery" name="contractNoQuery" style="width: 130px;"/></td>
 
             </tr>

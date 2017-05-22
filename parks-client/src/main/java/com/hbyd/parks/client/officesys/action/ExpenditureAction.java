@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.hbyd.parks.client.util.ComboHelper;
 import com.hbyd.parks.client.util.JsonHelper;
 import com.hbyd.parks.common.log.Module;
-import com.hbyd.parks.common.model.AjaxMessage;
-import com.hbyd.parks.common.model.Combobox;
-import com.hbyd.parks.common.model.ExpenditureQuery;
-import com.hbyd.parks.common.model.PageBeanEasyUI;
+import com.hbyd.parks.common.model.*;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.ExpenditureDTO;
 import com.hbyd.parks.dto.officesys.ProjectRecordDTO;
@@ -105,11 +102,15 @@ public class ExpenditureAction extends ActionSupport implements ModelDriven<Expe
 
     //获得经办人人员列表
     public void getRecordPersonList(){
-        List<UserDTO> lists = userWS.findAllValid();
+        //按名称顺序排序
+        //排除管理员与超级管理员
+        QueryBeanEasyUI query = new QueryBeanEasyUI(1, 1000, "nickname", "asc");
+        String hql_where = "WHERE isValid=true AND userName!='super' AND userName!='admin'";
+        List<UserDTO> lists = userWS.getPageBean(query, hql_where).getRows();
         if(lists==null){
             lists=new ArrayList<>();
         }
-        List<Combobox> project = ComboHelper.getPurchaserNameCombobox(lists);   //根据数据填充下拉框
+        List<Combobox> project = ComboHelper.getNicknameCombobox(lists);
         String result = gson.toJson(project);
         JsonHelper.writeJson(result);
     }

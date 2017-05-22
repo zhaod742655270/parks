@@ -23,7 +23,12 @@ public class PaymentQuery extends QueryBeanEasyUI {
 
     private String contractTypeQuery;
 
-    private String conGatheringNameQuery;           //合同名称，用于收款合同界面查看付款合同
+    //合同名称，用于收款合同界面查看付款合同
+    //不在使用，因为合同名称有可能重复，改为使用合同号查询。暂时保留以防有其它地方用到
+    private String conGatheringNameQuery;
+
+    //合同号，用于收款合同界面查看付款合同
+    private String conGatheringNoQuery;
 
     public String getSheetNameQuery() {
         return sheetNameQuery;
@@ -95,5 +100,13 @@ public class PaymentQuery extends QueryBeanEasyUI {
 
     public void setConGatheringNameQuery(String conGatheringNameQuery) {
         this.conGatheringNameQuery = conGatheringNameQuery;
+    }
+
+    public String getConGatheringNoQuery() {
+        return conGatheringNoQuery;
+    }
+
+    public void setConGatheringNoQuery(String conGatheringNoQuery) {
+        this.conGatheringNoQuery = conGatheringNoQuery;
     }
 }
