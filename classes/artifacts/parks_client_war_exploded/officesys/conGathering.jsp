@@ -122,10 +122,10 @@
             </tr>
 
             <tr>
-                <td>&nbsp;&nbsp;<label>远东合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>合同号：</label></td>
                 <td><input id="contractNoYD" name="con.contractNoYD" style="width: 130px;"/>
 
-                <td>&nbsp;&nbsp;<label>合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>编号：</label></td>
                 <td><input id="contractNo" name="con.contractNo" style="width: 130px;"/>
 
             </tr>
@@ -194,8 +194,8 @@
                 <td>&nbsp;&nbsp;<label>验收日期：</label></td>
                 <td><input class="easyui-datebox" id="acceptanceDate" name="con.acceptanceDate" style="width: 135px;"/></td>
 
-                <td>&nbsp;&nbsp;<label>对应原项目：</label></td>
-                <td><input id="linkContract" class="easyui-combobox" name="con.linkContractId" style="width: 135px;"></td>
+                <!--<td>&nbsp;&nbsp;<label>对应原项目：</label></td>
+                <td><input id="linkContract" class="easyui-combobox" name="con.linkContractId" style="width: 135px;"></td>-->
             </tr>
 
             <tr>
@@ -299,10 +299,10 @@
         <table>
 
             <tr>
-                <td>&nbsp;&nbsp;<label>远东合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>合同号：</label></td>
                 <td><input id="contractNoYDQuery" name="contractNoYDQuery" style="width: 130px;"/>&nbsp;&nbsp;&nbsp;</td>
 
-                <td>&nbsp;&nbsp;<label>合同号：</label></td>
+                <td>&nbsp;&nbsp;<label>编号：</label></td>
                 <td><input id="contractNoQuery" name="contractNoQuery" style="width: 130px;"/></td>
 
             </tr>
@@ -806,11 +806,11 @@
 
 <!---------------------------------------------------------------------->
 <!-- 附加合同窗口-->
-<div id="linkContract-dlg" class="easyui-dialog"
+<!--<div id="linkContract-dlg" class="easyui-dialog"
      style="width: 950px; height: 480px; padding: 10px" modal="true"
      closed="true">
     <table id="linkContract-table"></table>
-</div>
+</div>-->
 
 
 <!---------------------------------------------------------------------->

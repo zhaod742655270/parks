@@ -20,8 +20,8 @@ $(function () {
         columns:[[
             {field:'sheetName',title:'年度'},
             {field:'projectType',title:'合同类型'},
-            {field:'contractNoYD',title:'远东合同号'},
-            {field:'contractNo',title:'合同号',sortable:true},
+            {field:'contractNoYD',title:'合同号'},
+            {field:'contractNo',title:'编号',sortable:true},
             {field:'contractName',title:'合同名称',
                 styler: function(value,row,index){
                     if(row.contractGatheringPostil) {
@@ -93,7 +93,7 @@ $(function () {
             {field:'stampName',title:'盖章情况'},
             {field:'isCompletedName',title:'项目进展'},
             {field:'acceptanceDate',title:'验收日期'},
-            {field:'linkContractName',title:'所属原项目'},
+            //{field:'linkContractName',title:'所属原项目'},
             {field:'note',title:'备注'}
         ]],
 
@@ -338,13 +338,12 @@ $(function () {
         fit: true,
         singleSelect: true,
         pagination: true,
-        url: 'conGathering/conGatheringList',
 
         columns:[[
             {field:'sheetName',title:'年度'},
             {field:'projectType',title:'合同类型'},
-            {field:'contractNoYD',title:'远东合同号'},
-            {field:'contractNo',title:'合同号',sortable:true},
+            {field:'contractNoYD',title:'合同号'},
+            {field:'contractNo',title:'编号',sortable:true},
             {field:'contractName',title:'合同名称',
                 styler: function(value,row,index){
                     if(row.contractGatheringPostil) {
@@ -521,7 +520,7 @@ $(function () {
         }
     });
 
-   $('#linkContract').combobox({
+   /*$('#linkContract').combobox({
        url:'conGathering/getContractList',
        valueField: 'id',
        textField: 'text',
@@ -529,7 +528,7 @@ $(function () {
            var opts = $(this).combobox('options');
            return row[opts.textField].indexOf(q) >= 0;
        }
-   });
+   });*/
     
     // 转移对应付款合同界面的年度与项目类型
     $('#tran-sheetName').combobox({
@@ -659,8 +658,8 @@ function editContract() {
         $('#projectDirector').val(row.projectDirector);
         $('#stamp').combobox("setValue",row.stamp);
         $('#isCompleted').combobox("setValue",row.isCompleted);
-        $('#linkContract').combobox("setValue",row.linkContractId);
-        $('#linkContract').combobox("setText",row.linkContractName);
+        /*$('#linkContract').combobox("setValue",row.linkContractId);
+        $('#linkContract').combobox("setText",row.linkContractName);*/
         $('#note').textbox("setValue",row.note);
     } else {
         $.messager.alert('提示', '需要选择一个合同，才能进行编辑操作。', 'info');
@@ -1032,15 +1031,15 @@ function viewPayment(){
 
     var row = $('#conGathering-dg').datagrid('getSelected');
     if (row) {
-        var contractName=row.contractName;
-        if(contractName==""){
-            contractName=null;
+        var contractNo=row.contractNo;
+        if(contractNo==""){
+            contractNo=null;
         }
         $('#payment-dlg').dialog('open').dialog('setTitle', '查看付款合同');
         $('#payment-table').datagrid({
             url: 'payment/paymentList',
             queryParams: {
-                conGatheringNameQuery:contractName
+                conGatheringNoQuery:contractNo
             }
         });
     }else{
@@ -1357,6 +1356,7 @@ function transformPayment(){
     });
 }
 
+//当选择合同号时，同时自动填充合同名称
 function onChangeContractSn(){
     $.ajax({
         url:'conGathering/getConGatheringById',
@@ -1372,6 +1372,7 @@ function onChangeContractSn(){
     });
 }
 
+//当选择合同名称时，同时自动填上合同号
 function onChangeConGathering(){
     $.ajax({
         url:'conGathering/getConGatheringById',
@@ -1433,12 +1434,13 @@ function onSelectProjectType(record){
 }
 
 //查看附加合同
-function viewLinkContract(){
+/*function viewLinkContract(){
 
     var row = $('#conGathering-dg').datagrid('getSelected');
     if (row) {
         $('#linkContract-dlg').dialog('open').dialog('setTitle', '查看附加合同');
         $('#linkContract-table').datagrid({
+            url: 'conGathering/conGatheringList',
             queryParams: {
                 linkContract:row.id
             }
@@ -1447,4 +1449,4 @@ function viewLinkContract(){
         $.messager.alert('提示', '需要选择一个合同，才能进行查看附加合同的操作。', 'info');
     }
 
-}
+}*/

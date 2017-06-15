@@ -93,7 +93,7 @@
                                            data-options="required:true,precision:0"></td>
 
                 <td class="tdLeft"><label>项目名称：</label></td>
-                <td class="tdRight"><input id="projetName" class="easyui-validatebox" name="productTest.projetName"
+                <td class="tdRight"><input id="projectName" class="easyui-validatebox" name="productTest.projectName"
                                            data-options="required:true,validType:['length[0,50]']"></td>
 
                 <td class="tdLeft"><label>产品名称：</label></td>

@@ -64,6 +64,18 @@
         <action name="deleteAcceptanceAll" class="acceptanceAction" method="deleteAcceptanceAll">
             <interceptor-ref name="mystack"/>
         </action>
+
+        <action name="editSupplierBatch" class="acceptanceAction" method="editSupplierBatch">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="addExamineBatch" class="acceptanceAction" method="addExamineBatch">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="deleteExamineBatch" class="acceptanceAction" method="deleteExamineBatch">
+            <interceptor-ref name="mystack"/>
+        </action>
     </package>
 
 

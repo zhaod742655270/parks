@@ -181,7 +181,7 @@ function editProductTest(){
         $('#addProductTest').form('clear');
 
         $('#id').val(row.id);
-        $('#rpojectName').val(row.projectName);
+        $('#projectName').val(row.projectName);
         $('#productName').val(row.productName);
         $('#version').textbox('setValue',row.version);
         $('#number').textbox('setValue',row.number);
@@ -213,7 +213,7 @@ function openProductTest(){
         $('#addProductTest').form('clear');
 
         $('#id').val(row.id);
-        $('#rpojectName').val(row.projectName);
+        $('#projectName').val(row.projectName);
         $('#productName').val(row.productName);
         $('#version').textbox('setValue',row.version);
         $('#number').textbox('setValue',row.number);
