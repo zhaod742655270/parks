@@ -55,3 +55,4 @@ target/
 
 # Git
 .git/
+/classes/
