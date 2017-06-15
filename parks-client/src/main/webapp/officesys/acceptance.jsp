@@ -142,6 +142,18 @@
             </td>
 
             <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
+                   onclick="saveExamineBatch()" iconcls="icon-lightning">批量审核</a>
+            </td>
+
+            <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
+                   onclick="deleteExamineBatch()" iconcls="icon-remove">批量取消审核</a>
+            </td>
+
+            <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
+                   onclick="openSupplierBatch()" iconcls="icon-edit">批量修改供应商</a>
+            </td>
+
+            <td><a herf="javascript:void(0)" class="easyui-linkbutton" plain="true"
                    onclick="$('#acceptance-dg').datagrid('reload');"
                    iconcls="icon-reload">刷新</a>
             </td>
@@ -419,6 +431,26 @@
 <div id="examineDlg" class="easyui-dialog" style="width: 600px; height: 340px; padding: 5px" modal="true"
      closed="true">
     <table id="examine-dg"></table>
+</div>
+
+<!--批量修改供应商界面-->
+<div id="editSupplierBatchDlg" class="easyui-dialog" style="padding: 20px;" modal="true"
+     closed="true" buttons="#editSupplierBatchDlg-buttons">
+    <from id="editSupplierBatch-form" method="post">
+        <table >
+            <tr>
+                <td class="tdLeft"><label>供应商：</label></td>
+                <td class="tdRight"><input id="supplier-batch" class="easyui-textbox" style="width: 250px;"/></td>
+            </tr>
+        </table>
+    </from>
+</div>
+
+<!--批量修改供应商窗口按钮-->
+<div id="editSupplierBatchDlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="editSupplierBatch()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
+       onclick="javascript:$('#editSupplierBatchDlg').dialog('close')">取消</a>
 </div>
 
 <input id="menuId" type="hidden" value="${param.menuId}"/>

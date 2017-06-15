@@ -17,17 +17,18 @@ import javax.persistence.*;
 @Audited
 public class Acceptance extends RecoverableEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchaserFK")
     @NotAudited
     private User purchaser;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectManagerFK")
     @NotAudited
     private User projectManager;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    //@ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectFK")
     @NotAudited
     private ContractGathering contractGathering;

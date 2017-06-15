@@ -57,9 +57,9 @@ public class ContractGatheringDTO extends BaseDTO {
 
     private List<PaymentDTO> paymentDTOList;
 
-    private String linkContractId;      //(附加项目)所对应主项目ID
+    //private String linkContractId;      //(附加项目)所对应主项目ID
 
-    private String linkContractName;        //(附加项目)所对应主项目名称
+    //private String linkContractName;        //(附加项目)所对应主项目名称
 
     public int getProjectSn() {
         return projectSn;
@@ -247,7 +247,7 @@ public class ContractGatheringDTO extends BaseDTO {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public String getLinkContractId() {
+    /*public String getLinkContractId() {
         return linkContractId;
     }
 
@@ -262,4 +262,5 @@ public class ContractGatheringDTO extends BaseDTO {
     public void setLinkContractName(String linkContractName) {
         this.linkContractName = linkContractName;
     }
+    */
 }

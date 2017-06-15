@@ -38,7 +38,7 @@
 				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.hbm2ddl.auto">validate</prop>
 				<prop key="connection.autocommit">false</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">false</prop>
 
 				<!--配置数据表的审计-->

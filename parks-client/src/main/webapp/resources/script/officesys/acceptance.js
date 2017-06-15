@@ -31,10 +31,13 @@ $(function () {
         method: 'post',
         nowrap:false,
         pagination: true,
+        checkOnSelect:false,
+        selectOnCheck:false,
         onClickRow: onClickRow,
         onLoadSuccess: onLoadSuccess,
         frozenColumns:[[
             {field:'id',title:'acceptanceID',align:'left',hidden:true},
+            {field:'select',checkbox:true},
             {field:'SN',title:'序号',align:'left'},
             {field:'equipmentName',title:'设备名称',align:'left'},
             {
@@ -377,7 +380,6 @@ $(function () {
     });
 
     $('#examine-dg').datagrid({
-        title:'审核记录',
         method:'post',
         nowrap:true,
         sortName:'examineDate',
@@ -388,7 +390,6 @@ $(function () {
         fit:true,
         singleSelect:true,
         pagination: true,
-        url:'acceptance/getExamineList',
         columns:[[
             {field:'id',title:'ID',hidden:true},
             {field:'acceptanceId',title:'acceptanceId',hidden:true},
@@ -1052,6 +1053,7 @@ function setAllNull(row,index){
     });
 }
 
+//审批
 function saveExamine(){
     var row = $('#acceptance-dg').datagrid('getSelected');
     $.post('acceptance/addExamine',{
@@ -1067,6 +1069,7 @@ function saveExamine(){
     });
 }
 
+//取消审批
 function removeExamine(){
     var row = $('#acceptance-dg').datagrid('getSelected');
     $.post('acceptance/deleteExamine',{
@@ -1082,14 +1085,111 @@ function removeExamine(){
     });
 }
 
+//打开审批记录
 function openExamineList(){
     var row = $('#acceptance-dg').datagrid('getSelected');
     $('#examine-dg').datagrid({
+        url:'acceptance/getExamineList',
         queryParams: {
             id:row.id
         }
     });
     $('#examineDlg').dialog('open').dialog('setTitle',"审核记录");
+}
+
+//打开批量修改界面
+function openSupplierBatch(){
+    var rows = $('#acceptance-dg').datagrid('getChecked');
+    if(rows){
+        $('#editSupplierBatch-form').form('clear');
+        $('#editSupplierBatchDlg').dialog('open').dialog('setTitle', '批量修改供应商');
+    }else{
+        $.messager.alert('提示', '需要首先勾选验收项后，才能进行批量修改。', 'info');
+    }
+}
+
+//保存批量修改供应商
+function editSupplierBatch(){
+    var rows = $('#acceptance-dg').datagrid('getChecked');
+    var jsonAllRows = JSON.stringify(rows);
+    $.ajax({
+        url:'acceptance/editSupplierBatch',
+        type:'post',
+        data:{
+            jsonAllRows:jsonAllRows,
+            supplier:$('#supplier-batch').textbox('getText')
+        },
+        dataType:'json',
+        success:function(result){
+            if(!result.success) {
+                $.messager.alert("数据保存失败",result.message,'error');
+            }else{
+                $.messager.alert('提示', '批量修改供应商成功。', 'info');
+                $('#editSupplierBatchDlg').dialog('close');
+                $('#acceptance-dg').datagrid('reload');
+            }
+        }
+    });
+}
+
+//批量审核
+function saveExamineBatch(){
+    var rows = $('#acceptance-dg').datagrid('getChecked');
+    if(rows){
+        $.messager.confirm('确认', '是否审核通过所选的验收项？', function (r) {
+            if(r){
+                var jsonAllRows = JSON.stringify(rows);
+                $.ajax({
+                    url:'acceptance/addExamineBatch',
+                    type:'post',
+                    data:{
+                        jsonAllRows:jsonAllRows
+                    },
+                    dataType:'json',
+                    success:function(result){
+                        if(!result.success) {
+                            $.messager.alert("批量审核失败",result.message,'error');
+                        }else{
+                            $.messager.alert('提示', '批量审核成功。', 'info');
+                            $('#acceptance-dg').datagrid('reload');
+                        }
+                    }
+                });
+            }
+        });
+    }else{
+        $.messager.alert('提示', '需要首先勾选验收项后，才能进行批量审核。', 'info');
+    }
+}
+
+//批量取消审核
+function deleteExamineBatch(){
+    var rows = $('#acceptance-dg').datagrid('getChecked');
+    if(rows){
+        $.messager.confirm('确认', '是否取消所选验收项的审核？', function (r) {
+            if(r){
+                var jsonAllRows = JSON.stringify(rows);
+                $.ajax({
+                    url:'acceptance/deleteExamineBatch',
+                    type:'post',
+                    data:{
+                        jsonAllRows:jsonAllRows
+                    },
+                    dataType:'json',
+                    success:function(result){
+                        if(!result.success) {
+                            $.messager.alert("批量取消审核失败",result.message,'error');
+                        }else{
+                            $.messager.alert('提示', '批量取消审核成功。', 'info');
+                            $('#acceptance-dg').datagrid('reload');
+                        }
+                    }
+                });
+            }
+        });
+    }else{
+        $.messager.alert('提示', '需要首先勾选验收项后，才能进行批量取消审核。', 'info');
+    }
 }
 
 

@@ -52,11 +52,11 @@ public class Payment extends RecoverableEntity {
     private String note;
 
 
-    @OneToOne(mappedBy = "payment" ,cascade = CascadeType.DETACH)
+    @OneToOne(mappedBy = "payment" ,cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
     @NotAudited
     private PaymentPostil paymentPostil;
 
-    @OneToMany(mappedBy = "contractPayment" ,cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "contractPayment" ,cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
     @NotAudited
     private List<PaymentLog> paymentLogs;
 
@@ -65,7 +65,7 @@ public class Payment extends RecoverableEntity {
     /**
      * 收款合同拥有的付款合同
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "oa_contract_gathering_paying", joinColumns = {
             @JoinColumn(name = "payingFK", referencedColumnName = "id")
     }, inverseJoinColumns = {

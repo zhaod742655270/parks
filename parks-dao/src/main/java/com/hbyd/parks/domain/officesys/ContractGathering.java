@@ -60,26 +60,26 @@ public class ContractGathering extends RecoverableEntity {
 
     private Integer isCompleted;
 
-    @OneToOne(mappedBy = "contractGathering" ,cascade = CascadeType.DETACH)
+    @OneToOne(mappedBy = "contractGathering" ,cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @NotAudited
     private ContractGatheringPostil contractGatheringPostil;
 
-    @OneToMany(mappedBy = "contractGathering" ,cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "contractGathering" ,cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
     @NotAudited
     private List<ContractGatheringLog> contractGatheringLog;
 
-    @OneToMany(mappedBy = "contractGathering")
+    @OneToMany(mappedBy = "contractGathering",fetch = FetchType.LAZY)
     @NotAudited
     private Set<Acceptance> acceptances;
 
-    @ManyToMany(mappedBy = "contractGatherings")
+    @ManyToMany(mappedBy = "contractGatherings",fetch = FetchType.LAZY)
     @NotAudited
     private List<Payment> payments;
 
-    @ManyToOne
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="contractFK")
     @NotAudited
-    private ContractGathering contractGathering;
+    private ContractGathering contractGathering;*/
 
     public int getProjectSn() {
         return projectSn;
@@ -282,11 +282,11 @@ public class ContractGathering extends RecoverableEntity {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public ContractGathering getContractGathering() {
+    /*public ContractGathering getContractGathering() {
         return contractGathering;
     }
 
     public void setContractGathering(ContractGathering contractGathering) {
         this.contractGathering = contractGathering;
-    }
+    }*/
 }

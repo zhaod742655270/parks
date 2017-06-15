@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Audited
 public class ContractGatheringPostil extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "gatheringFK")
     @NotAudited
     private ContractGathering contractGathering;

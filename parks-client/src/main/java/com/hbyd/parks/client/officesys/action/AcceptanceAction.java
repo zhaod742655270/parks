@@ -102,6 +102,8 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
 
     private String jsonAllRows;
 
+    private String supplier;    //供应商，用于批量修改供应商
+
 
     public String acceptanceList() throws Exception {
         PageBeanEasyUI list= acceptanceWS.getPageBeanByContractID(id,page);
@@ -848,6 +850,94 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
         }
     }
 
+    //批量修改供应商信息
+    @Operation(type = "批量修改供应商信息")
+    public void editSupplierBatch() throws Exception{
+        AjaxMessage message = new AjaxMessage();
+        try {
+            String update = getJsonAllRows();
+            List<LinkedTreeMap> listUpdated = new ArrayList();
+            listUpdated = gson.fromJson(update, listUpdated.getClass());
+            for(int i=0;i<listUpdated.size();i++) {
+                LinkedTreeMap map = listUpdated.get(i);
+                //填充DTO
+                AcceptanceDTO dto = acceptanceWS.getByID(map.get("id").toString());
+                dto.setId(map.get("id").toString());
+                dto.setSupplier(getSupplier());
+                acceptanceWS.update(dto);
+            }
+        }catch(Exception ex){
+            message.setSuccess(false);
+            message.setMessage(ex.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+    }
+
+    //批量审批
+    @Operation(type="批量添加审核记录")
+    public void addExamineBatch() throws Exception{
+        AjaxMessage message = new AjaxMessage();
+        try {
+            String update = getJsonAllRows();
+            List<LinkedTreeMap> listUpdated = new ArrayList();
+            listUpdated = gson.fromJson(update, listUpdated.getClass());
+            for(int i=0;i<listUpdated.size();i++) {
+                LinkedTreeMap map = listUpdated.get(i);
+                AcceptanceDTO dto = acceptanceWS.getByID(map.get("id").toString());
+                dto.setId(map.get("id").toString());
+                dto.setExamine(true);
+                dto.setPurchaseOperate(false);
+                acceptanceWS.update(dto);
+
+                //同时保存审核时间的记录
+                AcceptanceExamineDTO examineDTO = new AcceptanceExamineDTO();
+                examineDTO.setAcceptanceId(map.get("id").toString());
+                examineDTO.setExamineDate(DateTime.now().toString());
+                examineDTO.setExamineType("审核通过");
+                acceptanceExamineWS.save(examineDTO);
+            }
+        }catch(Exception ex){
+            message.setSuccess(false);
+            message.setMessage(ex.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+    }
+
+    @Operation(type="批量取消审核")
+    public void deleteExamineBatch() throws Exception{
+        AjaxMessage message = new AjaxMessage();
+        try {
+            String update = getJsonAllRows();
+            List<LinkedTreeMap> listUpdated = new ArrayList();
+            listUpdated = gson.fromJson(update, listUpdated.getClass());
+            for(int i=0;i<listUpdated.size();i++) {
+                LinkedTreeMap map = listUpdated.get(i);
+                AcceptanceDTO dto = acceptanceWS.getByID(map.get("id").toString());
+                dto.setId(map.get("id").toString());
+                dto.setExamine(false);
+                dto.setPurchaseOperate(false);
+                acceptanceWS.update(dto);
+
+                //同时保存审核时间的记录
+                AcceptanceExamineDTO examineDTO = new AcceptanceExamineDTO();
+                examineDTO.setAcceptanceId(map.get("id").toString());
+                examineDTO.setExamineDate(DateTime.now().toString());
+                examineDTO.setExamineType("取消审核通过");
+                acceptanceExamineWS.save(examineDTO);
+            }
+        }catch(Exception ex){
+            message.setSuccess(false);
+            message.setMessage(ex.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+    }
+
 
     public AcceptanceQuery getModel() {
         return page;
@@ -1019,5 +1109,13 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
 
     public void setJsonAllRows(String jsonAllRows) {
         this.jsonAllRows = jsonAllRows;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
     }
 }

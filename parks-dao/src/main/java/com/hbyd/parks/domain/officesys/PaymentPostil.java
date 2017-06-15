@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Audited
 public class PaymentPostil extends BaseEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "parentFK")
     @NotAudited
     private Payment payment;
