@@ -1,4 +1,6 @@
 
+var attachedFilePath = "D:/验收管理附件/";     //附件文件存放地址
+
 $(function () {
     loadBtns('contract-btns', $('#menuId').val());
     $('#contract-dg').datagrid({
@@ -398,6 +400,27 @@ $(function () {
         ]]
     });
 
+    $('#file-dg').datagrid({
+        method:'post',
+        nowrap:true,
+        sortName:'uploadDate',
+        sortOrder:'desc',
+        striped:true,
+        rownumbers:true,
+        fitColumns:false,
+        fit:true,
+        singleSelect:true,
+        pagination: false,
+        columns:[[
+            {field:'id',title:'ID',hidden:true},
+            {field:'name',title:'文件名称',
+                formatter: function(value,row,index){
+                    return '<a style="color:blue" href="acceptance/downloadFile?fileFileName='+ value + '">'+value+'</a>';
+            }},
+            {field:'uploadDate',title:'添加日期'}
+        ]]
+    });
+
     function endEditing(){
         if (editIndex == undefined){return true}
         if ($('#acceptance-dg').datagrid('validateRow', editIndex)){
@@ -405,7 +428,7 @@ $(function () {
             
             //根据是否审核改变首列颜色
             var view = $('#acceptance-dg').datagrid('getPanel').find('div.datagrid-view1');     //找到冻结列所在区域
-            var cell = view.find('div.datagrid-body').find('tr')[editIndex].cells[1];       //找到单元格
+            var cell = view.find('div.datagrid-body').find('tr')[editIndex].cells[2];       //找到单元格
             if ($('#acceptance-dg').datagrid('getRows')[editIndex].purchaseOperate == true) {
                 cell.style.cssText = 'background:green;color:white';
             } else if ($('#acceptance-dg').datagrid('getRows')[editIndex].examine == true) {
@@ -460,7 +483,7 @@ $(function () {
         //根据是否审核改变首列颜色
         for (var i = 0; i < data.rows.length; i++) {
             var view = $(this).datagrid('getPanel').find('div.datagrid-view1');     //找到冻结列所在区域
-            var cell = view.find('div.datagrid-body').find('tr')[i].cells[1];       //找到单元格
+            var cell = view.find('div.datagrid-body').find('tr')[i].cells[2];       //找到单元格
             if (data.rows[i].purchaseOperate == true) {
                 cell.style.cssText = 'background:green;color:white';
             } else if (data.rows[i].examine == true) {
@@ -1190,6 +1213,57 @@ function deleteExamineBatch(){
     }else{
         $.messager.alert('提示', '需要首先勾选验收项后，才能进行批量取消审核。', 'info');
     }
+}
+
+//打开上传附件窗口
+function openUploadFile() {
+    var row = $('#acceptance-dg').datagrid('getSelected');
+    $('#attachedFile').filebox('setValue', '');
+    $('#accepId').val(row.id);
+    $('#uploadFile-dlg').dialog('open').dialog('setTitle', '附件上传');
+    
+}
+
+//上传附件
+function uploadFile(){
+    //得到上传文件的全路径
+    var fileName = $('#attachedFile').filebox('getValue');
+    //进行基本校验
+    //对文件格式进行校验
+    var d1 = /\.[^\.]+$/.exec(fileName);
+    if (d1 == ".xls"|| d1 == ".xlsx") {
+        //提交表单
+        $('#uploadFile').form('submit', {
+            url: 'acceptance/uploadFile',
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (data) {
+                var result = jQuery.parseJSON(data);
+                if (result.success) {
+                    $('#uploadFile-dlg').dialog('close'); // close the dialog
+                    $.messager.alert('提示', '附件上传成功！', 'info');
+                } else {
+                    $.messager.alert('保存失败', result.message, 'error');
+                }
+            }
+        });
+    } else {
+        $.messager.alert('提示', '请选择xls格式或xlsx格式文件！', 'info');
+        $('#attachedFile').filebox('setValue', '');
+    }
+}
+
+//打开附加文件列表
+function openFileList(){
+    var row = $('#acceptance-dg').datagrid('getSelected');
+    $('#file-dg').datagrid({
+        url:'acceptance/getAttachedFileList',
+        queryParams: {
+            id:row.id
+        }
+    });
+    $('#fileDlg').dialog('open').dialog('setTitle',"附加文件列表");
 }
 
 

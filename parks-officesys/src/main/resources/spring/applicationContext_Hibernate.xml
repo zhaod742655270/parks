@@ -44,7 +44,8 @@
                 <prop key="org.hibernate.envers.audit_table_suffix">_audit</prop>
                 <!--<prop key="org.hibernate.envers.revision_field_name">version</prop>-->
                 <prop key="org.hibernate.envers.store_data_at_delete">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">validate</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="org.hibernate.envers.default_schema">dbo</prop>
 
             </props>

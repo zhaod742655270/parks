@@ -659,4 +659,15 @@
             <b-hint>com.hbyd.parks.dto.officesys.WarehouseDTO</b-hint>
         </field>
     </mapping>
+
+    <!--AttachedFile-->
+    <mapping map-null="false">
+        <class-a>com.hbyd.parks.domain.officesys.AttachedFile</class-a>
+        <class-b>com.hbyd.parks.dto.officesys.AttachedFileDTO</class-b>
+
+        <field>
+            <a>acceptance.id</a>
+            <b>acceptanceFK</b>
+        </field>
+    </mapping>
 </mappings>

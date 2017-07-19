@@ -90,6 +90,8 @@
     <div data-options="iconCls:'icon-help'" onclick="acceptancePostil()">查看批注</div>
     <div data-options="iconCls:'icon-database'" onclick="importSN()">上传序列号表格</div>
     <div data-options="iconCls:'icon-excel'" onclick="viewSN()">查看序列号</div>
+    <div data-options="iconCls:'icon-script'" onclick="openUploadFile()">上传附件</div>
+    <div data-options="iconCls:'icon-box'" onclick="openFileList()">查看附件</div>
 </div>
 
 <div id="viewSNDlg" class="easyui-dialog" style="width: 350px; height: 300px; padding: 10px" modal="true"
@@ -253,7 +255,7 @@
                 <td class="tdRight"><input id="supplier" name="acceptance.supplier" style="width: 130px;"/></td>
 
                 <td class="tdLeft"><label>采购数量：</label></td>
-                <td class="tdRight"><input  class="easyui-numberbox" id="purchaseQuantity" name="acceptance.purchaseQuantity" style="width: 135px;"/></td>
+                <td class="tdRight"><input  class="easyui-numberbox" id="purchaseQuantity" name="acceptance.purchaseQuantity" style="width: 135px;" data-options="precision:2"/></td>
 
                 <td class="tdLeft"><label>测试情况：</label></td>
                 <td class="tdRight" colspan="2" rowspan="2"><textarea id="testNote" name="acceptance.testNote" style="width: 130px; height:60px;"></textarea></td>
@@ -451,6 +453,23 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="editSupplierBatch()">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel"
        onclick="javascript:$('#editSupplierBatchDlg').dialog('close')">取消</a>
+</div>
+
+<!--上传附件窗口-->
+<div id="uploadFile-dlg" class="easyui-dialog" style="padding: 10px" modal="true"
+     closed="true">
+    <form id="uploadFile"  method="post" enctype="multipart/form-data">
+        <input id="accepId" name="id" type="hidden">
+        <input id="attachedFile"  name="file" class="easyui-filebox" style="width:200px" data-options="prompt:'请选择文件...'">&nbsp;
+        <a href="#" class="easyui-linkbutton" style="width:80px" onclick="uploadFile()" >上传附件</a>&nbsp;&nbsp;&nbsp;
+    </form>
+
+</div>
+
+<!--查询附件文件界面-->
+<div id="fileDlg" class="easyui-dialog" style="width: 600px; height: 340px; padding: 5px" modal="true"
+     closed="true">
+    <table id="file-dg"></table>
 </div>
 
 <input id="menuId" type="hidden" value="${param.menuId}"/>

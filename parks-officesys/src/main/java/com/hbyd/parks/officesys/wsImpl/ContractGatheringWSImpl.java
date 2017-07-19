@@ -11,10 +11,8 @@ import com.hbyd.parks.dao.officesys.ContractGatheringPostilDao;
 import com.hbyd.parks.dao.officesys.PaymentDao;
 import com.hbyd.parks.domain.officesys.ContractGathering;
 import com.hbyd.parks.domain.officesys.ContractGatheringLog;
-import com.hbyd.parks.domain.officesys.Payment;
 import com.hbyd.parks.dto.officesys.ContractGatheringDTO;
 import com.hbyd.parks.dto.officesys.GatheringSumDTO;
-import com.hbyd.parks.dto.officesys.PaymentDTO;
 import com.hbyd.parks.ws.officesys.ContractGatheringWS;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
@@ -72,8 +70,11 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
 
         String contractName=target.getContractName();
         String sheetName=target.getSheetName();
-        if(contractName!=null&&contractName!=""){
+        if(contractName!=null&&contractName!="") {
 
+            /*
+            // Delete By Zhao_d 2017-07-03
+            //由于不再使用合同名称来关联收款与付款合同了，因此不再需要同时更新付款合同的合同名称
         DetachedCriteria criteria = DetachedCriteria.forClass(Payment.class)
                 .add(eq("contractName", contractName))
                 .add(eq("sheetName", sheetName));
@@ -87,10 +88,10 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
             paymentDTO.setContractType(dto.getProjectType());
             dozerMapper.map(paymentDTO, list.get(i));
             paymentDao.update(list.get(i));
-        }
+        }*/
 
-//      更新只涉及普通属性
-        dto.setContractGatheringPostil(null);
+            //更新只涉及普通属性
+            dto.setContractGatheringPostil(null);
 
         /*if(Strings.isNullOrEmpty(dto.getLinkContractId())){
             dto.setLinkContractId(null);
@@ -100,9 +101,9 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
             target.setContractGathering(null);
         }*/
 
-        dozerMapper.map(dto, target);
+            dozerMapper.map(dto, target);
 
-        contractGatheringDao.update(target);
+            contractGatheringDao.update(target);
         }
 
     }

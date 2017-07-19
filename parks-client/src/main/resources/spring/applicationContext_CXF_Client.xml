@@ -143,6 +143,10 @@
                   serviceClass="com.hbyd.parks.ws.officesys.AcceptanceExamineWS"
                   address="${officesys.ws}/acceptanceExamineWS"/>
 
+    <jaxws:client bus="bus_client" id="attachedFileWS"
+                  serviceClass="com.hbyd.parks.ws.officesys.AttachedFileWS"
+                  address="${officesys.ws}/attachedFileWS"/>
+
     <jaxws:client bus="bus_client" id="projectRecordWS"
                   serviceClass="com.hbyd.parks.ws.officesys.ProjectRecordWS"
                   address="${officesys.ws}/projectRecordWS"/>

@@ -87,6 +87,14 @@
               </jaxws:serviceBean>
        </jaxws:server>
 
+       <bean id="attachedFileWSImpl" class="com.hbyd.parks.officesys.wsImpl.AttachedFileWSImpl"/>
+       <jaxws:server bus="cxf" id="attachedFileWS" address="/attachedFileWS"
+                     serviceClass="com.hbyd.parks.ws.officesys.AttachedFileWS">
+              <jaxws:serviceBean>
+                     <ref bean="attachedFileWSImpl"/>
+              </jaxws:serviceBean>
+       </jaxws:server>
+
 
        <!--projectRecord-->
        <bean id="projectRecordWSImpl" class="com.hbyd.parks.officesys.wsImpl.ProjectRecordWSImpl"/>

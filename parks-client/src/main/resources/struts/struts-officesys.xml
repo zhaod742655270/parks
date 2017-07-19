@@ -76,6 +76,16 @@
         <action name="deleteExamineBatch" class="acceptanceAction" method="deleteExamineBatch">
             <interceptor-ref name="mystack"/>
         </action>
+
+        <action name="uploadFile" class="acceptanceAction" method="uploadFile">
+            <interceptor-ref name="mystack"/>
+        </action>
+
+        <action name="getAttachedFileList" class="acceptanceAction" method="getAttachedFileList">
+        </action>
+
+        <action name="downloadFile" class="acceptanceAction" method="downloadFile">
+        </action>
     </package>
 
 

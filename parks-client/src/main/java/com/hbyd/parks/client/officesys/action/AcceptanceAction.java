@@ -14,13 +14,12 @@ import com.hbyd.parks.common.model.PageBeanEasyUI;
 import com.hbyd.parks.dto.managesys.UserDTO;
 import com.hbyd.parks.dto.officesys.AcceptanceDTO;
 import com.hbyd.parks.dto.officesys.AcceptanceExamineDTO;
+import com.hbyd.parks.dto.officesys.AttachedFileDTO;
 import com.hbyd.parks.dto.officesys.ContractGatheringDTO;
-import com.hbyd.parks.ws.officesys.AcceptanceExamineWS;
-import com.hbyd.parks.ws.officesys.AcceptancePostilWS;
-import com.hbyd.parks.ws.officesys.AcceptanceWS;
-import com.hbyd.parks.ws.officesys.ContractGatheringWS;
+import com.hbyd.parks.ws.officesys.*;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,9 +35,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,6 +72,9 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
     @Resource
     private AcceptanceExamineWS acceptanceExamineWS;
 
+    @Resource
+    private AttachedFileWS attachedFileWS;
+
     private String year;
 
     private String id;
@@ -103,6 +104,8 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
     private String jsonAllRows;
 
     private String supplier;    //供应商，用于批量修改供应商
+
+    private String attachedFilePath = "D:/验收管理附件/";     //附件文件存放地址
 
 
     public String acceptanceList() throws Exception {
@@ -938,6 +941,67 @@ public class AcceptanceAction extends ActionSupport implements ModelDriven<Accep
         }
     }
 
+    @Operation(type="查询附件文件")
+    public void getAttachedFileList() throws Exception{
+        PageBeanEasyUI list=attachedFileWS.getPageBeanByAcceptanceID(id);
+        if(list.getRows() == null){
+            list.setRows(new ArrayList());
+        }
+        String result = gson.toJson(list);
+        JsonHelper.writeJson(result);
+    }
+
+    //附件文件上传
+    public void uploadFile(){
+        AjaxMessage message = new AjaxMessage();
+        try {
+            //生成新文件
+            String path=attachedFilePath+getFileFileName();     //新文件地址
+            File newFile=new File(path);
+            //通过FileUtils的方法直接复制
+            FileUtils.copyFile(getFile(), newFile);
+
+            //将文件地址存入数据表中
+            Date date = new Date();
+            AttachedFileDTO fileDTO = new AttachedFileDTO();
+            fileDTO.setName(getFileFileName());
+            fileDTO.setUploadDate(date.toLocaleString());
+            fileDTO.setAcceptanceFK(id);
+            attachedFileWS.save(fileDTO);
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setMessage(e.getMessage());
+        } finally {
+            String result = gson.toJson(message);
+            JsonHelper.writeJson(result);
+        }
+    }
+
+    //附件文件下载
+    public void downloadFile() throws FileNotFoundException, IOException{
+        //文件地址
+        String path = attachedFilePath + getFileFileName();
+        //相应头
+        String outFileName = java.net.URLEncoder.encode(getFileFileName(),"UTF-8");
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setContentType("application/x-download");
+        response.addHeader("Content-Disposition", "attachment;filename=" + outFileName);
+        //获取要下载的文件输入流
+        InputStream in = new FileInputStream(path);
+        int len = 0;
+        //创建数据缓冲区
+        byte[] buffer = new byte[1024];
+        //通过response对象获取OutputStream流
+        OutputStream out = response.getOutputStream();
+        //将FileInputStream流写入到buffer缓冲区
+        while ((len = in.read(buffer)) > 0) {
+            //使用OutputStream将缓冲区的数据输出到客户端浏览器
+            out.write(buffer, 0, len);
+        }
+        //关闭输入和输出流
+        in.close();
+        out.close();
+    }
 
     public AcceptanceQuery getModel() {
         return page;
