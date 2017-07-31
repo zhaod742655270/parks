@@ -93,7 +93,7 @@ $(function () {
             {field:'stampName',title:'盖章情况'},
             {field:'isCompletedName',title:'项目进展'},
             {field:'acceptanceDate',title:'验收日期'},
-            //{field:'linkContractName',title:'所属原项目'},
+            {field:'linkContractName',title:'所属原项目'},
             {field:'note',title:'备注'}
         ]],
 
@@ -520,7 +520,7 @@ $(function () {
         }
     });
 
-   /*$('#linkContract').combobox({
+   $('#linkContract').combobox({
        url:'conGathering/getContractList',
        valueField: 'id',
        textField: 'text',
@@ -528,7 +528,7 @@ $(function () {
            var opts = $(this).combobox('options');
            return row[opts.textField].indexOf(q) >= 0;
        }
-   });*/
+   });
     
     // 转移对应付款合同界面的年度与项目类型
     $('#tran-sheetName').combobox({
@@ -658,8 +658,8 @@ function editContract() {
         $('#projectDirector').val(row.projectDirector);
         $('#stamp').combobox("setValue",row.stamp);
         $('#isCompleted').combobox("setValue",row.isCompleted);
-        /*$('#linkContract').combobox("setValue",row.linkContractId);
-        $('#linkContract').combobox("setText",row.linkContractName);*/
+        $('#linkContract').combobox("setValue",row.linkContractId);
+        $('#linkContract').combobox("setText",row.linkContractName);
         $('#note').textbox("setValue",row.note);
     } else {
         $.messager.alert('提示', '需要选择一个合同，才能进行编辑操作。', 'info');
@@ -1434,7 +1434,7 @@ function onSelectProjectType(record){
 }
 
 //查看附加合同
-/*function viewLinkContract(){
+function viewLinkContract(){
 
     var row = $('#conGathering-dg').datagrid('getSelected');
     if (row) {
@@ -1449,4 +1449,4 @@ function onSelectProjectType(record){
         $.messager.alert('提示', '需要选择一个合同，才能进行查看附加合同的操作。', 'info');
     }
 
-}*/
+}

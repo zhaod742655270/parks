@@ -158,19 +158,33 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             }
             product.setSN(SN);
             product.setParentIdFK(applyDTO.getId());
-            product.setProductName(row.getCell(1).getStringCellValue());
-            product.setProductModelNumber(row.getCell(2).getStringCellValue());
-            row.getCell(3).setCellType(CellType.STRING);
-            product.setProductSpecifications(row.getCell(3).getStringCellValue());
-            product.setProductBrand(row.getCell(5).getStringCellValue());
-            product.setProductUnit(row.getCell(7).getStringCellValue());
-            row.getCell(8).setCellType(CellType.STRING);
-            if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
-                product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
-            }else{
-                product.setQuantity(0d);
+            if(row.getCell(1)!=null) {
+                product.setProductName(row.getCell(1).getStringCellValue());
             }
-            product.setNote(row.getCell(10).getStringCellValue());
+            if(row.getCell(2)!=null) {
+                product.setProductModelNumber(row.getCell(2).getStringCellValue());
+            }
+            if(row.getCell(3)!=null) {
+                row.getCell(3).setCellType(CellType.STRING);
+                product.setProductSpecifications(row.getCell(3).getStringCellValue());
+            }
+            if(row.getCell(5)!=null) {
+                product.setProductBrand(row.getCell(5).getStringCellValue());
+            }
+            if(row.getCell(7)!=null) {
+                product.setProductUnit(row.getCell(7).getStringCellValue());
+            }
+            if(row.getCell(8)!=null) {
+                row.getCell(8).setCellType(CellType.STRING);
+                if (!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
+                    product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
+                } else {
+                    product.setQuantity(0d);
+                }
+            }
+            if(row.getCell(10)!=null) {
+                product.setNote(row.getCell(10).getStringCellValue());
+            }
             product.setFinished(false);
 
             warehouseApplicationProWS.save(product);
@@ -211,19 +225,33 @@ public class WarehouseApplicationAction extends ActionSupport implements ModelDr
             }
             product.setSN(SN);
             product.setParentIdFK(applyDTO.getId());
-            product.setProductName(row.getCell(1).getStringCellValue());
-            product.setProductModelNumber(row.getCell(2).getStringCellValue());
-            row.getCell(3).setCellType(CellType.STRING);
-            product.setProductSpecifications(row.getCell(3).getStringCellValue());
-            product.setProductBrand(row.getCell(5).getStringCellValue());
-            product.setProductUnit(row.getCell(7).getStringCellValue());
-            row.getCell(8).setCellType(CellType.STRING);
-            if(!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
-                product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
-            }else{
-                product.setQuantity(0d);
+            if(row.getCell(1)!=null) {
+                product.setProductName(row.getCell(1).getStringCellValue());
             }
-            product.setNote(row.getCell(10).getStringCellValue());
+            if(row.getCell(2)!=null) {
+                product.setProductModelNumber(row.getCell(2).getStringCellValue());
+            }
+            if(row.getCell(3)!=null) {
+                row.getCell(3).setCellType(CellType.STRING);
+                product.setProductSpecifications(row.getCell(3).getStringCellValue());
+            }
+            if(row.getCell(5)!=null) {
+                product.setProductBrand(row.getCell(5).getStringCellValue());
+            }
+            if(row.getCell(7)!=null) {
+                product.setProductUnit(row.getCell(7).getStringCellValue());
+            }
+            if(row.getCell(8)!=null) {
+                row.getCell(8).setCellType(CellType.STRING);
+                if (!Strings.isNullOrEmpty(row.getCell(8).getStringCellValue())) {
+                    product.setQuantity(Double.valueOf(row.getCell(8).getStringCellValue()));
+                } else {
+                    product.setQuantity(0d);
+                }
+            }
+            if(row.getCell(10)!=null) {
+                product.setNote(row.getCell(10).getStringCellValue());
+            }
             product.setFinished(false);
 
             warehouseApplicationProWS.save(product);

@@ -23,14 +23,14 @@
             <b-hint>com.hbyd.parks.dto.officesys.ContractGatheringPostilDTO</b-hint>
         </field>
 
-        <!--<field>
+        <field>
             <a>contractGathering.id</a>
             <b>linkContractId</b>
         </field>
         <field>
             <a>contractGathering.contractName</a>
             <b>linkContractName</b>
-        </field>-->
+        </field>
     </mapping>
 
     <mapping map-null="false">

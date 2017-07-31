@@ -76,10 +76,10 @@ public class ContractGathering extends RecoverableEntity {
     @NotAudited
     private List<Payment> payments;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="contractFK")
     @NotAudited
-    private ContractGathering contractGathering;*/
+    private ContractGathering contractGathering;
 
     public int getProjectSn() {
         return projectSn;
@@ -282,11 +282,11 @@ public class ContractGathering extends RecoverableEntity {
         this.acceptanceDate = acceptanceDate;
     }
 
-    /*public ContractGathering getContractGathering() {
+    public ContractGathering getContractGathering() {
         return contractGathering;
     }
 
     public void setContractGathering(ContractGathering contractGathering) {
         this.contractGathering = contractGathering;
-    }*/
+    }
 }

@@ -93,13 +93,13 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
             //更新只涉及普通属性
             dto.setContractGatheringPostil(null);
 
-        /*if(Strings.isNullOrEmpty(dto.getLinkContractId())){
-            dto.setLinkContractId(null);
-         }
+            if(Strings.isNullOrEmpty(dto.getLinkContractId())){
+                dto.setLinkContractId(null);
+            }
 
-        if(!Strings.isNullOrEmpty(dto.getLinkContractId())) {
-            target.setContractGathering(null);
-        }*/
+            if(!Strings.isNullOrEmpty(dto.getLinkContractId())) {
+                target.setContractGathering(null);
+            }
 
             dozerMapper.map(dto, target);
 
@@ -115,10 +115,10 @@ public class ContractGatheringWSImpl extends BaseWSImpl<ContractGatheringDTO, Co
 //      保存只涉及普通属性
         dto.setContractGatheringPostil(null);
 
-        /*
+
         if(Strings.isNullOrEmpty(dto.getLinkContractId())){
             dto.setLinkContractId(null);
-        }*/
+        }
 
         ContractGathering target = dozerMapper.map(dto, ContractGathering.class);
         contractGatheringDao.save(target);
